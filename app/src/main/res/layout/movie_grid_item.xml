@@ -1,32 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:card_view="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="340dp"
               android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <FrameLayout
+        android:id="@+id/movie_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp">
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/movie_poster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/logo"/>
+            android:scaleType="centerCrop"/>
+
+        <View
+            android:id="@+id/title_background"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:alpha="0.8"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/movie_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom|center_horizontal"
-            android:text="Movie"/>
-    </android.support.v7.widget.CardView>
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:textColor="@android:color/white"/>
+
+    </FrameLayout>
 </LinearLayout>

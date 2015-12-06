@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.esoxjem.moviesguide.BaseFactory;
 import com.esoxjem.moviesguide.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -25,7 +26,7 @@ public class MoviesFragment extends Fragment
     private RecyclerView mMoviesListing;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private List<Movie> mMovies = new ArrayList<>(20);
 
     public MoviesFragment()
     {
@@ -46,21 +47,21 @@ public class MoviesFragment extends Fragment
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        fetchMoviesAsync();
+    }
+
     private void initLayoutReferences(View rootView)
     {
         mMoviesListing = (RecyclerView) rootView.findViewById(R.id.movies_listing);
         mMoviesListing.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mMoviesListing.setLayoutManager(mLayoutManager);
-        mAdapter = new MoviesListingAdapter();
+        mAdapter = new MoviesListingAdapter(mMovies);
         mMoviesListing.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        fetchMoviesAsync();
     }
 
     private void fetchMoviesAsync()
@@ -93,7 +94,8 @@ public class MoviesFragment extends Fragment
                     @Override
                     public void onNext(List<Movie> movies)
                     {
-                        Toast.makeText(getContext(), "Got Movies", Toast.LENGTH_LONG).show();
+                        mMovies.addAll(movies);
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
     }
