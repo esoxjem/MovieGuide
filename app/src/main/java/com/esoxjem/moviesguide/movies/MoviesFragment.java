@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
@@ -27,6 +28,7 @@ public class MoviesFragment extends Fragment
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Movie> mMovies = new ArrayList<>(20);
+    private Subscription mMoviesSubscription;
 
     public MoviesFragment()
     {
@@ -35,8 +37,7 @@ public class MoviesFragment extends Fragment
 
     public static MoviesFragment newInstance()
     {
-        MoviesFragment fragment = new MoviesFragment();
-        return fragment;
+        return new MoviesFragment();
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MoviesFragment extends Fragment
 
     private void fetchMoviesAsync()
     {
-        BaseFactory.getMovieService().getPopularMovies()
+        mMoviesSubscription = BaseFactory.getMovieService().getPopularMovies().cache()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0()
@@ -74,7 +75,7 @@ public class MoviesFragment extends Fragment
                     @Override
                     public void call()
                     {
-                        Toast.makeText(getContext(), "Loading Movies", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Loading Movies", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .subscribe(new Subscriber<List<Movie>>()
@@ -98,5 +99,19 @@ public class MoviesFragment extends Fragment
                         mAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        if (mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
+        {
+            mMoviesSubscription.unsubscribe();
+        } else
+        {
+            // no subscription
+        }
+
+        super.onDestroyView();
     }
 }
