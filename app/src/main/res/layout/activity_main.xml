@@ -7,15 +7,10 @@
 
     <include layout="@layout/toolbar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world"/>
-
-    <Button
-        style="@style/AppTheme.PrimaryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/margin_48dp"
-        android:text="@string/hello_world"/>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"/>
 
 </LinearLayout>
