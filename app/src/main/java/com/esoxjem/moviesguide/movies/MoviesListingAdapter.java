@@ -14,10 +14,10 @@ import com.esoxjem.moviesguide.R;
  */
 public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView.Adapter
 {
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    private static class ViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView mMovieName;
-        public ImageView mMoviePoster;
+        private TextView mMovieName;
+        private ImageView mMoviePoster;
 
         public ViewHolder(View root)
         {
@@ -31,9 +31,8 @@ public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_grid_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(rootView);
 
-        return viewHolder;
+        return new ViewHolder(rootView);
     }
 
     @Override
