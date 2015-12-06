@@ -38,7 +38,6 @@ public class MovieService
             private List<Movie> get() throws IOException, JSONException
             {
                 String url = Api.GET_POPULAR_MOVIES;
-
                 Request request = RequestGenerator.get(url);
                 String response = RequestHandler.request(request);
                 return MoviesParser.parseMovies(response);

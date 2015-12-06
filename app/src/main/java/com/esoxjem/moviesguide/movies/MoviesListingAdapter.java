@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.esoxjem.moviesguide.R;
@@ -59,23 +60,26 @@ public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mMovieName.setText(mMovies.get(position).getTitle());
-        Glide.with(mContext).load(mMovies.get(position).getPosterPath()).asBitmap().into(new BitmapImageViewTarget(holder.mMoviePoster)
+        Glide.with(mContext).load(mMovies.get(position)
+                .getPosterPath()).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(new BitmapImageViewTarget(holder.mMoviePoster)
+    {
+        @Override
+        public void onResourceReady(Bitmap bitmap, GlideAnimation anim)
         {
-            @Override
-            public void onResourceReady(Bitmap bitmap, GlideAnimation anim)
-            {
-                super.onResourceReady(bitmap, anim);
+            super.onResourceReady(bitmap, anim);
 
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener()
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener()
+            {
+                @Override
+                public void onGenerated(Palette palette)
                 {
-                    @Override
-                    public void onGenerated(Palette palette)
-                    {
-                        holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(Color.BLACK));
-                    }
-                });
-            }
-        });
+                    holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(Color.BLACK));
+                }
+            });
+        }
+    });
     }
 
 
