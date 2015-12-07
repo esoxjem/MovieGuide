@@ -2,7 +2,6 @@ package com.esoxjem.moviesguide.movies;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -75,7 +74,7 @@ public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView
                 @Override
                 public void onGenerated(Palette palette)
                 {
-                    holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(Color.BLACK));
+                    holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(mContext.getResources().getColor(R.color.black_translucent_60)));
                 }
             });
         }

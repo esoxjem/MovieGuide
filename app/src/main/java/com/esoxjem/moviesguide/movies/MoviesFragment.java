@@ -24,9 +24,7 @@ import rx.schedulers.Schedulers;
 
 public class MoviesFragment extends Fragment
 {
-    private RecyclerView mMoviesListing;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private List<Movie> mMovies = new ArrayList<>(20);
     private Subscription mMoviesSubscription;
 
@@ -57,12 +55,12 @@ public class MoviesFragment extends Fragment
 
     private void initLayoutReferences(View rootView)
     {
-        mMoviesListing = (RecyclerView) rootView.findViewById(R.id.movies_listing);
-        mMoviesListing.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(getActivity(), 2);
-        mMoviesListing.setLayoutManager(mLayoutManager);
+        RecyclerView moviesListing = (RecyclerView) rootView.findViewById(R.id.movies_listing);
+        moviesListing.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        moviesListing.setLayoutManager(layoutManager);
         mAdapter = new MoviesListingAdapter(mMovies);
-        mMoviesListing.setAdapter(mAdapter);
+        moviesListing.setAdapter(mAdapter);
     }
 
     private void fetchMoviesAsync()
