@@ -1,6 +1,5 @@
-package com.esoxjem.movieguide;
+package com.esoxjem.movieguide.network;
 
-import com.esoxjem.movieguide.movies.MoviesInteractor;
 import com.squareup.okhttp.OkHttpClient;
 
 import net.jcip.annotations.GuardedBy;
@@ -13,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author arun
  */
-public class BaseFactory
+public class HttpClientFactory
 {
     private static final Object LOCK = new Object();
     public static final int TIMEOUT_IN_MS = 30000;
@@ -21,23 +20,7 @@ public class BaseFactory
     @GuardedBy("LOCK")
     private static OkHttpClient mOkHttpClient;
 
-    @GuardedBy("LOCK")
-    private static MoviesInteractor mMoviewService;
-
-
-    public static MoviesInteractor getMovieService()
-    {
-        synchronized (LOCK)
-        {
-            if (mMoviewService == null)
-            {
-                mMoviewService = new MoviesInteractor();
-            }
-        }
-        return mMoviewService;
-    }
-
-    public static OkHttpClient getOkHTTPClient()
+    public static OkHttpClient getClient()
     {
         synchronized (LOCK)
         {
