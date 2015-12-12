@@ -16,10 +16,10 @@ import rx.functions.Func0;
 /**
  * @author arun
  */
-public class MovieService
+public class MoviesInteractor implements IMoviesInteractor
 {
-
-    Observable<List<Movie>> getPopularMovies()
+    @Override
+    public Observable<List<Movie>> fetchPopularMovies()
     {
         return Observable.defer(new Func0<Observable<List<Movie>>>()
         {
@@ -40,7 +40,7 @@ public class MovieService
                 String url = Api.GET_POPULAR_MOVIES;
                 Request request = RequestGenerator.get(url);
                 String response = RequestHandler.request(request);
-                return MoviesParser.parseMovies(response);
+                return MoviesParser.parse(response);
             }
         });
     }

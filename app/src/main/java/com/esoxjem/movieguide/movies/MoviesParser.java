@@ -25,7 +25,7 @@ public class MoviesParser
     public static final String VOTE_AVERAGE = "vote_average";
 
     @NonNull
-    public static List<Movie> parseMovies(String json) throws JSONException
+    public static List<Movie> parse(String json) throws JSONException
     {
         List<Movie> movies = new ArrayList<>(24);
         JSONObject response = new JSONObject(json);

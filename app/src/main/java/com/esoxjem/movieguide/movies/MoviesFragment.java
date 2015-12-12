@@ -10,22 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.esoxjem.movieguide.BaseFactory;
 import com.esoxjem.movieguide.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.schedulers.Schedulers;
 
-public class MoviesFragment extends Fragment
+public class MoviesFragment extends Fragment implements IMoviesView
 {
     private RecyclerView.Adapter mAdapter;
     private List<Movie> mMovies = new ArrayList<>(20);
+    private MoviesPresenter mMoviesPresenter;
     private Subscription mMoviesSubscription;
 
     public MoviesFragment()
@@ -36,6 +32,13 @@ public class MoviesFragment extends Fragment
     public static MoviesFragment newInstance()
     {
         return new MoviesFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        mMoviesPresenter = new MoviesPresenter(this);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class MoviesFragment extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        fetchMoviesAsync();
+        mMoviesSubscription = mMoviesPresenter.displayPopularMovies();
     }
 
     private void initLayoutReferences(View rootView)
@@ -63,51 +66,31 @@ public class MoviesFragment extends Fragment
         moviesListing.setAdapter(mAdapter);
     }
 
-    private void fetchMoviesAsync()
+    @Override
+    public void showMovies(List<Movie> movies)
     {
-        mMoviesSubscription = BaseFactory.getMovieService().getPopularMovies().cache()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0()
-                {
-                    @Override
-                    public void call()
-                    {
-                        Toast.makeText(getContext(), "Loading Movies", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .subscribe(new Subscriber<List<Movie>>()
-                {
-                    @Override
-                    public void onCompleted()
-                    {
+        mMovies.addAll(movies);
+        mAdapter.notifyDataSetChanged();
+    }
 
-                    }
+    @Override
+    public void loadingStarted()
+    {
 
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+    }
 
-                    @Override
-                    public void onNext(List<Movie> movies)
-                    {
-                        mMovies.addAll(movies);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
+    @Override
+    public void loadingFailed(String errorMessage)
+    {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onDestroyView()
     {
-        if (mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
+        if(mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
         {
             mMoviesSubscription.unsubscribe();
-        } else
-        {
-            // no subscription
         }
 
         super.onDestroyView();

@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide;
 
-import com.esoxjem.movieguide.movies.MovieService;
+import com.esoxjem.movieguide.movies.MoviesInteractor;
 import com.squareup.okhttp.OkHttpClient;
 
 import net.jcip.annotations.GuardedBy;
@@ -22,16 +22,16 @@ public class BaseFactory
     private static OkHttpClient mOkHttpClient;
 
     @GuardedBy("LOCK")
-    private static MovieService mMoviewService;
+    private static MoviesInteractor mMoviewService;
 
 
-    public static MovieService getMovieService()
+    public static MoviesInteractor getMovieService()
     {
         synchronized (LOCK)
         {
             if (mMoviewService == null)
             {
-                mMoviewService = new MovieService();
+                mMoviewService = new MoviesInteractor();
             }
         }
         return mMoviewService;
