@@ -1,4 +1,4 @@
-package com.esoxjem.moviesguide.movies;
+package com.esoxjem.movieguide.movies;
 
 public class Movie
 {

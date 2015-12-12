@@ -1,6 +1,6 @@
-package com.esoxjem.moviesguide;
+package com.esoxjem.movieguide;
 
-import com.esoxjem.moviesguide.movies.MovieService;
+import com.esoxjem.movieguide.movies.MovieService;
 import com.squareup.okhttp.OkHttpClient;
 
 import net.jcip.annotations.GuardedBy;

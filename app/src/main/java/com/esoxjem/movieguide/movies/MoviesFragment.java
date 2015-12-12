@@ -1,4 +1,4 @@
-package com.esoxjem.moviesguide.movies;
+package com.esoxjem.movieguide.movies;
 
 
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.esoxjem.moviesguide.BaseFactory;
-import com.esoxjem.moviesguide.R;
+import com.esoxjem.movieguide.BaseFactory;
+import com.esoxjem.movieguide.R;
 
 import java.util.ArrayList;
 import java.util.List;

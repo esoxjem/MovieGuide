@@ -1,11 +1,11 @@
-package com.esoxjem.moviesguide.movies;
+package com.esoxjem.movieguide.movies;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-import com.esoxjem.moviesguide.R;
+import com.esoxjem.movieguide.R;
 
 public class MainActivity extends AppCompatActivity
 {

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.esoxjem.moviesguide"
+        applicationId "com.esoxjem.movieguide"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

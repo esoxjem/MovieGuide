@@ -1,4 +1,4 @@
-package com.esoxjem.moviesguide.network;
+package com.esoxjem.movieguide.network;
 
 import android.support.annotation.NonNull;
 

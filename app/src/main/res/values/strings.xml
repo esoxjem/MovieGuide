@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">MoviesGuide</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">MovieGuide</string>
     <string name="action_filter">Filter</string>
 </resources>

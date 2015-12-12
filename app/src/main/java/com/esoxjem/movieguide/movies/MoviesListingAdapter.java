@@ -1,4 +1,4 @@
-package com.esoxjem.moviesguide.movies;
+package com.esoxjem.movieguide.movies;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.esoxjem.moviesguide.R;
+import com.esoxjem.movieguide.R;
 
 import java.util.List;
 

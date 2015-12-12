@@ -1,8 +1,8 @@
-package com.esoxjem.moviesguide.network;
+package com.esoxjem.movieguide.network;
 
 import android.util.Log;
 
-import com.esoxjem.moviesguide.BaseFactory;
+import com.esoxjem.movieguide.BaseFactory;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

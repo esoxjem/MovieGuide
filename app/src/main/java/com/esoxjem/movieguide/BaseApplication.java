@@ -1,4 +1,4 @@
-package com.esoxjem.moviesguide;
+package com.esoxjem.movieguide;
 
 import android.app.Application;
 import android.os.StrictMode;

@@ -1,8 +1,8 @@
-package com.esoxjem.moviesguide.movies;
+package com.esoxjem.movieguide.movies;
 
-import com.esoxjem.moviesguide.constants.Api;
-import com.esoxjem.moviesguide.network.RequestGenerator;
-import com.esoxjem.moviesguide.network.RequestHandler;
+import com.esoxjem.movieguide.constants.Api;
+import com.esoxjem.movieguide.network.RequestGenerator;
+import com.esoxjem.movieguide.network.RequestHandler;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
