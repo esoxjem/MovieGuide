@@ -1,6 +1,7 @@
-package com.esoxjem.movieguide.movies;
+package com.esoxjem.movieguide.landing;
 
 import com.esoxjem.movieguide.constants.Api;
+import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.squareup.okhttp.Request;

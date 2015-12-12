@@ -1,12 +1,38 @@
-package com.esoxjem.movieguide.movies;
+package com.esoxjem.movieguide.entities;
 
-public class Movie
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Movie implements Parcelable
 {
     private String overview;
     private String releaseDate;
     private String posterPath;
     private String title;
     private Double voteAverage;
+
+    protected Movie(Parcel in)
+    {
+        overview = in.readString();
+        releaseDate = in.readString();
+        posterPath = in.readString();
+        title = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>()
+    {
+        @Override
+        public Movie createFromParcel(Parcel in)
+        {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size)
+        {
+            return new Movie[size];
+        }
+    };
 
     public String getOverview()
     {
@@ -56,5 +82,20 @@ public class Movie
     public void setVoteAverage(Double voteAverage)
     {
         this.voteAverage = voteAverage;
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i)
+    {
+        parcel.writeString(overview);
+        parcel.writeString(releaseDate);
+        parcel.writeString(posterPath);
+        parcel.writeString(title);
     }
 }

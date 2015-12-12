@@ -2,4 +2,8 @@
     <string name="app_name">MovieGuide</string>
     <string name="action_filter">Filter</string>
     <string name="loading_movies">Loading Movies</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

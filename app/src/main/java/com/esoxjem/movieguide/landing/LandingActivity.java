@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.movies;
+package com.esoxjem.movieguide.landing;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.view.Menu;
 
 import com.esoxjem.movieguide.R;
 
-public class MainActivity extends AppCompatActivity
+public class LandingActivity extends AppCompatActivity
 {
 
     @Override
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setToolbar();
 
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
         {
             MoviesFragment moviesFragment = MoviesFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.container, moviesFragment).commit();
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar() != null)
+        if (getSupportActionBar() != null)
         {
             getSupportActionBar().setTitle("Popular Movies");
             getSupportActionBar().setDisplayShowTitleEnabled(true);

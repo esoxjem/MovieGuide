@@ -1,6 +1,7 @@
-package com.esoxjem.movieguide.movies;
+package com.esoxjem.movieguide.landing;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.esoxjem.movieguide.R;
+import com.esoxjem.movieguide.constants.Constants;
+import com.esoxjem.movieguide.details.MovieDetailsActivity;
+import com.esoxjem.movieguide.entities.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +66,7 @@ public class MoviesFragment extends Fragment implements IMoviesView
         moviesListing.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         moviesListing.setLayoutManager(layoutManager);
-        mAdapter = new MoviesListingAdapter(mMovies);
+        mAdapter = new MoviesListingAdapter(mMovies, this);
         moviesListing.setAdapter(mAdapter);
     }
 
@@ -86,9 +90,19 @@ public class MoviesFragment extends Fragment implements IMoviesView
     }
 
     @Override
+    public void onMovieClicked(Movie movie)
+    {
+        Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(Constants.MOVIE, movie);
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
+    @Override
     public void onDestroyView()
     {
-        if(mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
+        if (mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
         {
             mMoviesSubscription.unsubscribe();
         }

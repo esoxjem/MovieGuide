@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.movies;
+package com.esoxjem.movieguide.landing;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,22 +15,25 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.esoxjem.movieguide.R;
+import com.esoxjem.movieguide.entities.Movie;
 
 import java.util.List;
 
 /**
  * @author arun
  */
-public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>
+public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>
 {
     private List<Movie> mMovies;
     private Context mContext;
+    private IMoviesView mMoviesView;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView mMovieName;
         public ImageView mMoviePoster;
         public View mTitleBackground;
+        public Movie mMovie;
 
         public ViewHolder(View root)
         {
@@ -39,11 +42,18 @@ public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView
             mMoviePoster = (ImageView) root.findViewById(R.id.movie_poster);
             mTitleBackground = root.findViewById(R.id.title_background);
         }
+
+        @Override
+        public void onClick(View view)
+        {
+            mMoviesView.onMovieClicked(mMovie);
+        }
     }
 
-    public MoviesListingAdapter(List<Movie> movies)
+    public MoviesListingAdapter(List<Movie> movies, IMoviesView moviesView)
     {
         mMovies = movies;
+        mMoviesView = moviesView;
     }
 
     @Override
@@ -58,29 +68,31 @@ public class MoviesListingAdapter extends android.support.v7.widget.RecyclerView
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mMovieName.setText(mMovies.get(position).getTitle());
-        Glide.with(mContext).load(mMovies.get(position)
+        holder.itemView.setOnClickListener(holder);
+        holder.mMovie = mMovies.get(position);
+        holder.mMovieName.setText(holder.mMovie.getTitle());
+        Glide.with(mContext).load(holder.mMovie
                 .getPosterPath()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(new BitmapImageViewTarget(holder.mMoviePoster)
-    {
-        @Override
-        public void onResourceReady(Bitmap bitmap, GlideAnimation anim)
-        {
-            super.onResourceReady(bitmap, anim);
-
-            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener()
-            {
-                @Override
-                public void onGenerated(Palette palette)
                 {
-                    holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(mContext.getResources().getColor(R.color.black_translucent_60)));
-                }
-            });
-        }
-    });
-    }
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim)
+                    {
+                        super.onResourceReady(bitmap, anim);
 
+                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener()
+                        {
+                            @Override
+                            public void onGenerated(Palette palette)
+                            {
+                                holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(mContext
+                                        .getResources().getColor(R.color.black_translucent_60)));
+                            }
+                        });
+                    }
+                });
+    }
 
     @Override
     public int getItemCount()
