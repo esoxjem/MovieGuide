@@ -76,7 +76,7 @@ public class MoviesFragment extends Fragment implements IMoviesView
     @Override
     public void loadingStarted()
     {
-
+        Toast.makeText(getContext(), R.string.loading_movies, Toast.LENGTH_LONG).show();
     }
 
     @Override
