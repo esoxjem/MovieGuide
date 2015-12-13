@@ -11,12 +11,18 @@ public class Movie implements Parcelable
     private String title;
     private Double voteAverage;
 
+    public Movie()
+    {
+
+    }
+
     protected Movie(Parcel in)
     {
         overview = in.readString();
         releaseDate = in.readString();
         posterPath = in.readString();
         title = in.readString();
+        voteAverage = in.readDouble();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>()
@@ -97,5 +103,6 @@ public class Movie implements Parcelable
         parcel.writeString(releaseDate);
         parcel.writeString(posterPath);
         parcel.writeString(title);
+        parcel.writeDouble(voteAverage);
     }
 }

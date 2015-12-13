@@ -15,26 +15,11 @@ public class MovieDetailsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
-        setToolbar();
 
         if(savedInstanceState == null)
         {
             MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.getInstance();
-            movieDetailsFragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().add(R.id.container, movieDetailsFragment).commit();
-        }
-    }
-
-    private void setToolbar()
-    {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if(getSupportActionBar() != null)
-        {
-            getSupportActionBar().setTitle("Details");
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
