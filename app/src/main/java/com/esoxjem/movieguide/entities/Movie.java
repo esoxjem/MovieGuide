@@ -8,6 +8,7 @@ public class Movie implements Parcelable
     private String overview;
     private String releaseDate;
     private String posterPath;
+    private String backdropPath;
     private String title;
     private Double voteAverage;
 
@@ -21,6 +22,7 @@ public class Movie implements Parcelable
         overview = in.readString();
         releaseDate = in.readString();
         posterPath = in.readString();
+        backdropPath = in.readString();
         title = in.readString();
         voteAverage = in.readDouble();
     }
@@ -70,6 +72,16 @@ public class Movie implements Parcelable
         this.posterPath = posterPath;
     }
 
+    public String getBackdropPath()
+    {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath)
+    {
+        this.backdropPath = backdropPath;
+    }
+
     public String getTitle()
     {
         return title;
@@ -102,6 +114,7 @@ public class Movie implements Parcelable
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
         parcel.writeString(posterPath);
+        parcel.writeString(backdropPath);
         parcel.writeString(title);
         parcel.writeDouble(voteAverage);
     }

@@ -1,7 +1,6 @@
 package com.esoxjem.movieguide.details;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.entities.Movie;
 
 /**
@@ -24,6 +22,13 @@ import com.esoxjem.movieguide.entities.Movie;
  */
 public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
 {
+    private MovieDetailsPresenter mMovieDetailsPresenter;
+    private ImageView mMoviePoster;
+    private TextView mMovieTitle;
+    private TextView mMovieReleaseDate;
+    private TextView mMovieRatingmRating;
+    private TextView mMovieOverview;
+
     public MovieDetailsFragment()
     {
         // Required empty public constructor
@@ -38,7 +43,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        mMovieDetailsPresenter = new MovieDetailsPresenter(this);
     }
 
     @Override
@@ -46,31 +51,25 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
                              Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
+        setToolbar(rootView);
         initLayoutReferences(rootView);
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        mMovieDetailsPresenter.showDetails(getActivity().getIntent().getExtras());
+    }
+
     private void initLayoutReferences(View rootView)
     {
-        Bundle extras = getActivity().getIntent().getExtras();
-        Movie movie = extras.getParcelable(Constants.MOVIE);
-        setToolbar(rootView);
-
-        ImageView poster = (ImageView) rootView.findViewById(R.id.movie_poster);
-        Glide.with(getContext()).load(movie.getPosterPath()).into(poster);
-
-        TextView title = (TextView) rootView.findViewById(R.id.movie_name);
-        title.setText(movie.getTitle());
-
-        TextView releaseYear = (TextView) rootView.findViewById(R.id.movie_year);
-        releaseYear.setText(movie.getReleaseDate());
-
-        TextView rating = (TextView) rootView.findViewById(R.id.movie_rating);
-        rating.setText(String.valueOf(movie.getVoteAverage()));
-
-        TextView overview = (TextView) rootView.findViewById(R.id.movie_description);
-        overview.setText(movie.getOverview());
-
+        mMoviePoster = (ImageView) rootView.findViewById(R.id.movie_poster);
+        mMovieTitle = (TextView) rootView.findViewById(R.id.movie_name);
+        mMovieReleaseDate = (TextView) rootView.findViewById(R.id.movie_year);
+        mMovieRatingmRating = (TextView) rootView.findViewById(R.id.movie_rating);
+        mMovieOverview = (TextView) rootView.findViewById(R.id.movie_description);
     }
 
     private void setToolbar(View rootView)
@@ -94,8 +93,12 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
     }
 
     @Override
-    public void showDetails()
+    public void showDetails(Movie movie)
     {
-
+        Glide.with(getContext()).load(movie.getBackdropPath()).into(mMoviePoster);
+        mMovieTitle.setText(movie.getTitle());
+        mMovieReleaseDate.setText(movie.getReleaseDate());
+        mMovieRatingmRating.setText(String.valueOf(movie.getVoteAverage()));
+        mMovieOverview.setText(movie.getOverview());
     }
 }

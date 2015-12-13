@@ -24,6 +24,7 @@ public class MoviesParser
     public static final String POSTER_PATH = "poster_path";
     public static final String TITLE = "title";
     public static final String VOTE_AVERAGE = "vote_average";
+    private static final String BACKDROP_PATH = "backdrop_path";
 
     @NonNull
     public static List<Movie> parse(String json) throws JSONException
@@ -66,6 +67,11 @@ public class MoviesParser
         if(!result.isNull(POSTER_PATH))
         {
             movie.setPosterPath(Api.POSTER_PATH + result.getString(POSTER_PATH));
+        }
+
+        if(!result.isNull(BACKDROP_PATH))
+        {
+            movie.setBackdropPath(Api.BACKDROP_PATH + result.getString(BACKDROP_PATH));
         }
 
         if(!result.isNull(TITLE))

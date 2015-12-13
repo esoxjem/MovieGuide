@@ -56,7 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Movie"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"/>
 
@@ -65,7 +64,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="2015"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"/>
 
@@ -74,7 +72,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="8.1/10"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"/>
 
@@ -83,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Description"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
         </LinearLayout>
