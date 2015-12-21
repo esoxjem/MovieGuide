@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.entities.Movie;
 
@@ -9,7 +9,8 @@ import rx.Observable;
 /**
  * @author arun
  */
-public interface IMoviesInteractor
+public interface IMoviesListingInteractor
 {
     Observable<List<Movie>> fetchPopularMovies();
+    Observable<List<Movie>> fetcHighestRatedMovies();
 }

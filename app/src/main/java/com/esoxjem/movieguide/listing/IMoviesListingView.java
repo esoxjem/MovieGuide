@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.entities.Movie;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author arun
  */
-public interface IMoviesView
+public interface IMoviesListingView
 {
     void showMovies(List<Movie> movies);
     void loadingStarted();

@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 import android.support.annotation.NonNull;
 
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author arun
  */
-public class MoviesParser
+public class MoviesListingParser
 {
 
     public static final String RESULTS = "results";

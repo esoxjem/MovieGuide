@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.view.Menu;
 
 import com.esoxjem.movieguide.R;
 
-public class LandingActivity extends AppCompatActivity
+public class MoviesListingActivity extends AppCompatActivity
 {
 
     @Override
@@ -19,8 +19,8 @@ public class LandingActivity extends AppCompatActivity
 
         if (savedInstanceState == null)
         {
-            MoviesFragment moviesFragment = MoviesFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.container, moviesFragment).commit();
+            MoviesListingListingFragment moviesListingFragment = MoviesListingListingFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.container, moviesListingFragment).commit();
         }
     }
 

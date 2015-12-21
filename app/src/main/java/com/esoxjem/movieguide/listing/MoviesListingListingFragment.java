@@ -1,14 +1,17 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.esoxjem.movieguide.R;
@@ -21,28 +24,30 @@ import java.util.List;
 
 import rx.Subscription;
 
-public class MoviesFragment extends Fragment implements IMoviesView
+public class MoviesListingListingFragment extends Fragment implements IMoviesListingView, RadioGroup.OnCheckedChangeListener
 {
     private RecyclerView.Adapter mAdapter;
     private List<Movie> mMovies = new ArrayList<>(20);
-    private MoviesPresenter mMoviesPresenter;
+    private MoviesListingPresenter mMoviesPresenter;
     private Subscription mMoviesSubscription;
+    private DialogFragment mSortingDialogFragment;
 
-    public MoviesFragment()
+    public MoviesListingListingFragment()
     {
         // Required empty public constructor
     }
 
-    public static MoviesFragment newInstance()
+    public static MoviesListingListingFragment newInstance()
     {
-        return new MoviesFragment();
+        return new MoviesListingListingFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mMoviesPresenter = new MoviesPresenter(this);
+        mMoviesPresenter = new MoviesListingPresenter(this);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -60,6 +65,24 @@ public class MoviesFragment extends Fragment implements IMoviesView
         mMoviesSubscription = mMoviesPresenter.displayPopularMovies();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.action_sort:
+                displaySortingOptions();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void displaySortingOptions()
+    {
+        mSortingDialogFragment = SortingDialogFragment.newInstance(this);
+        mSortingDialogFragment.show(getFragmentManager(), "Select Quantity");
+    }
+
     private void initLayoutReferences(View rootView)
     {
         RecyclerView moviesListing = (RecyclerView) rootView.findViewById(R.id.movies_listing);
@@ -73,6 +96,7 @@ public class MoviesFragment extends Fragment implements IMoviesView
     @Override
     public void showMovies(List<Movie> movies)
     {
+        mMovies.clear();
         mMovies.addAll(movies);
         mAdapter.notifyDataSetChanged();
     }
@@ -108,5 +132,22 @@ public class MoviesFragment extends Fragment implements IMoviesView
         }
 
         super.onDestroyView();
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId)
+    {
+        switch (checkedId)
+        {
+            case R.id.most_popular:
+                mMoviesPresenter.displayPopularMovies();
+                mSortingDialogFragment.dismiss();
+                break;
+
+            case R.id.highest_rated:
+                mMoviesPresenter.displayHighestRatedMovies();
+                mSortingDialogFragment.dismiss();
+                break;
+        }
     }
 }

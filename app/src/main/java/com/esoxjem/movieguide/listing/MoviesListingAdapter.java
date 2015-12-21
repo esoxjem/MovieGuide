@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,7 +26,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
 {
     private List<Movie> mMovies;
     private Context mContext;
-    private IMoviesView mMoviesView;
+    private IMoviesListingView mMoviesView;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
@@ -50,7 +50,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
         }
     }
 
-    public MoviesListingAdapter(List<Movie> movies, IMoviesView moviesView)
+    public MoviesListingAdapter(List<Movie> movies, IMoviesListingView moviesView)
     {
         mMovies = movies;
         mMoviesView = moviesView;

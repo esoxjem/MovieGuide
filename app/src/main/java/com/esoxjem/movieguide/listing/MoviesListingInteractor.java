@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.landing;
+package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.constants.Api;
 import com.esoxjem.movieguide.entities.Movie;
@@ -17,7 +17,7 @@ import rx.functions.Func0;
 /**
  * @author arun
  */
-public class MoviesInteractor implements IMoviesInteractor
+public class MoviesListingInteractor implements IMoviesListingInteractor
 {
     @Override
     public Observable<List<Movie>> fetchPopularMovies()
@@ -41,7 +41,34 @@ public class MoviesInteractor implements IMoviesInteractor
                 String url = Api.GET_POPULAR_MOVIES;
                 Request request = RequestGenerator.get(url);
                 String response = RequestHandler.request(request);
-                return MoviesParser.parse(response);
+                return MoviesListingParser.parse(response);
+            }
+        });
+    }
+
+    @Override
+    public Observable fetcHighestRatedMovies()
+    {
+        return Observable.defer(new Func0<Observable<List<Movie>>>()
+        {
+            @Override
+            public Observable<List<Movie>> call()
+            {
+                try
+                {
+                    return Observable.just(get());
+                } catch (Exception e)
+                {
+                    return Observable.error(e);
+                }
+            }
+
+            private List<Movie> get() throws IOException, JSONException
+            {
+                String url = Api.GET_HIGHEST_RATED_MOVIES;
+                Request request = RequestGenerator.get(url);
+                String response = RequestHandler.request(request);
+                return MoviesListingParser.parse(response);
             }
         });
     }

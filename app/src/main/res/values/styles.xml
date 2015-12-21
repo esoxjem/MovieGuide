@@ -6,6 +6,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:dialogTheme">@style/TitledDialog</item>
+    </style>
+
+    <style name="TitledDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">false</item>
     </style>
 
     <style name="AppTheme.PrimaryButton" parent="Base.Widget.AppCompat.Button">

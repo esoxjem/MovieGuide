@@ -10,7 +10,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".landing.LandingActivity"
+        <activity android:name=".listing.MoviesListingActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,11 +21,11 @@
         <activity
             android:name=".details.MovieDetailsActivity"
             android:label="@string/title_activity_movie_details"
-            android:parentActivityName=".landing.LandingActivity"
+            android:parentActivityName=".listing.MoviesListingActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".landing.LandingActivity"/>
+                android:value=".listing.MoviesListingActivity"/>
         </activity>
     </application>
 
