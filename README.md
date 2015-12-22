@@ -1,5 +1,7 @@
 # MovieGuide
-An app that shows all the popular/highest-rated movies. This app uses the MVP pattern to decouple all layers.
+An app that lists popular/highest-rated movies. 
+
+This app showcases MVP pattern and Uncle Bob Martin's Clean Architecture approach.
 
 Libraries used:
  - RxJava
