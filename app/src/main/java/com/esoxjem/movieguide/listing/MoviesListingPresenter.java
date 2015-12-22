@@ -25,44 +25,9 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
     }
 
     @Override
-    public Subscription displayPopularMovies()
+    public Subscription displayMovies()
     {
-        return mMoviesInteractor.fetchPopularMovies().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0()
-                {
-                    @Override
-                    public void call()
-                    {
-                        mMoviesView.loadingStarted();
-                    }
-                })
-                .subscribe(new Subscriber<List<Movie>>()
-                {
-                    @Override
-                    public void onCompleted()
-                    {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        mMoviesView.loadingFailed(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<Movie> movies)
-                    {
-                        mMoviesView.showMovies(movies);
-                    }
-                });
-    }
-
-    @Override
-    public Subscription displayHighestRatedMovies()
-    {
-        return mMoviesInteractor.fetcHighestRatedMovies().subscribeOn(Schedulers.io())
+        return mMoviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0()
                 {

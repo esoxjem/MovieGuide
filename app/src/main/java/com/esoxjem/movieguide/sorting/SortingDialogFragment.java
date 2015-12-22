@@ -72,12 +72,12 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         {
             case R.id.most_popular:
                 mSortingDialogPresenter.onPopularMoviesSelected();
-                mMoviesListingPresenter.displayPopularMovies();
+                mMoviesListingPresenter.displayMovies();
                 break;
 
             case R.id.highest_rated:
                 mSortingDialogPresenter.onHighestRatedMoviesSelected();
-                mMoviesListingPresenter.displayHighestRatedMovies();
+                mMoviesListingPresenter.displayMovies();
                 break;
         }
     }

@@ -7,6 +7,5 @@ import rx.Subscription;
  */
 public interface IMoviesListingPresenter
 {
-    Subscription displayPopularMovies();
-    Subscription displayHighestRatedMovies();
+    Subscription displayMovies();
 }

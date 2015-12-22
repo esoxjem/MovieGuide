@@ -31,7 +31,7 @@ public class MoviesListingActivity extends AppCompatActivity
 
         if (getSupportActionBar() != null)
         {
-            getSupportActionBar().setTitle("Popular Movies");
+            getSupportActionBar().setTitle(R.string.movie_guide);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
     }

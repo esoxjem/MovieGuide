@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.esoxjem.movieguide"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.esoxjem.movieguide"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -10,7 +11,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".listing.MoviesListingActivity"
+        <activity
+            android:name=".listing.MoviesListingActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,7 +22,6 @@
         </activity>
         <activity
             android:name=".details.MovieDetailsActivity"
-            android:label="@string/title_activity_movie_details"
             android:parentActivityName=".listing.MoviesListingActivity"
             android:theme="@style/AppTheme">
             <meta-data

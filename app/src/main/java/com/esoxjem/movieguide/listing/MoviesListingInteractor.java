@@ -1,9 +1,13 @@
 package com.esoxjem.movieguide.listing;
 
+import android.support.annotation.NonNull;
+
 import com.esoxjem.movieguide.constants.Api;
 import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.entities.SortType;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
+import com.esoxjem.movieguide.sorting.SortingOptionStore;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
@@ -20,7 +24,7 @@ import rx.functions.Func0;
 public class MoviesListingInteractor implements IMoviesListingInteractor
 {
     @Override
-    public Observable<List<Movie>> fetchPopularMovies()
+    public Observable<List<Movie>> fetchMovies()
     {
         return Observable.defer(new Func0<Observable<List<Movie>>>()
         {
@@ -38,7 +42,7 @@ public class MoviesListingInteractor implements IMoviesListingInteractor
 
             private List<Movie> get() throws IOException, JSONException
             {
-                String url = Api.GET_POPULAR_MOVIES;
+                String url = getMoviesUrl();
                 Request request = RequestGenerator.get(url);
                 String response = RequestHandler.request(request);
                 return MoviesListingParser.parse(response);
@@ -46,30 +50,19 @@ public class MoviesListingInteractor implements IMoviesListingInteractor
         });
     }
 
-    @Override
-    public Observable fetcHighestRatedMovies()
+    @NonNull
+    private String getMoviesUrl()
     {
-        return Observable.defer(new Func0<Observable<List<Movie>>>()
+        String url;
+        SortingOptionStore sortingOptionStore = new SortingOptionStore();
+        int selectedOption = sortingOptionStore.getSelectedOption();
+        if (selectedOption == SortType.MOST_POPULAR.getValue())
         {
-            @Override
-            public Observable<List<Movie>> call()
-            {
-                try
-                {
-                    return Observable.just(get());
-                } catch (Exception e)
-                {
-                    return Observable.error(e);
-                }
-            }
-
-            private List<Movie> get() throws IOException, JSONException
-            {
-                String url = Api.GET_HIGHEST_RATED_MOVIES;
-                Request request = RequestGenerator.get(url);
-                String response = RequestHandler.request(request);
-                return MoviesListingParser.parse(response);
-            }
-        });
+            url = Api.GET_POPULAR_MOVIES;
+        } else
+        {
+            url = Api.GET_HIGHEST_RATED_MOVIES;
+        }
+        return url;
     }
 }

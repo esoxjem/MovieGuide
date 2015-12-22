@@ -11,6 +11,5 @@ import rx.Observable;
  */
 public interface IMoviesListingInteractor
 {
-    Observable<List<Movie>> fetchPopularMovies();
-    Observable<List<Movie>> fetcHighestRatedMovies();
+    Observable<List<Movie>> fetchMovies();
 }

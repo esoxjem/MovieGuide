@@ -62,7 +62,7 @@ public class MoviesListingListingFragment extends Fragment implements IMoviesLis
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        mMoviesSubscription = mMoviesPresenter.displayPopularMovies();
+        mMoviesSubscription = mMoviesPresenter.displayMovies();
     }
 
     @Override
