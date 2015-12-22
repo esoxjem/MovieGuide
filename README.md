@@ -7,4 +7,4 @@ Libraries used:
  - OkHttp
  - Glide
 
-Replace `API_KEY` in `Api.java` with your TheMovieDB.org API key.
+Replace `API_KEY` in `Api.java` with your themoviedb.org API key.
