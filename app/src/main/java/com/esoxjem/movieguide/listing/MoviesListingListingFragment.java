@@ -11,20 +11,20 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
 
-public class MoviesListingListingFragment extends Fragment implements IMoviesListingView, RadioGroup.OnCheckedChangeListener
+public class MoviesListingListingFragment extends Fragment implements IMoviesListingView
 {
     private RecyclerView.Adapter mAdapter;
     private List<Movie> mMovies = new ArrayList<>(20);
@@ -79,7 +79,7 @@ public class MoviesListingListingFragment extends Fragment implements IMoviesLis
 
     private void displaySortingOptions()
     {
-        mSortingDialogFragment = SortingDialogFragment.newInstance(this);
+        mSortingDialogFragment = SortingDialogFragment.newInstance(mMoviesPresenter);
         mSortingDialogFragment.show(getFragmentManager(), "Select Quantity");
     }
 
@@ -132,22 +132,5 @@ public class MoviesListingListingFragment extends Fragment implements IMoviesLis
         }
 
         super.onDestroyView();
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int checkedId)
-    {
-        switch (checkedId)
-        {
-            case R.id.most_popular:
-                mMoviesPresenter.displayPopularMovies();
-                mSortingDialogFragment.dismiss();
-                break;
-
-            case R.id.highest_rated:
-                mMoviesPresenter.displayHighestRatedMovies();
-                mSortingDialogFragment.dismiss();
-                break;
-        }
     }
 }
