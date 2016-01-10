@@ -11,4 +11,4 @@ Libraries used:
 
 Replace `API_KEY` in `Api.java` with your themoviedb.org API key.
 
-![Screenshot](http://i.imgur.com/72PypXCm.png)
+![Screenshot](http://i.imgur.com/72PypXCm.png) ![screenshot2](http://i.imgur.com/yBLHw42m.png)
