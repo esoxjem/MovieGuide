@@ -10,3 +10,5 @@ Libraries used:
  - Glide
 
 Replace `API_KEY` in `Api.java` with your themoviedb.org API key.
+
+![Screenshot](http://i.imgur.com/72PypXC.png)
