@@ -1,14 +1,21 @@
 package com.esoxjem.movieguide.listing;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.esoxjem.movieguide.R;
+import com.esoxjem.movieguide.constants.Constants;
+import com.esoxjem.movieguide.details.MovieDetailsActivity;
+import com.esoxjem.movieguide.details.MovieDetailsFragment;
+import com.esoxjem.movieguide.entities.Movie;
 
-public class MoviesListingActivity extends AppCompatActivity
+public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback
 {
+    public static final String DETAILS_FRAGMENT = "DetailsFragment";
+    private boolean twoPaneMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -17,10 +24,19 @@ public class MoviesListingActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setToolbar();
 
-        if (savedInstanceState == null)
+        if (findViewById(R.id.movie_details_container) != null)
         {
-            MoviesListingListingFragment moviesListingFragment = MoviesListingListingFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.container, moviesListingFragment).commit();
+            twoPaneMode = true;
+
+            if (savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_details_container, new MovieDetailsFragment())
+                        .commit();
+            }
+        } else
+        {
+            twoPaneMode = false;
         }
     }
 
@@ -41,5 +57,24 @@ public class MoviesListingActivity extends AppCompatActivity
     {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public void onMovieClicked(Movie movie)
+    {
+        if (twoPaneMode)
+        {
+            MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.getInstance(movie);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_details_container, movieDetailsFragment, DETAILS_FRAGMENT)
+                    .commit();
+        } else
+        {
+            Intent intent = new Intent(this, MovieDetailsActivity.class);
+            Bundle extras = new Bundle();
+            extras.putParcelable(Constants.MOVIE, movie);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.esoxjem.movieguide.listing;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -24,22 +25,25 @@ import java.util.List;
 
 import rx.Subscription;
 
-public class MoviesListingListingFragment extends Fragment implements IMoviesListingView
+public class MoviesListingFragment extends Fragment implements IMoviesListingView
 {
     private RecyclerView.Adapter mAdapter;
     private List<Movie> mMovies = new ArrayList<>(20);
     private MoviesListingPresenter mMoviesPresenter;
     private Subscription mMoviesSubscription;
     private DialogFragment mSortingDialogFragment;
+    private Callback callback;
 
-    public MoviesListingListingFragment()
+    public MoviesListingFragment()
     {
         // Required empty public constructor
     }
 
-    public static MoviesListingListingFragment newInstance()
+    @Override
+    public void onAttach(Context context)
     {
-        return new MoviesListingListingFragment();
+        super.onAttach(context);
+        callback = (Callback) context;
     }
 
     @Override
@@ -116,11 +120,7 @@ public class MoviesListingListingFragment extends Fragment implements IMoviesLis
     @Override
     public void onMovieClicked(Movie movie)
     {
-        Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
-        Bundle extras = new Bundle();
-        extras.putParcelable(Constants.MOVIE, movie);
-        intent.putExtras(extras);
-        startActivity(intent);
+        callback.onMovieClicked(movie);
     }
 
     @Override
@@ -132,5 +132,17 @@ public class MoviesListingListingFragment extends Fragment implements IMoviesLis
         }
 
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach()
+    {
+        callback = null;
+        super.onDetach();
+    }
+
+    public interface Callback
+    {
+        public void onMovieClicked(Movie movie);
     }
 }

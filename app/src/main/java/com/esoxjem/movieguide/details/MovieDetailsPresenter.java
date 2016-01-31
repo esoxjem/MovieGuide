@@ -1,8 +1,5 @@
 package com.esoxjem.movieguide.details;
 
-import android.os.Bundle;
-
-import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.entities.Movie;
 
 /**
@@ -18,9 +15,8 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     }
 
     @Override
-    public void showDetails(Bundle extras)
+    public void showDetails(Movie movie)
     {
-        Movie movie = extras.getParcelable(Constants.MOVIE);
         mMovieDetailsView.showDetails(movie);
     }
 }

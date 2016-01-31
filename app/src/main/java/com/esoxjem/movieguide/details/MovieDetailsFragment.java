@@ -2,6 +2,7 @@ package com.esoxjem.movieguide.details;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.esoxjem.movieguide.R;
+import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.entities.Movie;
 
 /**
@@ -34,9 +36,13 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
         // Required empty public constructor
     }
 
-    public static MovieDetailsFragment getInstance()
+    public static MovieDetailsFragment getInstance(@NonNull Movie movie)
     {
-        return new MovieDetailsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.MOVIE, movie);
+        MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
+        movieDetailsFragment.setArguments(args);
+        return movieDetailsFragment;
     }
 
     @Override
@@ -60,7 +66,14 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        mMovieDetailsPresenter.showDetails(getActivity().getIntent().getExtras());
+        if(getArguments() != null)
+        {
+            Movie movie = (Movie) getArguments().get(Constants.MOVIE);
+            if (movie != null)
+            {
+                mMovieDetailsPresenter.showDetails((movie));
+            }
+        }
     }
 
     private void initLayoutReferences(View rootView)
