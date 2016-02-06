@@ -8,7 +8,7 @@
     <include layout="@layout/toolbar"/>
 
     <fragment
-        android:id="@+id/movie_details_container"
+        android:id="@+id/fragment_listing"
         android:name="com.esoxjem.movieguide.listing.MoviesListingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

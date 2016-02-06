@@ -13,7 +13,7 @@
                   android:orientation="horizontal">
 
         <fragment
-            android:id="@+id/fragment_forecast"
+            android:id="@+id/fragment_listing"
             android:name="com.esoxjem.movieguide.listing.MoviesListingFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -24,7 +24,7 @@
             android:id="@+id/movie_details_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"/>
+            android:layout_weight="3"/>
         </LinearLayout>
 
 </LinearLayout>

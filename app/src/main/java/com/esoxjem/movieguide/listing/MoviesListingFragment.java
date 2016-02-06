@@ -2,7 +2,7 @@ package com.esoxjem.movieguide.listing;
 
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.constants.Constants;
-import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 
@@ -31,8 +29,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     private List<Movie> mMovies = new ArrayList<>(20);
     private MoviesListingPresenter mMoviesPresenter;
     private Subscription mMoviesSubscription;
-    private DialogFragment mSortingDialogFragment;
-    private Callback callback;
+    private Callback mCallback;
 
     public MoviesListingFragment()
     {
@@ -43,7 +40,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        callback = (Callback) context;
+        mCallback = (Callback) context;
     }
 
     @Override
@@ -83,15 +80,25 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
 
     private void displaySortingOptions()
     {
-        mSortingDialogFragment = SortingDialogFragment.newInstance(mMoviesPresenter);
-        mSortingDialogFragment.show(getFragmentManager(), "Select Quantity");
+        DialogFragment sortingDialogFragment = SortingDialogFragment.newInstance(mMoviesPresenter);
+        sortingDialogFragment.show(getFragmentManager(), "Select Quantity");
     }
 
     private void initLayoutReferences(View rootView)
     {
         RecyclerView moviesListing = (RecyclerView) rootView.findViewById(R.id.movies_listing);
         moviesListing.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+
+        int columns;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            columns = 2;
+        } else
+        {
+            columns = getResources().getInteger(R.integer.no_of_columns);
+        }
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
+
         moviesListing.setLayoutManager(layoutManager);
         mAdapter = new MoviesListingAdapter(mMovies, this);
         moviesListing.setAdapter(mAdapter);
@@ -103,6 +110,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         mMovies.clear();
         mMovies.addAll(movies);
         mAdapter.notifyDataSetChanged();
+        mCallback.onMoviesLoaded(movies.get(0));
     }
 
     @Override
@@ -120,7 +128,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void onMovieClicked(Movie movie)
     {
-        callback.onMovieClicked(movie);
+        mCallback.onMovieClicked(movie);
     }
 
     @Override
@@ -137,12 +145,13 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void onDetach()
     {
-        callback = null;
+        mCallback = null;
         super.onDetach();
     }
 
     public interface Callback
     {
-        public void onMovieClicked(Movie movie);
+        void onMoviesLoaded(Movie movie);
+        void onMovieClicked(Movie movie);
     }
 }

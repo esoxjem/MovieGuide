@@ -60,21 +60,43 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
     }
 
     @Override
+    public void onMoviesLoaded(Movie movie)
+    {
+        if(twoPaneMode)
+        {
+            loadMovieFragment(movie);
+        } else
+        {
+            // Do not load in single pane view
+        }
+    }
+
+    @Override
     public void onMovieClicked(Movie movie)
     {
         if (twoPaneMode)
         {
-            MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.getInstance(movie);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_details_container, movieDetailsFragment, DETAILS_FRAGMENT)
-                    .commit();
+            loadMovieFragment(movie);
         } else
         {
-            Intent intent = new Intent(this, MovieDetailsActivity.class);
-            Bundle extras = new Bundle();
-            extras.putParcelable(Constants.MOVIE, movie);
-            intent.putExtras(extras);
-            startActivity(intent);
+            startMovieActivity(movie);
         }
+    }
+
+    private void startMovieActivity(Movie movie)
+    {
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(Constants.MOVIE, movie);
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
+    private void loadMovieFragment(Movie movie)
+    {
+        MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.getInstance(movie);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.movie_details_container, movieDetailsFragment, DETAILS_FRAGMENT)
+                .commit();
     }
 }

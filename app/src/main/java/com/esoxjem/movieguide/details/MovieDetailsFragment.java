@@ -66,7 +66,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        if(getArguments() != null)
+        if (getArguments() != null)
         {
             Movie movie = (Movie) getArguments().get(Constants.MOVIE);
             if (movie != null)
@@ -96,12 +96,18 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
         collapsingToolbarLayout.setTitleEnabled(true);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null)
+        if (toolbar != null)
         {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null)
+            {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        } else
+        {
+            // Don't inflate. Tablet is landscape mode.
         }
     }
 
