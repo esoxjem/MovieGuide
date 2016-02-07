@@ -73,4 +73,11 @@ public class FavoritesStore
         }
         return movies;
     }
+
+    public void unfavorite(String id)
+    {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove(id);
+        editor.apply();
+    }
 }

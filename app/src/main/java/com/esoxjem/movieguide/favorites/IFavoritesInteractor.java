@@ -12,4 +12,5 @@ public interface IFavoritesInteractor
     void setFavorite(Movie movie);
     boolean isFavorite(String id);
     List<Movie> getFavorites();
+    void unFavorite(String id);
 }

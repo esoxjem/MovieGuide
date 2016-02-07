@@ -3,6 +3,8 @@ package com.esoxjem.movieguide.details;
 import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.entities.Review;
 import com.esoxjem.movieguide.entities.Video;
+import com.esoxjem.movieguide.favorites.FavoritesInteractor;
+import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 
 import java.util.List;
 
@@ -18,11 +20,13 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
 {
     private IMovieDetailsView mMovieDetailsView;
     private IMovieDetailsInteractor mMovieDetailsInteractor;
+    private IFavoritesInteractor mFavoritesInteractor;
 
     public MovieDetailsPresenter(IMovieDetailsView movieDetailsView)
     {
         mMovieDetailsView = movieDetailsView;
         mMovieDetailsInteractor = new MovieDetailsInteractor();
+        mFavoritesInteractor = new FavoritesInteractor();
     }
 
     @Override
@@ -83,5 +87,33 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                         mMovieDetailsView.showReviews(reviews);
                     }
                 });
+    }
+
+    @Override
+    public void showFavoriteButton(Movie movie)
+    {
+        boolean isFavorite = mFavoritesInteractor.isFavorite(movie.getId());
+        if(isFavorite)
+        {
+            mMovieDetailsView.showFavorited();
+        } else
+        {
+            mMovieDetailsView.showUnFavorited();
+        }
+    }
+
+    @Override
+    public void onFavoriteClick(Movie movie)
+    {
+        boolean isFavorite = mFavoritesInteractor.isFavorite(movie.getId());
+        if(isFavorite)
+        {
+            mFavoritesInteractor.unFavorite(movie.getId());
+            mMovieDetailsView.showUnFavorited();
+        } else
+        {
+            mFavoritesInteractor.setFavorite(movie);
+            mMovieDetailsView.showFavorited();
+        }
     }
 }

@@ -37,4 +37,11 @@ public class FavoritesInteractor implements IFavoritesInteractor
             return new ArrayList<>(0);
         }
     }
+
+    @Override
+    public void unFavorite(String id)
+    {
+        FavoritesStore favoritesStore = new FavoritesStore();
+        favoritesStore.unfavorite(id);
+    }
 }
