@@ -1,5 +1,6 @@
 package com.esoxjem.movieguide.details;
 
+import com.esoxjem.movieguide.entities.Review;
 import com.esoxjem.movieguide.entities.Video;
 
 import org.json.JSONArray;
@@ -22,6 +23,9 @@ public class MovieDetailsParser
     public static final String KEY = "key";
     public static final String SIZE = "size";
     public static final String TYPE = "type";
+    public static final String AUTHOR = "author";
+    public static final String CONTENT = "content";
+    public static final String URL = "url";
 
     public static List<Video> parseTrailers(String body) throws JSONException
     {
@@ -71,5 +75,45 @@ public class MovieDetailsParser
             }
         }
         return trailers;
+    }
+
+    public static List<Review> parseReviews(String body) throws JSONException
+    {
+        ArrayList<Review> reviews = new ArrayList<>(4);
+        JSONObject response = new JSONObject(body);
+
+        if(!response.isNull(RESULTS))
+        {
+            JSONArray results = response.getJSONArray(RESULTS);
+
+            for (int i = 0; i < results.length(); i++)
+            {
+                Review review = new Review();
+                JSONObject reviewJson = results.getJSONObject(i);
+
+                if(!reviewJson.isNull(ID))
+                {
+                    review.setId(reviewJson.getString(ID));
+                }
+
+                if(!reviewJson.isNull(AUTHOR))
+                {
+                    review.setAuthor(reviewJson.getString(AUTHOR));
+                }
+
+                if(!reviewJson.isNull(CONTENT))
+                {
+                    review.setContent(reviewJson.getString(CONTENT));
+                }
+
+                if(!reviewJson.isNull(URL))
+                {
+                    review.setUrl(reviewJson.getString(URL));
+                }
+
+                reviews.add(review);
+            }
+        }
+        return reviews;
     }
 }

@@ -6,4 +6,7 @@
     <string name="movie_guide">MovieGuide</string>
     <string name="trailers">Trailers</string>
     <string name="reviews">Reviews</string>
+    <string name="summary">Summary</string>
+    <string name="release_date">Release Date: %s</string>
+    <string name="rating">%s/10</string>
 </resources>

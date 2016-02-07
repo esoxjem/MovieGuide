@@ -22,10 +22,14 @@ import com.bumptech.glide.Glide;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.entities.Review;
 import com.esoxjem.movieguide.entities.Video;
+import com.esoxjem.movieguide.util.RxUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import rx.Subscription;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +45,9 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     private TextView mTrailerLabel;
     private HorizontalScrollView mTrailersScrollView;
     private LinearLayout mTrailersView;
+    private Subscription mTrailersSub;
+    private TextView mReviewsLabel;
+    private LinearLayout mReviewsView;
 
     public MovieDetailsFragment()
     {
@@ -97,6 +104,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         mTrailerLabel = (TextView) rootView.findViewById(R.id.trailers_label);
         mTrailersScrollView = (HorizontalScrollView) rootView.findViewById(R.id.trailers_container);
         mTrailersView = (LinearLayout) rootView.findViewById(R.id.trailers);
+        mReviewsLabel = (TextView) rootView.findViewById(R.id.reviews_label);
+        mReviewsView = (LinearLayout) rootView.findViewById(R.id.reviews);
     }
 
     private void setToolbar(View rootView)
@@ -130,10 +139,11 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         Glide.with(getContext()).load(movie.getBackdropPath()).into(mMoviePoster);
         mMovieTitle.setText(movie.getTitle());
-        mMovieReleaseDate.setText(movie.getReleaseDate());
-        mMovieRatingmRating.setText(String.valueOf(movie.getVoteAverage()));
+        mMovieReleaseDate.setText(String.format(getString(R.string.release_date), movie.getReleaseDate()));
+        mMovieRatingmRating.setText(String.format(getString(R.string.rating), String.valueOf(movie.getVoteAverage())));
         mMovieOverview.setText(movie.getOverview());
-        mMovieDetailsPresenter.showTrailers(movie);
+        mTrailersSub = mMovieDetailsPresenter.showTrailers(movie);
+        mMovieDetailsPresenter.showReviews(movie);
     }
 
     @Override
@@ -173,6 +183,34 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     }
 
     @Override
+    public void showReviews(List<Review> reviews)
+    {
+        if (reviews.isEmpty())
+        {
+            mReviewsLabel.setVisibility(View.GONE);
+            mReviewsView.setVisibility(View.GONE);
+        } else
+        {
+            mReviewsLabel.setVisibility(View.VISIBLE);
+            mReviewsView.setVisibility(View.VISIBLE);
+
+            mReviewsView.removeAllViews();
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            for (Review review : reviews)
+            {
+                ViewGroup reviewContainer = (ViewGroup) inflater.inflate(R.layout.review, mReviewsView,
+                        false);
+                TextView reviewAuthor = (TextView) reviewContainer.findViewById(R.id.review_author);
+                TextView reviewContent = (TextView) reviewContainer.findViewById(R.id.review_content);
+                reviewAuthor.setText(review.getAuthor());
+                reviewContent.setText(review.getContent());
+                reviewContent.setOnClickListener(this);
+                mReviewsView.addView(reviewContainer);
+            }
+        }
+    }
+
+    @Override
     public void onClick(View view)
     {
         switch (view.getId())
@@ -183,8 +221,26 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
                 startActivity(playVideoIntent);
                 break;
 
+            case R.id.review_content:
+                TextView review = (TextView) view;
+                if(review.getMaxLines() == 5)
+                {
+                    review.setMaxLines(500);
+                } else
+                {
+                    review.setMaxLines(5);
+                }
+                break;
+
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        RxUtils.unsubscribe(mTrailersSub);
+        super.onDestroyView();
     }
 }

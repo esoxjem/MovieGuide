@@ -11,4 +11,5 @@ public interface IMovieDetailsPresenter
 {
     void showDetails(Movie movie);
     Subscription showTrailers(Movie movie);
+    Subscription showReviews(Movie movie);
 }

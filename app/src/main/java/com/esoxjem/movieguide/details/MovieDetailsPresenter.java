@@ -1,6 +1,7 @@
 package com.esoxjem.movieguide.details;
 
 import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.entities.Review;
 import com.esoxjem.movieguide.entities.Video;
 
 import java.util.List;
@@ -53,6 +54,33 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     public void onNext(List<Video> videos)
                     {
                         mMovieDetailsView.showTrailers(videos);
+                    }
+                });
+    }
+
+    @Override
+    public Subscription showReviews(Movie movie)
+    {
+        return mMovieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Review>>()
+                {
+                    @Override
+                    public void onCompleted()
+                    {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Review> reviews)
+                    {
+                        mMovieDetailsView.showReviews(reviews);
                     }
                 });
     }
