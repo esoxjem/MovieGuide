@@ -1,7 +1,7 @@
 # MovieGuide
-An app that lists popular/highest-rated movies.
+An app that lists popular/highest-rated movies. Optimized for tablets.
 
-This app showcases the MVP pattern, RxJava and Uncle Bob Martin's Clean Architecture approach. It uses fragments to build a multi-pane UI optimized for tablets, Moshi for serialization, Glide and Picasso for Bitmap handling. 
+This app showcases the MVP pattern, RxJava and Uncle Bob Martin's Clean Architecture approach.
 
 Libraries used:
  - RxJava
