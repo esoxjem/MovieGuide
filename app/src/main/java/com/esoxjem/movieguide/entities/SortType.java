@@ -5,7 +5,7 @@ package com.esoxjem.movieguide.entities;
  */
 public enum SortType
 {
-    MOST_POPULAR(0), HIGHEST_RATED(1);
+    MOST_POPULAR(0), HIGHEST_RATED(1), FAVORITES(2);
 
     private final int value;
 

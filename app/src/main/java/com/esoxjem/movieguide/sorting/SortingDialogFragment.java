@@ -66,6 +66,13 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     }
 
     @Override
+    public void setFavoritesChecked()
+    {
+        RadioButton favorites = (RadioButton) mSortingOptionsGroup.findViewById(R.id.favorites);
+        favorites.setChecked(true);
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId)
     {
         switch (checkedId)
@@ -77,6 +84,11 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
 
             case R.id.highest_rated:
                 mSortingDialogPresenter.onHighestRatedMoviesSelected();
+                mMoviesListingPresenter.displayMovies();
+                break;
+
+            case R.id.favorites:
+                mSortingDialogPresenter.onFavoritesSelected();
                 mMoviesListingPresenter.displayMovies();
                 break;
         }

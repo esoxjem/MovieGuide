@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.esoxjem.movieguide.constants.Api;
 import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.entities.SortType;
+import com.esoxjem.movieguide.favorites.FavoritesInteractor;
+import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.esoxjem.movieguide.sorting.SortingOptionStore;
@@ -23,6 +25,13 @@ import rx.functions.Func0;
  */
 public class MoviesListingInteractor implements IMoviesListingInteractor
 {
+    private IFavoritesInteractor favoritesInteractor;
+
+    public MoviesListingInteractor()
+    {
+        favoritesInteractor = new FavoritesInteractor();
+    }
+
     @Override
     public Observable<List<Movie>> fetchMovies()
     {
@@ -42,27 +51,27 @@ public class MoviesListingInteractor implements IMoviesListingInteractor
 
             private List<Movie> get() throws IOException, JSONException
             {
-                String url = getMoviesUrl();
+                SortingOptionStore sortingOptionStore = new SortingOptionStore();
+                int selectedOption = sortingOptionStore.getSelectedOption();
+                if (selectedOption == SortType.MOST_POPULAR.getValue())
+                {
+                    return fetch(Api.GET_POPULAR_MOVIES);
+                } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
+                {
+                    return fetch(Api.GET_HIGHEST_RATED_MOVIES);
+                } else
+                {
+                    return favoritesInteractor.getFavorites();
+                }
+            }
+
+            @NonNull
+            private List<Movie> fetch(String url) throws IOException, JSONException
+            {
                 Request request = RequestGenerator.get(url);
                 String response = RequestHandler.request(request);
                 return MoviesListingParser.parse(response);
             }
         });
-    }
-
-    @NonNull
-    private String getMoviesUrl()
-    {
-        String url;
-        SortingOptionStore sortingOptionStore = new SortingOptionStore();
-        int selectedOption = sortingOptionStore.getSelectedOption();
-        if (selectedOption == SortType.MOST_POPULAR.getValue())
-        {
-            url = Api.GET_POPULAR_MOVIES;
-        } else
-        {
-            url = Api.GET_HIGHEST_RATED_MOVIES;
-        }
-        return url;
     }
 }

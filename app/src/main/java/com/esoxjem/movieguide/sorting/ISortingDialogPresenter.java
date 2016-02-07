@@ -10,4 +10,6 @@ public interface ISortingDialogPresenter
     void onPopularMoviesSelected();
 
     void onHighestRatedMoviesSelected();
+
+    void onFavoritesSelected();
 }

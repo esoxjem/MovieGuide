@@ -19,7 +19,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:text="Most Popular"/>
+            android:text="@string/most_popular"/>
 
         <RadioButton
             android:id="@+id/highest_rated"
@@ -29,6 +29,16 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:text="Highest Rated"/>
+            android:text="@string/highest_rated"/>
+
+        <RadioButton
+            android:id="@+id/favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/favorites"/>
     </RadioGroup>
 </LinearLayout>
