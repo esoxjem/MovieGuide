@@ -55,16 +55,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:id="@+id/movie_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:id="@+id/movie_description"
@@ -73,6 +73,12 @@
                 android:layout_margin="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
+
+            <include
+                layout="@layout/trailers_and_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
         </LinearLayout>
 
 

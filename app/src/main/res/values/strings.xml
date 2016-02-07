@@ -4,4 +4,6 @@
     <string name="loading_movies">Loading Movies</string>
     <string name="sort_by">Sort By</string>
     <string name="movie_guide">MovieGuide</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
 </resources>

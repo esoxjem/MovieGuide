@@ -1,6 +1,8 @@
 package com.esoxjem.movieguide.details;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -11,18 +13,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.entities.Video;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
+public class MovieDetailsFragment extends Fragment implements IMovieDetailsView, View.OnClickListener
 {
     private MovieDetailsPresenter mMovieDetailsPresenter;
     private ImageView mMoviePoster;
@@ -30,6 +38,9 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
     private TextView mMovieReleaseDate;
     private TextView mMovieRatingmRating;
     private TextView mMovieOverview;
+    private TextView mTrailerLabel;
+    private HorizontalScrollView mTrailersScrollView;
+    private LinearLayout mTrailersView;
 
     public MovieDetailsFragment()
     {
@@ -83,6 +94,9 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
         mMovieReleaseDate = (TextView) rootView.findViewById(R.id.movie_year);
         mMovieRatingmRating = (TextView) rootView.findViewById(R.id.movie_rating);
         mMovieOverview = (TextView) rootView.findViewById(R.id.movie_description);
+        mTrailerLabel = (TextView) rootView.findViewById(R.id.trailers_label);
+        mTrailersScrollView = (HorizontalScrollView) rootView.findViewById(R.id.trailers_container);
+        mTrailersView = (LinearLayout) rootView.findViewById(R.id.trailers);
     }
 
     private void setToolbar(View rootView)
@@ -107,7 +121,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
             }
         } else
         {
-            // Don't inflate. Tablet is landscape mode.
+            // Don't inflate. Tablet is in landscape mode.
         }
     }
 
@@ -119,5 +133,58 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView
         mMovieReleaseDate.setText(movie.getReleaseDate());
         mMovieRatingmRating.setText(String.valueOf(movie.getVoteAverage()));
         mMovieOverview.setText(movie.getOverview());
+        mMovieDetailsPresenter.showTrailers(movie);
+    }
+
+    @Override
+    public void showTrailers(List<Video> trailers)
+    {
+        if (trailers.isEmpty())
+        {
+            mTrailerLabel.setVisibility(View.GONE);
+            mTrailersView.setVisibility(View.GONE);
+            mTrailersScrollView.setVisibility(View.GONE);
+
+        } else
+        {
+            mTrailerLabel.setVisibility(View.VISIBLE);
+            mTrailersView.setVisibility(View.VISIBLE);
+            mTrailersScrollView.setVisibility(View.VISIBLE);
+
+            mTrailersView.removeAllViews();
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            Picasso picasso = Picasso.with(getContext());
+            for (Video trailer : trailers)
+            {
+                ViewGroup thumbContainer = (ViewGroup) inflater.inflate(R.layout.video, mTrailersView, false);
+                ImageView thumbView = (ImageView) thumbContainer.findViewById(R.id.video_thumb);
+                thumbView.setTag(Video.getUrl(trailer));
+                thumbView.requestLayout();
+                thumbView.setOnClickListener(this);
+                picasso
+                        .load(Video.getThumbnailUrl(trailer))
+                        .resizeDimen(R.dimen.video_width, R.dimen.video_height)
+                        .centerCrop()
+                        .placeholder(R.color.colorPrimary)
+                        .into(thumbView);
+                mTrailersView.addView(thumbContainer);
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.video_thumb:
+                String videoUrl = (String) view.getTag();
+                Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
+                startActivity(playVideoIntent);
+                break;
+
+            default:
+                break;
+        }
     }
 }

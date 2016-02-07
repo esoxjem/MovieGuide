@@ -82,6 +82,12 @@
                 android:layout_margin="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
+
+            <include
+                layout="@layout/trailers_and_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
         </LinearLayout>
 
 

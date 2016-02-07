@@ -8,4 +8,6 @@
     <dimen name="button_padding">16dp</dimen>
     <dimen name="primary_button_height">48dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="video_width">150dp</dimen>
+    <dimen name="video_height">150dp</dimen>
 </resources>

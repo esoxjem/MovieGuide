@@ -3,14 +3,19 @@ package com.esoxjem.movieguide.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Movie implements Parcelable
 {
+    private String id;
     private String overview;
     private String releaseDate;
     private String posterPath;
     private String backdropPath;
     private String title;
-    private Double voteAverage;
+    private double voteAverage;
+    private ArrayList<Video> trailer;
+    private ArrayList<Review> reviews;
 
     public Movie()
     {
@@ -19,12 +24,15 @@ public class Movie implements Parcelable
 
     protected Movie(Parcel in)
     {
+        id = in.readString();
         overview = in.readString();
         releaseDate = in.readString();
         posterPath = in.readString();
         backdropPath = in.readString();
         title = in.readString();
         voteAverage = in.readDouble();
+        trailer = in.createTypedArrayList(Video.CREATOR);
+        reviews = in.createTypedArrayList(Review.CREATOR);
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>()
@@ -41,6 +49,36 @@ public class Movie implements Parcelable
             return new Movie[size];
         }
     };
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public ArrayList<Video> getTrailer()
+    {
+        return trailer;
+    }
+
+    public void setTrailer(ArrayList<Video> trailer)
+    {
+        this.trailer = trailer;
+    }
+
+    public ArrayList<Review> getReviews()
+    {
+        return reviews;
+    }
+
+    public void setReviews(ArrayList<Review> reviews)
+    {
+        this.reviews = reviews;
+    }
 
     public String getOverview()
     {
@@ -92,12 +130,12 @@ public class Movie implements Parcelable
         this.title = title;
     }
 
-    public Double getVoteAverage()
+    public double getVoteAverage()
     {
         return voteAverage;
     }
 
-    public void setVoteAverage(Double voteAverage)
+    public void setVoteAverage(double voteAverage)
     {
         this.voteAverage = voteAverage;
     }
@@ -111,11 +149,14 @@ public class Movie implements Parcelable
     @Override
     public void writeToParcel(Parcel parcel, int i)
     {
+        parcel.writeString(id);
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
         parcel.writeString(posterPath);
         parcel.writeString(backdropPath);
         parcel.writeString(title);
         parcel.writeDouble(voteAverage);
+        parcel.writeTypedList(trailer);
+        parcel.writeTypedList(reviews);
     }
 }
