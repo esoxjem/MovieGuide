@@ -25,6 +25,7 @@ public class MoviesListingParser
     public static final String TITLE = "title";
     public static final String VOTE_AVERAGE = "vote_average";
     private static final String BACKDROP_PATH = "backdrop_path";
+    private static final String ID = "id";
 
     @NonNull
     public static List<Movie> parse(String json) throws JSONException
@@ -53,6 +54,11 @@ public class MoviesListingParser
     private static Movie getMovie(JSONObject result) throws JSONException
     {
         Movie movie = new Movie();
+
+        if(!result.isNull(ID))
+        {
+            movie.setId(result.getString(ID));
+        }
 
         if(!result.isNull(OVERVIEW))
         {

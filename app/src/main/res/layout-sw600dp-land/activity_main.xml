@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".listing.MoviesListingActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:divider="?android:attr/dividerHorizontal"
+                  android:orientation="horizontal">
+
+        <fragment
+            android:id="@+id/fragment_listing"
+            android:name="com.esoxjem.movieguide.listing.MoviesListingFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            tools:layout="@android:layout/list_content"/>
+
+        <FrameLayout
+            android:id="@+id/movie_details_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"/>
+        </LinearLayout>
+
+</LinearLayout>

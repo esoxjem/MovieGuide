@@ -49,4 +49,5 @@ dependencies {
 
     // Other
     compile 'net.jcip:jcip-annotations:1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
