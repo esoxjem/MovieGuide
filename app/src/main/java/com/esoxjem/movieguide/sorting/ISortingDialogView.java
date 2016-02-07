@@ -9,6 +9,8 @@ public interface ISortingDialogView
 
     void setHighestRatedChecked();
 
+    void setFavoritesChecked();
+
     void dismissDialog();
 
 }

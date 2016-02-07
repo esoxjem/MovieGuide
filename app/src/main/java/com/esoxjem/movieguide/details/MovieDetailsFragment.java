@@ -3,9 +3,11 @@ package com.esoxjem.movieguide.details;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +50,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     private Subscription mTrailersSub;
     private TextView mReviewsLabel;
     private LinearLayout mReviewsView;
+    private FloatingActionButton mFavorite;
+    private Movie mMovie;
 
     public MovieDetailsFragment()
     {
@@ -89,7 +93,9 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             Movie movie = (Movie) getArguments().get(Constants.MOVIE);
             if (movie != null)
             {
+                mMovie = movie;
                 mMovieDetailsPresenter.showDetails((movie));
+                mMovieDetailsPresenter.showFavoriteButton(movie);
             }
         }
     }
@@ -106,6 +112,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         mTrailersView = (LinearLayout) rootView.findViewById(R.id.trailers);
         mReviewsLabel = (TextView) rootView.findViewById(R.id.reviews_label);
         mReviewsView = (LinearLayout) rootView.findViewById(R.id.reviews);
+        mFavorite = (FloatingActionButton) rootView.findViewById(R.id.favorite);
+        mFavorite.setOnClickListener(this);
     }
 
     private void setToolbar(View rootView)
@@ -211,6 +219,30 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     }
 
     @Override
+    public void showFavorited()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp, getContext().getTheme()));
+        } else
+        {
+            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+        }
+    }
+
+    @Override
+    public void showUnFavorited()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp, getContext().getTheme()));
+        } else
+        {
+            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp));
+        }
+    }
+
+    @Override
     public void onClick(View view)
     {
         switch (view.getId())
@@ -223,7 +255,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
 
             case R.id.review_content:
                 TextView review = (TextView) view;
-                if(review.getMaxLines() == 5)
+                if (review.getMaxLines() == 5)
                 {
                     review.setMaxLines(500);
                 } else
@@ -232,9 +264,18 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
                 }
                 break;
 
+            case R.id.favorite:
+                onFavoriteClick();
+                break;
+
             default:
                 break;
         }
+    }
+
+    private void onFavoriteClick()
+    {
+        mMovieDetailsPresenter.onFavoriteClick(mMovie);
     }
 
     @Override

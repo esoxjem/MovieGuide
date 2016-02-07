@@ -24,9 +24,12 @@ public class SortingDialogPresenter implements ISortingDialogPresenter
         if (selectedOption == SortType.MOST_POPULAR.getValue())
         {
             mSortingDialogView.setPopularChecked();
-        } else
+        } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
         {
             mSortingDialogView.setHighestRatedChecked();
+        } else
+        {
+            mSortingDialogView.setFavoritesChecked();
         }
     }
 
@@ -41,6 +44,13 @@ public class SortingDialogPresenter implements ISortingDialogPresenter
     public void onHighestRatedMoviesSelected()
     {
         mSortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED);
+        mSortingDialogView.dismissDialog();
+    }
+
+    @Override
+    public void onFavoritesSelected()
+    {
+        mSortingDialogInteractor.setSortingOption(SortType.FAVORITES);
         mSortingDialogView.dismissDialog();
     }
 }

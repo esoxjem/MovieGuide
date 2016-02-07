@@ -3,8 +3,6 @@ package com.esoxjem.movieguide.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-
 public class Movie implements Parcelable
 {
     private String id;
@@ -14,8 +12,6 @@ public class Movie implements Parcelable
     private String backdropPath;
     private String title;
     private double voteAverage;
-    private ArrayList<Video> trailer;
-    private ArrayList<Review> reviews;
 
     public Movie()
     {
@@ -31,8 +27,6 @@ public class Movie implements Parcelable
         backdropPath = in.readString();
         title = in.readString();
         voteAverage = in.readDouble();
-        trailer = in.createTypedArrayList(Video.CREATOR);
-        reviews = in.createTypedArrayList(Review.CREATOR);
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>()
@@ -58,26 +52,6 @@ public class Movie implements Parcelable
     public void setId(String id)
     {
         this.id = id;
-    }
-
-    public ArrayList<Video> getTrailer()
-    {
-        return trailer;
-    }
-
-    public void setTrailer(ArrayList<Video> trailer)
-    {
-        this.trailer = trailer;
-    }
-
-    public ArrayList<Review> getReviews()
-    {
-        return reviews;
-    }
-
-    public void setReviews(ArrayList<Review> reviews)
-    {
-        this.reviews = reviews;
     }
 
     public String getOverview()
@@ -156,7 +130,5 @@ public class Movie implements Parcelable
         parcel.writeString(backdropPath);
         parcel.writeString(title);
         parcel.writeDouble(voteAverage);
-        parcel.writeTypedList(trailer);
-        parcel.writeTypedList(reviews);
     }
 }
