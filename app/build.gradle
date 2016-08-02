@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.esoxjem.movieguide"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -31,10 +32,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //Support
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:support-annotations:23.1.1'
-    compile 'com.android.support:palette-v7:23.1.1'
+    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:support-annotations:24.1.1'
+    compile 'com.android.support:palette-v7:24.1.1'
 
     // Rx
     compile 'io.reactivex:rxandroid:1.0.1'
@@ -51,4 +52,9 @@ dependencies {
     compile 'net.jcip:jcip-annotations:1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.moshi:moshi:1.1.0'
+
+    // dependency injection
+    apt 'com.google.dagger:dagger-compiler:2.5'
+    compile 'com.google.dagger:dagger:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
