@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 public class BaseApplication extends Application
 {
     private static Context appContext;
+    private AppComponent appComponent;
 
     @Override
     public void onCreate()
@@ -18,11 +19,19 @@ public class BaseApplication extends Application
         super.onCreate();
         StrictMode.enableDefaults();
         appContext = getApplicationContext();
+        appComponent = DaggerAppComponent.builder()
+                .appnModule(new AppModule(this))
+                .build();
     }
 
     @NonNull
     public static Context getAppContext()
     {
         return appContext;
+    }
+
+    public AppComponent getAppComponent()
+    {
+        return appComponent;
     }
 }

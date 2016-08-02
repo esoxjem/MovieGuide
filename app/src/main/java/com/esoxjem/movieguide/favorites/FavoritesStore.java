@@ -1,5 +1,6 @@
 package com.esoxjem.movieguide.favorites;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -13,18 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 /**
  * @author arun
  */
 public class FavoritesStore
 {
+
+    @Inject
+    Context context;
+
     private SharedPreferences pref;
     private static final int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "FavoritesStore";
 
     public FavoritesStore()
     {
-        pref = BaseApplication.getAppContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        ((BaseApplication) Application).getAppComponent().inject(this);
+
+        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
     }
 
     public void setFavorite(Movie movie)
