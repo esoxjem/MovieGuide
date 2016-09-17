@@ -15,7 +15,7 @@ public class FavoritesInteractor implements IFavoritesInteractor
 
     public FavoritesInteractor(FavoritesStore store)
     {
-        this.favoritesStore = store;
+        favoritesStore = store;
     }
 
     @Override

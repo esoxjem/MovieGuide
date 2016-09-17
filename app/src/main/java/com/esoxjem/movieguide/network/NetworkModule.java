@@ -1,6 +1,5 @@
 package com.esoxjem.movieguide.network;
 
-import com.esoxjem.movieguide.network.RequestHandler;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.net.CookieHandler;

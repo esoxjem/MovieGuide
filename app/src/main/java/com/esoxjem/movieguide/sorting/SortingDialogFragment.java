@@ -14,7 +14,6 @@ import android.widget.RadioGroup;
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.listing.IMoviesListingPresenter;
-import com.esoxjem.movieguide.listing.MoviesListingPresenter;
 
 import javax.inject.Inject;
 
@@ -23,13 +22,15 @@ import javax.inject.Inject;
  */
 public class SortingDialogFragment extends DialogFragment implements ISortingDialogView, RadioGroup.OnCheckedChangeListener
 {
-    private RadioGroup mSortingOptionsGroup;
-    private static IMoviesListingPresenter mMoviesListingPresenter;
-    @Inject ISortingDialogPresenter mSortingDialogPresenter;
+    @Inject
+    ISortingDialogPresenter sortingDialogPresenter;
+
+    private RadioGroup sortingOptionsGroup;
+    private static IMoviesListingPresenter moviesListingPresenter;
 
     public static SortingDialogFragment newInstance(IMoviesListingPresenter moviesListingPresenter)
     {
-        mMoviesListingPresenter = moviesListingPresenter;
+        SortingDialogFragment.moviesListingPresenter = moviesListingPresenter;
         return new SortingDialogFragment();
     }
 
@@ -39,7 +40,7 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         BaseApplication.getAppComponent(getContext()).inject(this);
-        mSortingDialogPresenter.setView(this);
+        sortingDialogPresenter.setView(this);
     }
 
     @NonNull
@@ -59,29 +60,29 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
 
     private void initViews(View dialogView)
     {
-        mSortingOptionsGroup = (RadioGroup) dialogView.findViewById(R.id.sorting_group);
-        mSortingDialogPresenter.setLastSavedOption();
-        mSortingOptionsGroup.setOnCheckedChangeListener(this);
+        sortingOptionsGroup = (RadioGroup) dialogView.findViewById(R.id.sorting_group);
+        sortingDialogPresenter.setLastSavedOption();
+        sortingOptionsGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void setPopularChecked()
     {
-        RadioButton popular = (RadioButton) mSortingOptionsGroup.findViewById(R.id.most_popular);
+        RadioButton popular = (RadioButton) sortingOptionsGroup.findViewById(R.id.most_popular);
         popular.setChecked(true);
     }
 
     @Override
     public void setHighestRatedChecked()
     {
-        RadioButton highestRated = (RadioButton) mSortingOptionsGroup.findViewById(R.id.highest_rated);
+        RadioButton highestRated = (RadioButton) sortingOptionsGroup.findViewById(R.id.highest_rated);
         highestRated.setChecked(true);
     }
 
     @Override
     public void setFavoritesChecked()
     {
-        RadioButton favorites = (RadioButton) mSortingOptionsGroup.findViewById(R.id.favorites);
+        RadioButton favorites = (RadioButton) sortingOptionsGroup.findViewById(R.id.favorites);
         favorites.setChecked(true);
     }
 
@@ -91,18 +92,18 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         switch (checkedId)
         {
             case R.id.most_popular:
-                mSortingDialogPresenter.onPopularMoviesSelected();
-                mMoviesListingPresenter.displayMovies();
+                sortingDialogPresenter.onPopularMoviesSelected();
+                moviesListingPresenter.displayMovies();
                 break;
 
             case R.id.highest_rated:
-                mSortingDialogPresenter.onHighestRatedMoviesSelected();
-                mMoviesListingPresenter.displayMovies();
+                sortingDialogPresenter.onHighestRatedMoviesSelected();
+                moviesListingPresenter.displayMovies();
                 break;
 
             case R.id.favorites:
-                mSortingDialogPresenter.onFavoritesSelected();
-                mMoviesListingPresenter.displayMovies();
+                sortingDialogPresenter.onFavoritesSelected();
+                moviesListingPresenter.displayMovies();
                 break;
         }
     }

@@ -17,32 +17,32 @@ import rx.schedulers.Schedulers;
  */
 public class MovieDetailsPresenter implements IMovieDetailsPresenter
 {
-    private IMovieDetailsView mMovieDetailsView;
-    private IMovieDetailsInteractor mMovieDetailsInteractor;
-    private IFavoritesInteractor mFavoritesInteractor;
+    private IMovieDetailsView movieDetailsView;
+    private IMovieDetailsInteractor movieDetailsInteractor;
+    private IFavoritesInteractor favoritesInteractor;
 
     public MovieDetailsPresenter(IMovieDetailsInteractor movieDetailsInteractor, IFavoritesInteractor favoritesInteractor)
     {
-        mMovieDetailsInteractor = movieDetailsInteractor;
-        mFavoritesInteractor = favoritesInteractor;
+        this.movieDetailsInteractor = movieDetailsInteractor;
+        this.favoritesInteractor = favoritesInteractor;
     }
 
     @Override
     public void setView(IMovieDetailsView view)
     {
-        mMovieDetailsView = view;
+        movieDetailsView = view;
     }
 
     @Override
     public void showDetails(Movie movie)
     {
-        mMovieDetailsView.showDetails(movie);
+        movieDetailsView.showDetails(movie);
     }
 
     @Override
     public Subscription showTrailers(Movie movie)
     {
-        return mMovieDetailsInteractor.getTrailers(movie.getId()).subscribeOn(Schedulers.io())
+        return movieDetailsInteractor.getTrailers(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Video>>()
                 {
@@ -61,7 +61,7 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     @Override
                     public void onNext(List<Video> videos)
                     {
-                        mMovieDetailsView.showTrailers(videos);
+                        movieDetailsView.showTrailers(videos);
                     }
                 });
     }
@@ -69,7 +69,7 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     @Override
     public Subscription showReviews(Movie movie)
     {
-        return mMovieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
+        return movieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Review>>()
                 {
@@ -88,7 +88,7 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     @Override
                     public void onNext(List<Review> reviews)
                     {
-                        mMovieDetailsView.showReviews(reviews);
+                        movieDetailsView.showReviews(reviews);
                     }
                 });
     }
@@ -96,28 +96,28 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     @Override
     public void showFavoriteButton(Movie movie)
     {
-        boolean isFavorite = mFavoritesInteractor.isFavorite(movie.getId());
+        boolean isFavorite = favoritesInteractor.isFavorite(movie.getId());
         if(isFavorite)
         {
-            mMovieDetailsView.showFavorited();
+            movieDetailsView.showFavorited();
         } else
         {
-            mMovieDetailsView.showUnFavorited();
+            movieDetailsView.showUnFavorited();
         }
     }
 
     @Override
     public void onFavoriteClick(Movie movie)
     {
-        boolean isFavorite = mFavoritesInteractor.isFavorite(movie.getId());
+        boolean isFavorite = favoritesInteractor.isFavorite(movie.getId());
         if(isFavorite)
         {
-            mFavoritesInteractor.unFavorite(movie.getId());
-            mMovieDetailsView.showUnFavorited();
+            favoritesInteractor.unFavorite(movie.getId());
+            movieDetailsView.showUnFavorited();
         } else
         {
-            mFavoritesInteractor.setFavorite(movie);
-            mMovieDetailsView.showFavorited();
+            favoritesInteractor.setFavorite(movie);
+            movieDetailsView.showFavorited();
         }
     }
 }

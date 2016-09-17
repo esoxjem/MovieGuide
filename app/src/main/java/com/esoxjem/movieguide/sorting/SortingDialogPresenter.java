@@ -13,9 +13,10 @@ public class SortingDialogPresenter implements ISortingDialogPresenter
         sortingDialogInteractor = interactor;
     }
 
+    @Override
     public void setView(ISortingDialogView view)
     {
-        this.sortingDialogView = view;
+        sortingDialogView = view;
     }
 
     @Override

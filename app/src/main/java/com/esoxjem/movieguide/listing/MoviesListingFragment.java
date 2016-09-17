@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.esoxjem.movieguide.BaseApplication;
-import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 
 import java.util.ArrayList;
@@ -28,11 +28,13 @@ import rx.Subscription;
 
 public class MoviesListingFragment extends Fragment implements IMoviesListingView
 {
-    private RecyclerView.Adapter mAdapter;
-    private List<Movie> mMovies = new ArrayList<>(20);
-    @Inject IMoviesListingPresenter moviesPresenter;
-    private Subscription mMoviesSubscription;
-    private Callback mCallback;
+    @Inject
+    IMoviesListingPresenter moviesPresenter;
+
+    private RecyclerView.Adapter adapter;
+    private List<Movie> movies = new ArrayList<>(20);
+    private Subscription moviesSubscription;
+    private Callback callback;
 
     public MoviesListingFragment()
     {
@@ -43,7 +45,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        mCallback = (Callback) context;
+        callback = (Callback) context;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        mMoviesSubscription = moviesPresenter.displayMovies();
+        moviesSubscription = moviesPresenter.displayMovies();
     }
 
     @Override
@@ -105,17 +107,17 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
 
         moviesListing.setLayoutManager(layoutManager);
-        mAdapter = new MoviesListingAdapter(mMovies, this);
-        moviesListing.setAdapter(mAdapter);
+        adapter = new MoviesListingAdapter(movies, this);
+        moviesListing.setAdapter(adapter);
     }
 
     @Override
     public void showMovies(List<Movie> movies)
     {
-        mMovies.clear();
-        mMovies.addAll(movies);
-        mAdapter.notifyDataSetChanged();
-        mCallback.onMoviesLoaded(movies.get(0));
+        this.movies.clear();
+        this.movies.addAll(movies);
+        adapter.notifyDataSetChanged();
+        callback.onMoviesLoaded(movies.get(0));
     }
 
     @Override
@@ -133,15 +135,15 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void onMovieClicked(Movie movie)
     {
-        mCallback.onMovieClicked(movie);
+        callback.onMovieClicked(movie);
     }
 
     @Override
     public void onDestroyView()
     {
-        if (mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
+        if (moviesSubscription != null && !moviesSubscription.isUnsubscribed())
         {
-            mMoviesSubscription.unsubscribe();
+            moviesSubscription.unsubscribe();
         }
 
         super.onDestroyView();
@@ -150,13 +152,14 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void onDetach()
     {
-        mCallback = null;
+        callback = null;
         super.onDetach();
     }
 
     public interface Callback
     {
         void onMoviesLoaded(Movie movie);
+
         void onMovieClicked(Movie movie);
     }
 }

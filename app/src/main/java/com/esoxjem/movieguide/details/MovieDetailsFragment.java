@@ -42,11 +42,12 @@ import rx.Subscription;
 public class MovieDetailsFragment extends Fragment implements IMovieDetailsView, View.OnClickListener
 {
     @Inject
-    IMovieDetailsPresenter mMovieDetailsPresenter;
-    private ImageView mMoviePoster;
-    private TextView mMovieTitle;
-    private TextView mMovieReleaseDate;
-    private TextView mMovieRatingmRating;
+    IMovieDetailsPresenter movieDetailsPresenter;
+
+    private ImageView poster;
+    private TextView title;
+    private TextView releaseDate;
+    private TextView rating;
     private TextView mMovieOverview;
     private TextView mTrailerLabel;
     private HorizontalScrollView mTrailersScrollView;
@@ -77,7 +78,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         BaseApplication.getAppComponent(getContext()).inject(this);
-        mMovieDetailsPresenter.setView(this);
+        movieDetailsPresenter.setView(this);
     }
 
     @Override
@@ -100,18 +101,18 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             if (movie != null)
             {
                 mMovie = movie;
-                mMovieDetailsPresenter.showDetails((movie));
-                mMovieDetailsPresenter.showFavoriteButton(movie);
+                movieDetailsPresenter.showDetails((movie));
+                movieDetailsPresenter.showFavoriteButton(movie);
             }
         }
     }
 
     private void initLayoutReferences(View rootView)
     {
-        mMoviePoster = (ImageView) rootView.findViewById(R.id.movie_poster);
-        mMovieTitle = (TextView) rootView.findViewById(R.id.movie_name);
-        mMovieReleaseDate = (TextView) rootView.findViewById(R.id.movie_year);
-        mMovieRatingmRating = (TextView) rootView.findViewById(R.id.movie_rating);
+        poster = (ImageView) rootView.findViewById(R.id.movie_poster);
+        title = (TextView) rootView.findViewById(R.id.movie_name);
+        releaseDate = (TextView) rootView.findViewById(R.id.movie_year);
+        rating = (TextView) rootView.findViewById(R.id.movie_rating);
         mMovieOverview = (TextView) rootView.findViewById(R.id.movie_description);
         mTrailerLabel = (TextView) rootView.findViewById(R.id.trailers_label);
         mTrailersScrollView = (HorizontalScrollView) rootView.findViewById(R.id.trailers_container);
@@ -151,13 +152,13 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     @Override
     public void showDetails(Movie movie)
     {
-        Glide.with(getContext()).load(movie.getBackdropPath()).into(mMoviePoster);
-        mMovieTitle.setText(movie.getTitle());
-        mMovieReleaseDate.setText(String.format(getString(R.string.release_date), movie.getReleaseDate()));
-        mMovieRatingmRating.setText(String.format(getString(R.string.rating), String.valueOf(movie.getVoteAverage())));
+        Glide.with(getContext()).load(movie.getBackdropPath()).into(poster);
+        title.setText(movie.getTitle());
+        releaseDate.setText(String.format(getString(R.string.release_date), movie.getReleaseDate()));
+        rating.setText(String.format(getString(R.string.rating), String.valueOf(movie.getVoteAverage())));
         mMovieOverview.setText(movie.getOverview());
-        mTrailersSub = mMovieDetailsPresenter.showTrailers(movie);
-        mMovieDetailsPresenter.showReviews(movie);
+        mTrailersSub = movieDetailsPresenter.showTrailers(movie);
+        movieDetailsPresenter.showReviews(movie);
     }
 
     @Override
@@ -281,7 +282,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
 
     private void onFavoriteClick()
     {
-        mMovieDetailsPresenter.onFavoriteClick(mMovie);
+        movieDetailsPresenter.onFavoriteClick(mMovie);
     }
 
     @Override

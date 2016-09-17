@@ -15,31 +15,31 @@ import rx.schedulers.Schedulers;
  */
 public class MoviesListingPresenter implements IMoviesListingPresenter
 {
-    private IMoviesListingView mMoviesView;
-    private IMoviesListingInteractor mMoviesInteractor;
+    private IMoviesListingView view;
+    private IMoviesListingInteractor moviesInteractor;
 
     public MoviesListingPresenter(IMoviesListingInteractor interactor)
     {
-        mMoviesInteractor = interactor;
+        moviesInteractor = interactor;
     }
 
     @Override
     public void setView(IMoviesListingView view)
     {
-        mMoviesView = view;
+        this.view = view;
     }
 
     @Override
     public Subscription displayMovies()
     {
-        return mMoviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
+        return moviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0()
                 {
                     @Override
                     public void call()
                     {
-                        mMoviesView.loadingStarted();
+                        view.loadingStarted();
                     }
                 })
                 .subscribe(new Subscriber<List<Movie>>()
@@ -53,13 +53,13 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
                     @Override
                     public void onError(Throwable e)
                     {
-                        mMoviesView.loadingFailed(e.getMessage());
+                        view.loadingFailed(e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<Movie> movies)
                     {
-                        mMoviesView.showMovies(movies);
+                        view.showMovies(movies);
                     }
                 });
     }

@@ -1,8 +1,8 @@
 package com.esoxjem.movieguide.details;
 
 import com.esoxjem.movieguide.favorites.FavoritesModule;
-import com.esoxjem.movieguide.network.NetworkModule;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
+import com.esoxjem.movieguide.network.NetworkModule;
 import com.esoxjem.movieguide.network.RequestHandler;
 
 import javax.inject.Singleton;

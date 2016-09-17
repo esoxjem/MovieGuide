@@ -5,22 +5,22 @@ package com.esoxjem.movieguide.sorting;
  */
 public class SortingDialogInteractor implements ISortingDialogInteractor
 {
-    private SortingOptionStore mSortingOptionStore;
+    private SortingOptionStore sortingOptionStore;
 
     public SortingDialogInteractor(SortingOptionStore store)
     {
-        mSortingOptionStore = store;
+        sortingOptionStore = store;
     }
 
     @Override
     public int getSelectedSortingOption()
     {
-        return mSortingOptionStore.getSelectedOption();
+        return sortingOptionStore.getSelectedOption();
     }
 
     @Override
     public void setSortingOption(SortType sortType)
     {
-        mSortingOptionStore.setSelectedOption(sortType);
+        sortingOptionStore.setSelectedOption(sortType);
     }
 }

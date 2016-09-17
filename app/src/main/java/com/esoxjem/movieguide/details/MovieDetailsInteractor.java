@@ -20,11 +20,11 @@ import rx.functions.Func0;
  */
 public class MovieDetailsInteractor implements IMovieDetailsInteractor
 {
-    private RequestHandler mRequestHandler;
+    private RequestHandler requestHandler;
 
     public MovieDetailsInteractor(RequestHandler requestHandler)
     {
-        mRequestHandler = requestHandler;
+        this.requestHandler = requestHandler;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MovieDetailsInteractor implements IMovieDetailsInteractor
             {
                 String url = String.format(Api.GET_TRAILERS, id);
                 Request request = RequestGenerator.get(url);
-                String body = mRequestHandler.request(request);
+                String body = requestHandler.request(request);
                 return MovieDetailsParser.parseTrailers(body);
             }
         });
@@ -75,7 +75,7 @@ public class MovieDetailsInteractor implements IMovieDetailsInteractor
             {
                 String url = String.format(Api.GET_REVIEWS, id);
                 Request request = RequestGenerator.get(url);
-                String body = mRequestHandler.request(request);
+                String body = requestHandler.request(request);
                 return MovieDetailsParser.parseReviews(body);
             }
         });
