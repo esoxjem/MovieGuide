@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.StrictMode;
 
 import com.esoxjem.movieguide.di.AppComponent;
+import com.esoxjem.movieguide.di.AppModule;
 import com.esoxjem.movieguide.di.DaggerAppComponent;
 import com.esoxjem.movieguide.di.DetailsModule;
 import com.esoxjem.movieguide.di.FavoritesModule;
@@ -17,7 +18,7 @@ import com.esoxjem.movieguide.di.SortingModule;
  */
 public class BaseApplication extends Application
 {
-    AppComponent component;
+    private AppComponent component;
 
     @Override
     public void onCreate()
@@ -30,6 +31,7 @@ public class BaseApplication extends Application
         BaseApplication app = (BaseApplication) context.getApplicationContext();
         if (app.component == null) {
             app.component = DaggerAppComponent.builder()
+                    .appModule(app.getAppModule())
                     .networkModule(app.getNetworkModule())
                     .detailsModule(app.getDetailsModule())
                     .favoritesModule(app.getFavoritesModule())
@@ -40,6 +42,11 @@ public class BaseApplication extends Application
         return app.component;
     }
 
+    private AppModule getAppModule()
+    {
+        return new AppModule(this);
+    }
+
     private DetailsModule getDetailsModule()
     {
         return new DetailsModule();
@@ -47,7 +54,7 @@ public class BaseApplication extends Application
 
     private FavoritesModule getFavoritesModule()
     {
-        return new FavoritesModule(this);
+        return new FavoritesModule();
     }
 
     private ListingModule getListingModule()
@@ -57,7 +64,7 @@ public class BaseApplication extends Application
 
     private SortingModule getSortingModule()
     {
-        return new SortingModule(this);
+        return new SortingModule();
     }
 
     private NetworkModule getNetworkModule()

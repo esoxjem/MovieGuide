@@ -19,25 +19,9 @@ import dagger.Provides;
 /**
  * Created by pulkitkumar on 17/09/16.
  */
-@Module
+@Module(includes = AppModule.class)
 public class SortingModule
 {
-    private Application app;
-    private static final String PREF_NAME = "SortingOptionStore";
-
-    public SortingModule(Application app)
-    {
-        this.app = app;
-    }
-
-    @Provides
-    @Singleton
-    SortingOptionStore providesSortingOptionStore()
-    {
-        SharedPreferences pref = app.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return new SortingOptionStore(pref);
-    }
-
     @Provides
     @Singleton
     ISortingDialogInteractor providesSortingDialogInteractor(SortingOptionStore store)

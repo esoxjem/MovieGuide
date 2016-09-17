@@ -1,5 +1,6 @@
 package com.esoxjem.movieguide.sorting;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.esoxjem.movieguide.BaseApplication;
@@ -17,9 +18,9 @@ public class SortingOptionStore
     private static final String SELECTED_OPTION = "selectedOption";
     private static final String PREF_NAME = "SortingOptionStore";
 
-    public SortingOptionStore(SharedPreferences pref)
+    @Inject public SortingOptionStore(Context context)
     {
-        this.pref = pref;
+        pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
     public void setSelectedOption(SortType sortType)
