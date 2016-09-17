@@ -1,28 +1,26 @@
 package com.esoxjem.movieguide.sorting;
 
-import com.esoxjem.movieguide.entities.SortType;
-
 /**
  * @author arun
  */
 public class SortingDialogInteractor implements ISortingDialogInteractor
 {
-    private SortingOptionStore mSortingOptionStore;
+    private SortingOptionStore sortingOptionStore;
 
-    public SortingDialogInteractor()
+    public SortingDialogInteractor(SortingOptionStore store)
     {
-        mSortingOptionStore = new SortingOptionStore();
+        sortingOptionStore = store;
     }
 
     @Override
     public int getSelectedSortingOption()
     {
-        return mSortingOptionStore.getSelectedOption();
+        return sortingOptionStore.getSelectedOption();
     }
 
     @Override
     public void setSortingOption(SortType sortType)
     {
-        mSortingOptionStore.setSelectedOption(sortType);
+        sortingOptionStore.setSelectedOption(sortType);
     }
 }

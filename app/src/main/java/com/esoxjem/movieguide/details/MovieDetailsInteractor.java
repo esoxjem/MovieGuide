@@ -1,8 +1,8 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.constants.Api;
-import com.esoxjem.movieguide.entities.Review;
-import com.esoxjem.movieguide.entities.Video;
+import com.esoxjem.movieguide.Api;
+import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.squareup.okhttp.Request;
@@ -20,6 +20,13 @@ import rx.functions.Func0;
  */
 public class MovieDetailsInteractor implements IMovieDetailsInteractor
 {
+    private RequestHandler requestHandler;
+
+    public MovieDetailsInteractor(RequestHandler requestHandler)
+    {
+        this.requestHandler = requestHandler;
+    }
+
     @Override
     public Observable<List<Video>> getTrailers(final String id)
     {
@@ -41,7 +48,7 @@ public class MovieDetailsInteractor implements IMovieDetailsInteractor
             {
                 String url = String.format(Api.GET_TRAILERS, id);
                 Request request = RequestGenerator.get(url);
-                String body = RequestHandler.request(request);
+                String body = requestHandler.request(request);
                 return MovieDetailsParser.parseTrailers(body);
             }
         });
@@ -68,7 +75,7 @@ public class MovieDetailsInteractor implements IMovieDetailsInteractor
             {
                 String url = String.format(Api.GET_REVIEWS, id);
                 Request request = RequestGenerator.get(url);
-                String body = RequestHandler.request(request);
+                String body = requestHandler.request(request);
                 return MovieDetailsParser.parseReviews(body);
             }
         });

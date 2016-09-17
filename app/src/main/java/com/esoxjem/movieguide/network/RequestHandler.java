@@ -10,11 +10,17 @@ import java.io.IOException;
 
 public class RequestHandler
 {
-    public static String request(Request request) throws IOException
+    private OkHttpClient okHttpClient;
+
+    public RequestHandler(OkHttpClient okHttpClient)
+    {
+        this.okHttpClient = okHttpClient;
+    }
+
+    public String request(Request request) throws IOException
     {
         Log.i("HTTP", request.method() + " : " + request.urlString());
-        OkHttpClient httpClient = HttpClientFactory.getClient();
-        Response response = httpClient.newCall(request).execute();
+        Response response = okHttpClient.newCall(request).execute();
         String body = response.body().string();
         Log.i("HTTP", response.code() + " : " + body);
 

@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.entities;
+package com.esoxjem.movieguide.sorting;
 
 /**
  * @author arun

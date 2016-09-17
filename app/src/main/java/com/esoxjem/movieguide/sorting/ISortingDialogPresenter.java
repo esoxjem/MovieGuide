@@ -12,4 +12,8 @@ public interface ISortingDialogPresenter
     void onHighestRatedMoviesSelected();
 
     void onFavoritesSelected();
+
+    void setView(ISortingDialogView view);
+
+    void destroy();
 }

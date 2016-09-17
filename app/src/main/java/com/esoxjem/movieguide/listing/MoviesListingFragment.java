@@ -14,22 +14,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.esoxjem.movieguide.BaseApplication;
+import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscription;
+import javax.inject.Inject;
 
 public class MoviesListingFragment extends Fragment implements IMoviesListingView
 {
-    private RecyclerView.Adapter mAdapter;
-    private List<Movie> mMovies = new ArrayList<>(20);
-    private MoviesListingPresenter mMoviesPresenter;
-    private Subscription mMoviesSubscription;
-    private Callback mCallback;
+    @Inject
+    IMoviesListingPresenter moviesPresenter;
+
+    private RecyclerView.Adapter adapter;
+    private List<Movie> movies = new ArrayList<>(20);
+    private Callback callback;
 
     public MoviesListingFragment()
     {
@@ -40,15 +42,17 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        mCallback = (Callback) context;
+        callback = (Callback) context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mMoviesPresenter = new MoviesListingPresenter(this);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
+        BaseApplication.getAppComponent(getContext()).inject(this);
+        moviesPresenter.setView(this);
     }
 
     @Override
@@ -63,7 +67,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        mMoviesSubscription = mMoviesPresenter.displayMovies();
+        moviesPresenter.displayMovies();
     }
 
     @Override
@@ -80,7 +84,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
 
     private void displaySortingOptions()
     {
-        DialogFragment sortingDialogFragment = SortingDialogFragment.newInstance(mMoviesPresenter);
+        DialogFragment sortingDialogFragment = SortingDialogFragment.newInstance(moviesPresenter);
         sortingDialogFragment.show(getFragmentManager(), "Select Quantity");
     }
 
@@ -100,17 +104,17 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
 
         moviesListing.setLayoutManager(layoutManager);
-        mAdapter = new MoviesListingAdapter(mMovies, this);
-        moviesListing.setAdapter(mAdapter);
+        adapter = new MoviesListingAdapter(movies, this);
+        moviesListing.setAdapter(adapter);
     }
 
     @Override
     public void showMovies(List<Movie> movies)
     {
-        mMovies.clear();
-        mMovies.addAll(movies);
-        mAdapter.notifyDataSetChanged();
-        mCallback.onMoviesLoaded(movies.get(0));
+        this.movies.clear();
+        this.movies.addAll(movies);
+        adapter.notifyDataSetChanged();
+        callback.onMoviesLoaded(movies.get(0));
     }
 
     @Override
@@ -128,30 +132,27 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void onMovieClicked(Movie movie)
     {
-        mCallback.onMovieClicked(movie);
+        callback.onMovieClicked(movie);
     }
 
     @Override
     public void onDestroyView()
     {
-        if (mMoviesSubscription != null && !mMoviesSubscription.isUnsubscribed())
-        {
-            mMoviesSubscription.unsubscribe();
-        }
-
         super.onDestroyView();
+        moviesPresenter.destroy();
     }
 
     @Override
     public void onDetach()
     {
-        mCallback = null;
+        callback = null;
         super.onDetach();
     }
 
     public interface Callback
     {
         void onMoviesLoaded(Movie movie);
+
         void onMovieClicked(Movie movie);
     }
 }

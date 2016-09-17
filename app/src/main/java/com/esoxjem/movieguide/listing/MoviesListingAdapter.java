@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.entities.Movie;
 
 import java.util.List;
 
@@ -24,43 +24,43 @@ import java.util.List;
  */
 public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>
 {
-    private List<Movie> mMovies;
-    private Context mContext;
-    private IMoviesListingView mMoviesView;
+    private List<Movie> movies;
+    private Context context;
+    private IMoviesListingView view;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public TextView mMovieName;
-        public ImageView mMoviePoster;
-        public View mTitleBackground;
-        public Movie mMovie;
+        public TextView name;
+        public ImageView poster;
+        public View titleBackground;
+        public Movie movie;
 
         public ViewHolder(View root)
         {
             super(root);
-            mMovieName = (TextView) root.findViewById(R.id.movie_name);
-            mMoviePoster = (ImageView) root.findViewById(R.id.movie_poster);
-            mTitleBackground = root.findViewById(R.id.title_background);
+            name = (TextView) root.findViewById(R.id.movie_name);
+            poster = (ImageView) root.findViewById(R.id.movie_poster);
+            titleBackground = root.findViewById(R.id.title_background);
         }
 
         @Override
         public void onClick(View view)
         {
-            mMoviesView.onMovieClicked(mMovie);
+            MoviesListingAdapter.this.view.onMovieClicked(movie);
         }
     }
 
     public MoviesListingAdapter(List<Movie> movies, IMoviesListingView moviesView)
     {
-        mMovies = movies;
-        mMoviesView = moviesView;
+        this.movies = movies;
+        view = moviesView;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        mContext = parent.getContext();
-        View rootView = LayoutInflater.from(mContext).inflate(R.layout.movie_grid_item, parent, false);
+        context = parent.getContext();
+        View rootView = LayoutInflater.from(context).inflate(R.layout.movie_grid_item, parent, false);
 
         return new ViewHolder(rootView);
     }
@@ -69,12 +69,12 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.itemView.setOnClickListener(holder);
-        holder.mMovie = mMovies.get(position);
-        holder.mMovieName.setText(holder.mMovie.getTitle());
-        Glide.with(mContext).load(holder.mMovie
+        holder.movie = movies.get(position);
+        holder.name.setText(holder.movie.getTitle());
+        Glide.with(context).load(holder.movie
                 .getPosterPath()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .into(new BitmapImageViewTarget(holder.mMoviePoster)
+                .into(new BitmapImageViewTarget(holder.poster)
                 {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation anim)
@@ -86,7 +86,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
                             @Override
                             public void onGenerated(Palette palette)
                             {
-                                holder.mTitleBackground.setBackgroundColor(palette.getVibrantColor(mContext
+                                holder.titleBackground.setBackgroundColor(palette.getVibrantColor(context
                                         .getResources().getColor(R.color.black_translucent_60)));
                             }
                         });
@@ -97,6 +97,6 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
     @Override
     public int getItemCount()
     {
-        return mMovies.size();
+        return movies.size();
     }
 }

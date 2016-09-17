@@ -4,28 +4,43 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.listing.MoviesListingPresenter;
+import com.esoxjem.movieguide.listing.IMoviesListingPresenter;
+
+import javax.inject.Inject;
 
 /**
  * @author arun
  */
 public class SortingDialogFragment extends DialogFragment implements ISortingDialogView, RadioGroup.OnCheckedChangeListener
 {
-    private RadioGroup mSortingOptionsGroup;
-    private static MoviesListingPresenter mMoviesListingPresenter;
-    private ISortingDialogPresenter mSortingDialogPresenter;
+    @Inject
+    ISortingDialogPresenter sortingDialogPresenter;
 
-    public static SortingDialogFragment newInstance(MoviesListingPresenter moviesListingPresenter)
+    private RadioGroup sortingOptionsGroup;
+    private static IMoviesListingPresenter moviesListingPresenter;
+
+    public static SortingDialogFragment newInstance(IMoviesListingPresenter moviesListingPresenter)
     {
-        mMoviesListingPresenter = moviesListingPresenter;
+        SortingDialogFragment.moviesListingPresenter = moviesListingPresenter;
         return new SortingDialogFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        BaseApplication.getAppComponent(getContext()).inject(this);
+        sortingDialogPresenter.setView(this);
     }
 
     @NonNull
@@ -45,30 +60,29 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
 
     private void initViews(View dialogView)
     {
-        mSortingOptionsGroup = (RadioGroup) dialogView.findViewById(R.id.sorting_group);
-        mSortingDialogPresenter = new SortingDialogPresenter(this);
-        mSortingDialogPresenter.setLastSavedOption();
-        mSortingOptionsGroup.setOnCheckedChangeListener(this);
+        sortingOptionsGroup = (RadioGroup) dialogView.findViewById(R.id.sorting_group);
+        sortingDialogPresenter.setLastSavedOption();
+        sortingOptionsGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void setPopularChecked()
     {
-        RadioButton popular = (RadioButton) mSortingOptionsGroup.findViewById(R.id.most_popular);
+        RadioButton popular = (RadioButton) sortingOptionsGroup.findViewById(R.id.most_popular);
         popular.setChecked(true);
     }
 
     @Override
     public void setHighestRatedChecked()
     {
-        RadioButton highestRated = (RadioButton) mSortingOptionsGroup.findViewById(R.id.highest_rated);
+        RadioButton highestRated = (RadioButton) sortingOptionsGroup.findViewById(R.id.highest_rated);
         highestRated.setChecked(true);
     }
 
     @Override
     public void setFavoritesChecked()
     {
-        RadioButton favorites = (RadioButton) mSortingOptionsGroup.findViewById(R.id.favorites);
+        RadioButton favorites = (RadioButton) sortingOptionsGroup.findViewById(R.id.favorites);
         favorites.setChecked(true);
     }
 
@@ -78,18 +92,18 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         switch (checkedId)
         {
             case R.id.most_popular:
-                mSortingDialogPresenter.onPopularMoviesSelected();
-                mMoviesListingPresenter.displayMovies();
+                sortingDialogPresenter.onPopularMoviesSelected();
+                moviesListingPresenter.displayMovies();
                 break;
 
             case R.id.highest_rated:
-                mSortingDialogPresenter.onHighestRatedMoviesSelected();
-                mMoviesListingPresenter.displayMovies();
+                sortingDialogPresenter.onHighestRatedMoviesSelected();
+                moviesListingPresenter.displayMovies();
                 break;
 
             case R.id.favorites:
-                mSortingDialogPresenter.onFavoritesSelected();
-                mMoviesListingPresenter.displayMovies();
+                sortingDialogPresenter.onFavoritesSelected();
+                moviesListingPresenter.displayMovies();
                 break;
         }
     }
@@ -100,4 +114,10 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         dismiss();
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        sortingDialogPresenter.destroy();
+    }
 }

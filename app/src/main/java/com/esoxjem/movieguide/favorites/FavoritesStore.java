@@ -1,10 +1,10 @@
 package com.esoxjem.movieguide.favorites;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.esoxjem.movieguide.BaseApplication;
-import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.Movie;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -13,18 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import javax.inject.Singleton;
+
 /**
  * @author arun
  */
+@Singleton
 public class FavoritesStore
 {
-    private SharedPreferences pref;
-    private static final int PRIVATE_MODE = 0;
-    private static final String PREF_NAME = "FavoritesStore";
 
-    public FavoritesStore()
+    private static final String PREF_NAME = "FavoritesStore";
+    private SharedPreferences pref;
+
+    @Inject
+    public FavoritesStore(Context context)
     {
-        pref = BaseApplication.getAppContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
     public void setFavorite(Movie movie)

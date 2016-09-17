@@ -1,6 +1,7 @@
 package com.esoxjem.movieguide.listing;
 
-import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.RxUtils;
 
 import java.util.List;
 
@@ -15,26 +16,42 @@ import rx.schedulers.Schedulers;
  */
 public class MoviesListingPresenter implements IMoviesListingPresenter
 {
-    private IMoviesListingView mMoviesView;
-    private IMoviesListingInteractor mMoviesInteractor;
+    private IMoviesListingView view;
+    private IMoviesListingInteractor moviesInteractor;
+    private Subscription fetchSubscription;
 
-    public MoviesListingPresenter(IMoviesListingView view)
+    public MoviesListingPresenter(IMoviesListingInteractor interactor)
     {
-        mMoviesView = view;
-        mMoviesInteractor = new MoviesListingInteractor();
+        moviesInteractor = interactor;
     }
 
     @Override
-    public Subscription displayMovies()
+    public void setView(IMoviesListingView view)
     {
-        return mMoviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
+        this.view = view;
+    }
+
+    @Override
+    public void destroy()
+    {
+        view = null;
+        RxUtils.unsubscribe(fetchSubscription);
+    }
+
+    @Override
+    public void displayMovies()
+    {
+        fetchSubscription = moviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0()
                 {
                     @Override
                     public void call()
                     {
-                        mMoviesView.loadingStarted();
+                        if (isViewAttached())
+                        {
+                            view.loadingStarted();
+                        }
                     }
                 })
                 .subscribe(new Subscriber<List<Movie>>()
@@ -48,14 +65,19 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
                     @Override
                     public void onError(Throwable e)
                     {
-                        mMoviesView.loadingFailed(e.getMessage());
+                        view.loadingFailed(e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<Movie> movies)
                     {
-                        mMoviesView.showMovies(movies);
+                        view.showMovies(movies);
                     }
                 });
+    }
+
+    private boolean isViewAttached()
+    {
+        return view != null;
     }
 }

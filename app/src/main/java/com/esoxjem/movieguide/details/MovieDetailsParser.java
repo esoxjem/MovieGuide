@@ -1,7 +1,7 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.entities.Review;
-import com.esoxjem.movieguide.entities.Video;
+import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.Video;
 
 import org.json.JSONArray;
 import org.json.JSONException;

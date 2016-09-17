@@ -1,9 +1,7 @@
-package com.esoxjem.movieguide.entities;
+package com.esoxjem.movieguide;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.esoxjem.movieguide.constants.Constants;
 
 /**
  * @author arun
@@ -53,7 +51,7 @@ public class Video implements Parcelable
     {
         if (SITE_YOUTUBE.equalsIgnoreCase(video.getSite()))
         {
-            return String.format("http://www.youtube.com/watch?v=%1$s", video.getVideoId());
+            return String.format(Api.YOUTUBE_VIDEO_URL, video.getVideoId());
         } else
         {
             return Constants.EMPTY;
@@ -64,7 +62,7 @@ public class Video implements Parcelable
     {
         if (SITE_YOUTUBE.equalsIgnoreCase(video.getSite()))
         {
-            return String.format("http://img.youtube.com/vi/%1$s/0.jpg", video.getVideoId());
+            return String.format(Api.YOUTUBE_THUMBNAIL_URL, video.getVideoId());
         } else
         {
             return Constants.EMPTY;

@@ -2,8 +2,8 @@ package com.esoxjem.movieguide.listing;
 
 import android.support.annotation.NonNull;
 
-import com.esoxjem.movieguide.constants.Api;
-import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.Api;
+import com.esoxjem.movieguide.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +33,7 @@ public class MoviesListingParser
         List<Movie> movies = new ArrayList<>(24);
         JSONObject response = new JSONObject(json);
 
-        if(!response.isNull(RESULTS))
+        if (!response.isNull(RESULTS))
         {
             JSONArray results = response.getJSONArray(RESULTS);
 
@@ -55,37 +55,37 @@ public class MoviesListingParser
     {
         Movie movie = new Movie();
 
-        if(!result.isNull(ID))
+        if (!result.isNull(ID))
         {
             movie.setId(result.getString(ID));
         }
 
-        if(!result.isNull(OVERVIEW))
+        if (!result.isNull(OVERVIEW))
         {
             movie.setOverview(result.getString(OVERVIEW));
         }
 
-        if(!result.isNull(RELEASE_DATE))
+        if (!result.isNull(RELEASE_DATE))
         {
             movie.setReleaseDate(String.valueOf(result.get(RELEASE_DATE)));
         }
 
-        if(!result.isNull(POSTER_PATH))
+        if (!result.isNull(POSTER_PATH))
         {
             movie.setPosterPath(Api.POSTER_PATH + result.getString(POSTER_PATH));
         }
 
-        if(!result.isNull(BACKDROP_PATH))
+        if (!result.isNull(BACKDROP_PATH))
         {
             movie.setBackdropPath(Api.BACKDROP_PATH + result.getString(BACKDROP_PATH));
         }
 
-        if(!result.isNull(TITLE))
+        if (!result.isNull(TITLE))
         {
             movie.setTitle(result.getString(TITLE));
         }
 
-        if(!result.isNull(VOTE_AVERAGE))
+        if (!result.isNull(VOTE_AVERAGE))
         {
             movie.setVoteAverage(result.getDouble(VOTE_AVERAGE));
         }
