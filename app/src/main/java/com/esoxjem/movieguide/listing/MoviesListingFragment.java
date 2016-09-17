@@ -24,8 +24,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Subscription;
-
 public class MoviesListingFragment extends Fragment implements IMoviesListingView
 {
     @Inject
@@ -33,7 +31,6 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
 
     private RecyclerView.Adapter adapter;
     private List<Movie> movies = new ArrayList<>(20);
-    private Subscription moviesSubscription;
     private Callback callback;
 
     public MoviesListingFragment()
@@ -70,7 +67,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        moviesSubscription = moviesPresenter.displayMovies();
+        moviesPresenter.displayMovies();
     }
 
     @Override
@@ -141,12 +138,8 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void onDestroyView()
     {
-        if (moviesSubscription != null && !moviesSubscription.isUnsubscribed())
-        {
-            moviesSubscription.unsubscribe();
-        }
-
         super.onDestroyView();
+        moviesPresenter.destroy();
     }
 
     @Override

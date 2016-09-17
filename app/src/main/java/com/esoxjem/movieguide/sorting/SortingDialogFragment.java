@@ -114,4 +114,10 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         dismiss();
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        sortingDialogPresenter.destroy();
+    }
 }

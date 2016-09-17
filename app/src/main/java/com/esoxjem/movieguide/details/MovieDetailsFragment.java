@@ -251,20 +251,11 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         switch (view.getId())
         {
             case R.id.video_thumb:
-                String videoUrl = (String) view.getTag();
-                Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
-                startActivity(playVideoIntent);
+                onThumbnailClick(view);
                 break;
 
             case R.id.review_content:
-                TextView review = (TextView) view;
-                if (review.getMaxLines() == 5)
-                {
-                    review.setMaxLines(500);
-                } else
-                {
-                    review.setMaxLines(5);
-                }
+                onReviewClick((TextView) view);
                 break;
 
             case R.id.favorite:
@@ -274,6 +265,24 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             default:
                 break;
         }
+    }
+
+    private void onReviewClick(TextView view)
+    {
+        if (view.getMaxLines() == 5)
+        {
+            view.setMaxLines(500);
+        } else
+        {
+            view.setMaxLines(5);
+        }
+    }
+
+    private void onThumbnailClick(View view)
+    {
+        String videoUrl = (String) view.getTag();
+        Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
+        startActivity(playVideoIntent);
     }
 
     private void onFavoriteClick()

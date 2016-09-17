@@ -6,7 +6,6 @@ import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.util.RxUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import rx.Subscriber;
@@ -19,7 +18,7 @@ import rx.schedulers.Schedulers;
  */
 public class MovieDetailsPresenter implements IMovieDetailsPresenter
 {
-    private WeakReference<IMovieDetailsView> movieDetailsView;
+    private IMovieDetailsView view;
     private IMovieDetailsInteractor movieDetailsInteractor;
     private IFavoritesInteractor favoritesInteractor;
     private Subscription trailersSubscription;
@@ -34,12 +33,13 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     @Override
     public void setView(IMovieDetailsView view)
     {
-        movieDetailsView = new WeakReference<>(view);
+        this.view = view;
     }
 
     @Override
     public void destroy()
     {
+        view = null;
         RxUtils.unsubscribe(trailersSubscription, reviewSubscription);
     }
 
@@ -48,13 +48,13 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     {
         if (isViewAttached())
         {
-            movieDetailsView.get().showDetails(movie);
+            view.showDetails(movie);
         }
     }
 
     private boolean isViewAttached()
     {
-        return movieDetailsView.get() != null;
+        return view != null;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     {
                         if (isViewAttached())
                         {
-                            movieDetailsView.get().showTrailers(videos);
+                            view.showTrailers(videos);
                         }
                     }
                 });
@@ -111,7 +111,7 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     {
                         if (isViewAttached())
                         {
-                            movieDetailsView.get().showReviews(reviews);
+                            view.showReviews(reviews);
                         }
                     }
                 });
@@ -125,10 +125,10 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
         {
             if (isFavorite)
             {
-                movieDetailsView.get().showFavorited();
+                view.showFavorited();
             } else
             {
-                movieDetailsView.get().showUnFavorited();
+                view.showUnFavorited();
             }
         }
     }
@@ -142,11 +142,11 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
             if (isFavorite)
             {
                 favoritesInteractor.unFavorite(movie.getId());
-                movieDetailsView.get().showUnFavorited();
+                view.showUnFavorited();
             } else
             {
                 favoritesInteractor.setFavorite(movie);
-                movieDetailsView.get().showFavorited();
+                view.showFavorited();
             }
         }
     }

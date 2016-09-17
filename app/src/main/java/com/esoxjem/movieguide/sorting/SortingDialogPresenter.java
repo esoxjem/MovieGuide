@@ -5,7 +5,7 @@ package com.esoxjem.movieguide.sorting;
  */
 public class SortingDialogPresenter implements ISortingDialogPresenter
 {
-    private ISortingDialogView sortingDialogView;
+    private ISortingDialogView view;
     private ISortingDialogInteractor sortingDialogInteractor;
 
     public SortingDialogPresenter(ISortingDialogInteractor interactor)
@@ -16,44 +16,67 @@ public class SortingDialogPresenter implements ISortingDialogPresenter
     @Override
     public void setView(ISortingDialogView view)
     {
-        sortingDialogView = view;
+        this.view = view;
+    }
+
+    @Override
+    public void destroy()
+    {
+        view = null;
     }
 
     @Override
     public void setLastSavedOption()
     {
-        int selectedOption = sortingDialogInteractor.getSelectedSortingOption();
+        if (isViewAttached())
+        {
+            int selectedOption = sortingDialogInteractor.getSelectedSortingOption();
 
-        if (selectedOption == SortType.MOST_POPULAR.getValue())
-        {
-            sortingDialogView.setPopularChecked();
-        } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
-        {
-            sortingDialogView.setHighestRatedChecked();
-        } else
-        {
-            sortingDialogView.setFavoritesChecked();
+            if (selectedOption == SortType.MOST_POPULAR.getValue())
+            {
+                view.setPopularChecked();
+            } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
+            {
+                view.setHighestRatedChecked();
+            } else
+            {
+                view.setFavoritesChecked();
+            }
         }
+    }
+
+    private boolean isViewAttached()
+    {
+        return view != null;
     }
 
     @Override
     public void onPopularMoviesSelected()
     {
-        sortingDialogInteractor.setSortingOption(SortType.MOST_POPULAR);
-        sortingDialogView.dismissDialog();
+        if (isViewAttached())
+        {
+            sortingDialogInteractor.setSortingOption(SortType.MOST_POPULAR);
+            view.dismissDialog();
+        }
     }
 
     @Override
     public void onHighestRatedMoviesSelected()
     {
-        sortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED);
-        sortingDialogView.dismissDialog();
+        if (isViewAttached())
+        {
+            sortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED);
+            view.dismissDialog();
+        }
     }
 
     @Override
     public void onFavoritesSelected()
     {
-        sortingDialogInteractor.setSortingOption(SortType.FAVORITES);
-        sortingDialogView.dismissDialog();
+        if (isViewAttached())
+        {
+            sortingDialogInteractor.setSortingOption(SortType.FAVORITES);
+            view.dismissDialog();
+        }
     }
 }

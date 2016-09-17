@@ -14,4 +14,6 @@ public interface ISortingDialogPresenter
     void onFavoritesSelected();
 
     void setView(ISortingDialogView view);
+
+    void destroy();
 }

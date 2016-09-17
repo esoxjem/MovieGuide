@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.esoxjem.movieguide"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -48,16 +48,12 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.github.bumptech.glide:okhttp-integration:1.3.1'
 
-    // Dagger
-    compile 'com.google.dagger:dagger:2.5'
-    apt 'com.google.dagger:dagger-compiler:2.5'
-
     // Other
     compile 'net.jcip:jcip-annotations:1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.moshi:moshi:1.1.0'
 
-    // dependency injection
+    // Dependency Injection
     apt 'com.google.dagger:dagger-compiler:2.5'
     compile 'com.google.dagger:dagger:2.5'
     provided 'javax.annotation:jsr250-api:1.0'

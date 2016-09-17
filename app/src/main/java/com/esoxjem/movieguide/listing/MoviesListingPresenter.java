@@ -1,6 +1,7 @@
 package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.RxUtils;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
 {
     private IMoviesListingView view;
     private IMoviesListingInteractor moviesInteractor;
+    private Subscription fetchSubscription;
 
     public MoviesListingPresenter(IMoviesListingInteractor interactor)
     {
@@ -30,16 +32,26 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
     }
 
     @Override
-    public Subscription displayMovies()
+    public void destroy()
     {
-        return moviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
+        view = null;
+        RxUtils.unsubscribe(fetchSubscription);
+    }
+
+    @Override
+    public void displayMovies()
+    {
+        fetchSubscription = moviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0()
                 {
                     @Override
                     public void call()
                     {
-                        view.loadingStarted();
+                        if (isViewAttached())
+                        {
+                            view.loadingStarted();
+                        }
                     }
                 })
                 .subscribe(new Subscriber<List<Movie>>()
@@ -62,5 +74,10 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
                         view.showMovies(movies);
                     }
                 });
+    }
+
+    private boolean isViewAttached()
+    {
+        return view != null;
     }
 }
