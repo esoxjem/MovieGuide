@@ -22,19 +22,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.esoxjem.movieguide.BaseApplication;
-import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
-import com.esoxjem.movieguide.util.RxUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Subscription;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,15 +45,14 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     private TextView title;
     private TextView releaseDate;
     private TextView rating;
-    private TextView mMovieOverview;
-    private TextView mTrailerLabel;
-    private HorizontalScrollView mTrailersScrollView;
-    private LinearLayout mTrailersView;
-    private Subscription mTrailersSub;
-    private TextView mReviewsLabel;
-    private LinearLayout mReviewsView;
-    private FloatingActionButton mFavorite;
-    private Movie mMovie;
+    private TextView overview;
+    private TextView label;
+    private HorizontalScrollView horizontalScrollView;
+    private LinearLayout trailers;
+    private TextView reviews;
+    private LinearLayout reviewsContainer;
+    private FloatingActionButton favorite;
+    private Movie movie;
 
     public MovieDetailsFragment()
     {
@@ -100,7 +96,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             Movie movie = (Movie) getArguments().get(Constants.MOVIE);
             if (movie != null)
             {
-                mMovie = movie;
+                this.movie = movie;
                 movieDetailsPresenter.showDetails((movie));
                 movieDetailsPresenter.showFavoriteButton(movie);
             }
@@ -113,14 +109,14 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         title = (TextView) rootView.findViewById(R.id.movie_name);
         releaseDate = (TextView) rootView.findViewById(R.id.movie_year);
         rating = (TextView) rootView.findViewById(R.id.movie_rating);
-        mMovieOverview = (TextView) rootView.findViewById(R.id.movie_description);
-        mTrailerLabel = (TextView) rootView.findViewById(R.id.trailers_label);
-        mTrailersScrollView = (HorizontalScrollView) rootView.findViewById(R.id.trailers_container);
-        mTrailersView = (LinearLayout) rootView.findViewById(R.id.trailers);
-        mReviewsLabel = (TextView) rootView.findViewById(R.id.reviews_label);
-        mReviewsView = (LinearLayout) rootView.findViewById(R.id.reviews);
-        mFavorite = (FloatingActionButton) rootView.findViewById(R.id.favorite);
-        mFavorite.setOnClickListener(this);
+        overview = (TextView) rootView.findViewById(R.id.movie_description);
+        label = (TextView) rootView.findViewById(R.id.trailers_label);
+        horizontalScrollView = (HorizontalScrollView) rootView.findViewById(R.id.trailers_container);
+        trailers = (LinearLayout) rootView.findViewById(R.id.trailers);
+        reviews = (TextView) rootView.findViewById(R.id.reviews_label);
+        reviewsContainer = (LinearLayout) rootView.findViewById(R.id.reviews);
+        favorite = (FloatingActionButton) rootView.findViewById(R.id.favorite);
+        favorite.setOnClickListener(this);
     }
 
     private void setToolbar(View rootView)
@@ -156,8 +152,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         title.setText(movie.getTitle());
         releaseDate.setText(String.format(getString(R.string.release_date), movie.getReleaseDate()));
         rating.setText(String.format(getString(R.string.rating), String.valueOf(movie.getVoteAverage())));
-        mMovieOverview.setText(movie.getOverview());
-        mTrailersSub = movieDetailsPresenter.showTrailers(movie);
+        overview.setText(movie.getOverview());
+        movieDetailsPresenter.showTrailers(movie);
         movieDetailsPresenter.showReviews(movie);
     }
 
@@ -166,22 +162,22 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         if (trailers.isEmpty())
         {
-            mTrailerLabel.setVisibility(View.GONE);
-            mTrailersView.setVisibility(View.GONE);
-            mTrailersScrollView.setVisibility(View.GONE);
+            label.setVisibility(View.GONE);
+            this.trailers.setVisibility(View.GONE);
+            horizontalScrollView.setVisibility(View.GONE);
 
         } else
         {
-            mTrailerLabel.setVisibility(View.VISIBLE);
-            mTrailersView.setVisibility(View.VISIBLE);
-            mTrailersScrollView.setVisibility(View.VISIBLE);
+            label.setVisibility(View.VISIBLE);
+            this.trailers.setVisibility(View.VISIBLE);
+            horizontalScrollView.setVisibility(View.VISIBLE);
 
-            mTrailersView.removeAllViews();
+            this.trailers.removeAllViews();
             LayoutInflater inflater = getActivity().getLayoutInflater();
             Picasso picasso = Picasso.with(getContext());
             for (Video trailer : trailers)
             {
-                ViewGroup thumbContainer = (ViewGroup) inflater.inflate(R.layout.video, mTrailersView, false);
+                ViewGroup thumbContainer = (ViewGroup) inflater.inflate(R.layout.video, this.trailers, false);
                 ImageView thumbView = (ImageView) thumbContainer.findViewById(R.id.video_thumb);
                 thumbView.setTag(Video.getUrl(trailer));
                 thumbView.requestLayout();
@@ -192,7 +188,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
                         .centerCrop()
                         .placeholder(R.color.colorPrimary)
                         .into(thumbView);
-                mTrailersView.addView(thumbContainer);
+                this.trailers.addView(thumbContainer);
             }
         }
     }
@@ -202,25 +198,25 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         if (reviews.isEmpty())
         {
-            mReviewsLabel.setVisibility(View.GONE);
-            mReviewsView.setVisibility(View.GONE);
+            this.reviews.setVisibility(View.GONE);
+            reviewsContainer.setVisibility(View.GONE);
         } else
         {
-            mReviewsLabel.setVisibility(View.VISIBLE);
-            mReviewsView.setVisibility(View.VISIBLE);
+            this.reviews.setVisibility(View.VISIBLE);
+            reviewsContainer.setVisibility(View.VISIBLE);
 
-            mReviewsView.removeAllViews();
+            reviewsContainer.removeAllViews();
             LayoutInflater inflater = getActivity().getLayoutInflater();
             for (Review review : reviews)
             {
-                ViewGroup reviewContainer = (ViewGroup) inflater.inflate(R.layout.review, mReviewsView,
+                ViewGroup reviewContainer = (ViewGroup) inflater.inflate(R.layout.review, reviewsContainer,
                         false);
                 TextView reviewAuthor = (TextView) reviewContainer.findViewById(R.id.review_author);
                 TextView reviewContent = (TextView) reviewContainer.findViewById(R.id.review_content);
                 reviewAuthor.setText(review.getAuthor());
                 reviewContent.setText(review.getContent());
                 reviewContent.setOnClickListener(this);
-                mReviewsView.addView(reviewContainer);
+                reviewsContainer.addView(reviewContainer);
             }
         }
     }
@@ -230,10 +226,10 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp, getContext().getTheme()));
+            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp, getContext().getTheme()));
         } else
         {
-            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
         }
     }
 
@@ -242,10 +238,10 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp, getContext().getTheme()));
+            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp, getContext().getTheme()));
         } else
         {
-            mFavorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp));
+            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp));
         }
     }
 
@@ -282,13 +278,13 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
 
     private void onFavoriteClick()
     {
-        movieDetailsPresenter.onFavoriteClick(mMovie);
+        movieDetailsPresenter.onFavoriteClick(movie);
     }
 
     @Override
     public void onDestroyView()
     {
-        RxUtils.unsubscribe(mTrailersSub);
         super.onDestroyView();
+        movieDetailsPresenter.destroy();
     }
 }

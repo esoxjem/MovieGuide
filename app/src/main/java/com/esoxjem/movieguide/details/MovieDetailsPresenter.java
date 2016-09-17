@@ -4,7 +4,9 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
+import com.esoxjem.movieguide.util.RxUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import rx.Subscriber;
@@ -17,9 +19,11 @@ import rx.schedulers.Schedulers;
  */
 public class MovieDetailsPresenter implements IMovieDetailsPresenter
 {
-    private IMovieDetailsView movieDetailsView;
+    private WeakReference<IMovieDetailsView> movieDetailsView;
     private IMovieDetailsInteractor movieDetailsInteractor;
     private IFavoritesInteractor favoritesInteractor;
+    private Subscription trailersSubscription;
+    private Subscription reviewSubscription;
 
     public MovieDetailsPresenter(IMovieDetailsInteractor movieDetailsInteractor, IFavoritesInteractor favoritesInteractor)
     {
@@ -30,19 +34,33 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     @Override
     public void setView(IMovieDetailsView view)
     {
-        movieDetailsView = view;
+        movieDetailsView = new WeakReference<>(view);
+    }
+
+    @Override
+    public void destroy()
+    {
+        RxUtils.unsubscribe(trailersSubscription, reviewSubscription);
     }
 
     @Override
     public void showDetails(Movie movie)
     {
-        movieDetailsView.showDetails(movie);
+        if (isViewAttached())
+        {
+            movieDetailsView.get().showDetails(movie);
+        }
+    }
+
+    private boolean isViewAttached()
+    {
+        return movieDetailsView.get() != null;
     }
 
     @Override
-    public Subscription showTrailers(Movie movie)
+    public void showTrailers(Movie movie)
     {
-        return movieDetailsInteractor.getTrailers(movie.getId()).subscribeOn(Schedulers.io())
+        trailersSubscription = movieDetailsInteractor.getTrailers(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Video>>()
                 {
@@ -61,15 +79,18 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     @Override
                     public void onNext(List<Video> videos)
                     {
-                        movieDetailsView.showTrailers(videos);
+                        if (isViewAttached())
+                        {
+                            movieDetailsView.get().showTrailers(videos);
+                        }
                     }
                 });
     }
 
     @Override
-    public Subscription showReviews(Movie movie)
+    public void showReviews(Movie movie)
     {
-        return movieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
+        reviewSubscription = movieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Review>>()
                 {
@@ -88,7 +109,10 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     @Override
                     public void onNext(List<Review> reviews)
                     {
-                        movieDetailsView.showReviews(reviews);
+                        if (isViewAttached())
+                        {
+                            movieDetailsView.get().showReviews(reviews);
+                        }
                     }
                 });
     }
@@ -97,27 +121,33 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     public void showFavoriteButton(Movie movie)
     {
         boolean isFavorite = favoritesInteractor.isFavorite(movie.getId());
-        if(isFavorite)
+        if (isViewAttached())
         {
-            movieDetailsView.showFavorited();
-        } else
-        {
-            movieDetailsView.showUnFavorited();
+            if (isFavorite)
+            {
+                movieDetailsView.get().showFavorited();
+            } else
+            {
+                movieDetailsView.get().showUnFavorited();
+            }
         }
     }
 
     @Override
     public void onFavoriteClick(Movie movie)
     {
-        boolean isFavorite = favoritesInteractor.isFavorite(movie.getId());
-        if(isFavorite)
+        if (isViewAttached())
         {
-            favoritesInteractor.unFavorite(movie.getId());
-            movieDetailsView.showUnFavorited();
-        } else
-        {
-            favoritesInteractor.setFavorite(movie);
-            movieDetailsView.showFavorited();
+            boolean isFavorite = favoritesInteractor.isFavorite(movie.getId());
+            if (isFavorite)
+            {
+                favoritesInteractor.unFavorite(movie.getId());
+                movieDetailsView.get().showUnFavorited();
+            } else
+            {
+                favoritesInteractor.setFavorite(movie);
+                movieDetailsView.get().showFavorited();
+            }
         }
     }
 }
