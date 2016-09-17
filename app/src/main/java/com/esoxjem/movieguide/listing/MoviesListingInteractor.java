@@ -2,9 +2,9 @@ package com.esoxjem.movieguide.listing;
 
 import android.support.annotation.NonNull;
 
-import com.esoxjem.movieguide.constants.Api;
-import com.esoxjem.movieguide.entities.Movie;
-import com.esoxjem.movieguide.entities.SortType;
+import com.esoxjem.movieguide.Api;
+import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.sorting.SortType;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;

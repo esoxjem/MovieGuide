@@ -4,14 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
 
-import com.esoxjem.movieguide.di.AppComponent;
-import com.esoxjem.movieguide.di.AppModule;
-import com.esoxjem.movieguide.di.DaggerAppComponent;
-import com.esoxjem.movieguide.di.DetailsModule;
-import com.esoxjem.movieguide.di.FavoritesModule;
-import com.esoxjem.movieguide.di.ListingModule;
-import com.esoxjem.movieguide.di.NetworkModule;
-import com.esoxjem.movieguide.di.SortingModule;
+import com.esoxjem.movieguide.details.DetailsModule;
+import com.esoxjem.movieguide.favorites.FavoritesModule;
+import com.esoxjem.movieguide.listing.ListingModule;
+import com.esoxjem.movieguide.network.NetworkModule;
+import com.esoxjem.movieguide.sorting.SortingModule;
 
 /**
  * @author arun

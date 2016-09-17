@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.constants;
+package com.esoxjem.movieguide;
 
 /**
  * @author arun

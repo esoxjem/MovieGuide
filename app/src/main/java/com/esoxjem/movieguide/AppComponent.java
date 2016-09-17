@@ -1,6 +1,11 @@
-package com.esoxjem.movieguide.di;
+package com.esoxjem.movieguide;
 
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
+import com.esoxjem.movieguide.details.DetailsModule;
+import com.esoxjem.movieguide.favorites.FavoritesModule;
+import com.esoxjem.movieguide.listing.ListingModule;
+import com.esoxjem.movieguide.network.NetworkModule;
+import com.esoxjem.movieguide.sorting.SortingModule;
 import com.esoxjem.movieguide.listing.MoviesListingFragment;
 import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 

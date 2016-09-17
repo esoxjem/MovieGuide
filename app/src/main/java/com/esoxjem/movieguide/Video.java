@@ -1,9 +1,7 @@
-package com.esoxjem.movieguide.entities;
+package com.esoxjem.movieguide;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.esoxjem.movieguide.constants.Constants;
 
 /**
  * @author arun

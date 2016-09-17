@@ -23,10 +23,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.constants.Constants;
-import com.esoxjem.movieguide.entities.Movie;
-import com.esoxjem.movieguide.entities.Review;
-import com.esoxjem.movieguide.entities.Video;
+import com.esoxjem.movieguide.Constants;
+import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.util.RxUtils;
 import com.squareup.picasso.Picasso;
 

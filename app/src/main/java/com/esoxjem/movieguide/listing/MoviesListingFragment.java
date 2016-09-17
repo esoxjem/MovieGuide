@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 
 import java.util.ArrayList;

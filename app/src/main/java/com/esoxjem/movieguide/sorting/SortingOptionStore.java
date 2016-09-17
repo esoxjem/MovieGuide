@@ -3,11 +3,7 @@ package com.esoxjem.movieguide.sorting;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.esoxjem.movieguide.BaseApplication;
-import com.esoxjem.movieguide.entities.SortType;
-
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * @author arun

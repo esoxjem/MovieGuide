@@ -2,8 +2,8 @@ package com.esoxjem.movieguide.listing;
 
 import android.support.annotation.NonNull;
 
-import com.esoxjem.movieguide.constants.Api;
-import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.Api;
+import com.esoxjem.movieguide.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;

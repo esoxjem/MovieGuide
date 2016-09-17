@@ -1,8 +1,8 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.constants.Api;
-import com.esoxjem.movieguide.entities.Review;
-import com.esoxjem.movieguide.entities.Video;
+import com.esoxjem.movieguide.Api;
+import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.squareup.okhttp.Request;
@@ -11,8 +11,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.Observable;
 import rx.functions.Func0;

@@ -1,10 +1,9 @@
-package com.esoxjem.movieguide.di;
+package com.esoxjem.movieguide.listing;
 
+import com.esoxjem.movieguide.network.NetworkModule;
+import com.esoxjem.movieguide.sorting.SortingModule;
+import com.esoxjem.movieguide.favorites.FavoritesModule;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
-import com.esoxjem.movieguide.listing.IMoviesListingInteractor;
-import com.esoxjem.movieguide.listing.IMoviesListingPresenter;
-import com.esoxjem.movieguide.listing.MoviesListingInteractor;
-import com.esoxjem.movieguide.listing.MoviesListingPresenter;
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.esoxjem.movieguide.sorting.SortingOptionStore;
 

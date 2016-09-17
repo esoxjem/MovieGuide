@@ -1,9 +1,7 @@
-package com.esoxjem.movieguide.di;
+package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.details.IMovieDetailsInteractor;
-import com.esoxjem.movieguide.details.IMovieDetailsPresenter;
-import com.esoxjem.movieguide.details.MovieDetailsInteractor;
-import com.esoxjem.movieguide.details.MovieDetailsPresenter;
+import com.esoxjem.movieguide.favorites.FavoritesModule;
+import com.esoxjem.movieguide.network.NetworkModule;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestHandler;
 

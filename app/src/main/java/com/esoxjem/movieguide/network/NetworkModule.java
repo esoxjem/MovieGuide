@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.di;
+package com.esoxjem.movieguide.network;
 
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.squareup.okhttp.OkHttpClient;

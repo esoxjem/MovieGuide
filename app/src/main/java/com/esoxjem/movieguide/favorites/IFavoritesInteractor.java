@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide.favorites;
 
-import com.esoxjem.movieguide.entities.Movie;
+import com.esoxjem.movieguide.Movie;
 
 import java.util.List;
 

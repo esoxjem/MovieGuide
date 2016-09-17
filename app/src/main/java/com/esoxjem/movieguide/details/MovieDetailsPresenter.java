@@ -1,9 +1,8 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.entities.Movie;
-import com.esoxjem.movieguide.entities.Review;
-import com.esoxjem.movieguide.entities.Video;
-import com.esoxjem.movieguide.favorites.FavoritesInteractor;
+import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 
 import java.util.List;
