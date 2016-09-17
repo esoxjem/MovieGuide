@@ -7,50 +7,54 @@ import com.esoxjem.movieguide.entities.SortType;
  */
 public class SortingDialogPresenter implements ISortingDialogPresenter
 {
-    private ISortingDialogView mSortingDialogView;
-    private ISortingDialogInteractor mSortingDialogInteractor;
+    private ISortingDialogView sortingDialogView;
+    private ISortingDialogInteractor sortingDialogInteractor;
 
-    public SortingDialogPresenter(ISortingDialogView sortingDialogView)
+    public SortingDialogPresenter(ISortingDialogInteractor interactor)
     {
-        mSortingDialogView = sortingDialogView;
-        mSortingDialogInteractor = new SortingDialogInteractor();
+        sortingDialogInteractor = interactor;
+    }
+
+    public void setView(ISortingDialogView view)
+    {
+        this.sortingDialogView = view;
     }
 
     @Override
     public void setLastSavedOption()
     {
-        int selectedOption = mSortingDialogInteractor.getSelectedSortingOption();
+        int selectedOption = sortingDialogInteractor.getSelectedSortingOption();
 
         if (selectedOption == SortType.MOST_POPULAR.getValue())
         {
-            mSortingDialogView.setPopularChecked();
+            sortingDialogView.setPopularChecked();
         } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
         {
-            mSortingDialogView.setHighestRatedChecked();
+            sortingDialogView.setHighestRatedChecked();
         } else
         {
-            mSortingDialogView.setFavoritesChecked();
+            sortingDialogView.setFavoritesChecked();
         }
     }
 
     @Override
     public void onPopularMoviesSelected()
     {
-        mSortingDialogInteractor.setSortingOption(SortType.MOST_POPULAR);
-        mSortingDialogView.dismissDialog();
+        sortingDialogInteractor.setSortingOption(SortType.MOST_POPULAR);
+        sortingDialogView.dismissDialog();
     }
 
     @Override
     public void onHighestRatedMoviesSelected()
     {
-        mSortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED);
-        mSortingDialogView.dismissDialog();
+        sortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED);
+        sortingDialogView.dismissDialog();
     }
 
     @Override
     public void onFavoritesSelected()
     {
-        mSortingDialogInteractor.setSortingOption(SortType.FAVORITES);
-        mSortingDialogView.dismissDialog();
+        sortingDialogInteractor.setSortingOption(SortType.FAVORITES);
+        sortingDialogView.dismissDialog();
     }
 }

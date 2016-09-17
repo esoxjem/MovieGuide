@@ -4,14 +4,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
+import com.esoxjem.movieguide.listing.IMoviesListingPresenter;
 import com.esoxjem.movieguide.listing.MoviesListingPresenter;
+
+import javax.inject.Inject;
 
 /**
  * @author arun
@@ -19,13 +24,22 @@ import com.esoxjem.movieguide.listing.MoviesListingPresenter;
 public class SortingDialogFragment extends DialogFragment implements ISortingDialogView, RadioGroup.OnCheckedChangeListener
 {
     private RadioGroup mSortingOptionsGroup;
-    private static MoviesListingPresenter mMoviesListingPresenter;
-    private ISortingDialogPresenter mSortingDialogPresenter;
+    private static IMoviesListingPresenter mMoviesListingPresenter;
+    @Inject ISortingDialogPresenter mSortingDialogPresenter;
 
-    public static SortingDialogFragment newInstance(MoviesListingPresenter moviesListingPresenter)
+    public static SortingDialogFragment newInstance(IMoviesListingPresenter moviesListingPresenter)
     {
         mMoviesListingPresenter = moviesListingPresenter;
         return new SortingDialogFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        BaseApplication.getAppComponent(getContext()).inject(this);
+        mSortingDialogPresenter.setView(this);
     }
 
     @NonNull
@@ -46,7 +60,6 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     private void initViews(View dialogView)
     {
         mSortingOptionsGroup = (RadioGroup) dialogView.findViewById(R.id.sorting_group);
-        mSortingDialogPresenter = new SortingDialogPresenter(this);
         mSortingDialogPresenter.setLastSavedOption();
         mSortingOptionsGroup.setOnCheckedChangeListener(this);
     }

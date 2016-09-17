@@ -6,22 +6,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * @author arun
  */
 public class FavoritesInteractor implements IFavoritesInteractor
 {
+    private FavoritesStore favoritesStore;
+
+    public FavoritesInteractor(FavoritesStore store)
+    {
+        this.favoritesStore = store;
+    }
+
     @Override
     public void setFavorite(Movie movie)
     {
-        FavoritesStore favoritesStore = new FavoritesStore();
         favoritesStore.setFavorite(movie);
     }
 
     @Override
     public boolean isFavorite(String id)
     {
-        FavoritesStore favoritesStore = new FavoritesStore();
         return favoritesStore.isFavorite(id);
     }
 
@@ -30,7 +37,6 @@ public class FavoritesInteractor implements IFavoritesInteractor
     {
         try
         {
-            FavoritesStore favoritesStore = new FavoritesStore();
             return favoritesStore.getFavorites();
         } catch (IOException ignored)
         {
@@ -41,7 +47,6 @@ public class FavoritesInteractor implements IFavoritesInteractor
     @Override
     public void unFavorite(String id)
     {
-        FavoritesStore favoritesStore = new FavoritesStore();
         favoritesStore.unfavorite(id);
     }
 }

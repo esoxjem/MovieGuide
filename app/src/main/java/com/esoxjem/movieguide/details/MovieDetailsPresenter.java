@@ -22,11 +22,16 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     private IMovieDetailsInteractor mMovieDetailsInteractor;
     private IFavoritesInteractor mFavoritesInteractor;
 
-    public MovieDetailsPresenter(IMovieDetailsView movieDetailsView)
+    public MovieDetailsPresenter(IMovieDetailsInteractor movieDetailsInteractor, IFavoritesInteractor favoritesInteractor)
     {
-        mMovieDetailsView = movieDetailsView;
-        mMovieDetailsInteractor = new MovieDetailsInteractor();
-        mFavoritesInteractor = new FavoritesInteractor();
+        mMovieDetailsInteractor = movieDetailsInteractor;
+        mFavoritesInteractor = favoritesInteractor;
+    }
+
+    @Override
+    public void setView(IMovieDetailsView view)
+    {
+        mMovieDetailsView = view;
     }
 
     @Override

@@ -1,30 +1,29 @@
-package com.esoxjem.movieguide;
+package com.esoxjem.movieguide.di;
 
 import android.app.Application;
 import android.content.Context;
 
-import javax.inject.Singleton;
+import com.esoxjem.movieguide.BaseApplication;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * @author arun
+ * Created by pulkitkumar on 17/09/16.
  */
 @Module
 public class AppModule
 {
-    private final Application application;
+    private Application app;
 
     public AppModule(Application application)
     {
-        this.application = application;
+        app = application;
     }
 
     @Provides
-    @Singleton
-    Context providesContext()
+    public Context provideContext()
     {
-        return application;
+        return app;
     }
 }

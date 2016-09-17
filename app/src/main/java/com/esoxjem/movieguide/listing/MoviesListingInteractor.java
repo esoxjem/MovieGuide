@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.esoxjem.movieguide.constants.Api;
 import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.entities.SortType;
-import com.esoxjem.movieguide.favorites.FavoritesInteractor;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
@@ -26,10 +25,15 @@ import rx.functions.Func0;
 public class MoviesListingInteractor implements IMoviesListingInteractor
 {
     private IFavoritesInteractor favoritesInteractor;
+    private RequestHandler requestHandler;
+    private SortingOptionStore sortingOptionStore;
 
-    public MoviesListingInteractor()
+    public MoviesListingInteractor(IFavoritesInteractor favoritesInteractor,
+                                   RequestHandler requestHandler, SortingOptionStore store)
     {
-        favoritesInteractor = new FavoritesInteractor();
+        this.favoritesInteractor = favoritesInteractor;
+        this.requestHandler = requestHandler;
+        sortingOptionStore = store;
     }
 
     @Override
@@ -51,7 +55,6 @@ public class MoviesListingInteractor implements IMoviesListingInteractor
 
             private List<Movie> get() throws IOException, JSONException
             {
-                SortingOptionStore sortingOptionStore = new SortingOptionStore();
                 int selectedOption = sortingOptionStore.getSelectedOption();
                 if (selectedOption == SortType.MOST_POPULAR.getValue())
                 {
@@ -69,7 +72,7 @@ public class MoviesListingInteractor implements IMoviesListingInteractor
             private List<Movie> fetch(String url) throws IOException, JSONException
             {
                 Request request = RequestGenerator.get(url);
-                String response = RequestHandler.request(request);
+                String response = requestHandler.request(request);
                 return MoviesListingParser.parse(response);
             }
         });

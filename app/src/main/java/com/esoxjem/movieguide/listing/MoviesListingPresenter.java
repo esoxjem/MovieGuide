@@ -18,10 +18,15 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
     private IMoviesListingView mMoviesView;
     private IMoviesListingInteractor mMoviesInteractor;
 
-    public MoviesListingPresenter(IMoviesListingView view)
+    public MoviesListingPresenter(IMoviesListingInteractor interactor)
+    {
+        mMoviesInteractor = interactor;
+    }
+
+    @Override
+    public void setView(IMoviesListingView view)
     {
         mMoviesView = view;
-        mMoviesInteractor = new MoviesListingInteractor();
     }
 
     @Override

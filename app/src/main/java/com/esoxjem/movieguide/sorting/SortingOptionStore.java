@@ -1,9 +1,13 @@
 package com.esoxjem.movieguide.sorting;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.entities.SortType;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * @author arun
@@ -11,13 +15,12 @@ import com.esoxjem.movieguide.entities.SortType;
 public class SortingOptionStore
 {
     private SharedPreferences pref;
-    private static final int PRIVATE_MODE = 0;
     private static final String SELECTED_OPTION = "selectedOption";
     private static final String PREF_NAME = "SortingOptionStore";
 
-    public SortingOptionStore()
+    @Inject public SortingOptionStore(Context context)
     {
-        pref = BaseApplication.getAppContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
     public void setSelectedOption(SortType sortType)
