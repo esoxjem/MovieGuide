@@ -10,9 +10,9 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by pulkitkumar on 17/09/16.
+ * @author pulkitkumar
  */
-@Module (includes = AppModule.class)
+@Module(includes = AppModule.class)
 public class FavoritesModule
 {
     @Provides

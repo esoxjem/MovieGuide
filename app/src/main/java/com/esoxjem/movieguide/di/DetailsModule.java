@@ -13,9 +13,9 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by pulkitkumar on 17/09/16.
+ * @author pulkitkumar
  */
-@Module (includes = {NetworkModule.class, FavoritesModule.class})
+@Module(includes = {NetworkModule.class, FavoritesModule.class})
 public class DetailsModule
 {
     @Provides

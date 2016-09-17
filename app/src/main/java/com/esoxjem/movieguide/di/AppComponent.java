@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
- * Created by pulkitkumar on 17/09/16.
+ * @author pulkitkumar
  */
 @Singleton
 @Component(modules = {
@@ -22,6 +22,8 @@ import dagger.Component;
 public interface AppComponent
 {
     MovieDetailsFragment inject(MovieDetailsFragment fragment);
+
     MoviesListingFragment inject(MoviesListingFragment fragment);
+
     SortingDialogFragment inject(SortingDialogFragment fragment);
 }
