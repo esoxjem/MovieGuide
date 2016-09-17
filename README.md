@@ -1,15 +1,8 @@
 # MovieGuide
-An app that lists popular/highest-rated movies. Optimized for tablets.
+Android app that lists popular/highest-rated movies, shows trailers and reviews.
 
-This app showcases the MVP pattern, RxJava and Uncle Bob Martin's Clean Architecture approach.
-
-Libraries used:
- - RxJava
- - RxAndroid
- - OkHttp
- - Glide
- - Moshi
- - Picasso
+This app showcases the MVP pattern, RxJava, Dagger 2 and Uncle Bob Martin's Clean Architecture approach.
+Optimized for tablets.
 
 Replace `API_KEY` in `Api.java` with your themoviedb.org API key.
 
