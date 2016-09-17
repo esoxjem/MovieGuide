@@ -8,4 +8,5 @@ import rx.Subscription;
 public interface IMoviesListingPresenter
 {
     Subscription displayMovies();
+    void setView(IMoviesListingView view);
 }

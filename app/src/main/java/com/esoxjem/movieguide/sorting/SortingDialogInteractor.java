@@ -9,9 +9,9 @@ public class SortingDialogInteractor implements ISortingDialogInteractor
 {
     private SortingOptionStore mSortingOptionStore;
 
-    public SortingDialogInteractor()
+    public SortingDialogInteractor(SortingOptionStore store)
     {
-        mSortingOptionStore = new SortingOptionStore();
+        mSortingOptionStore = store;
     }
 
     @Override

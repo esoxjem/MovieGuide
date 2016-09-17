@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.constants.Constants;
 import com.esoxjem.movieguide.entities.Movie;
@@ -31,6 +32,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Subscription;
 
 /**
@@ -38,7 +41,8 @@ import rx.Subscription;
  */
 public class MovieDetailsFragment extends Fragment implements IMovieDetailsView, View.OnClickListener
 {
-    private MovieDetailsPresenter mMovieDetailsPresenter;
+    @Inject
+    IMovieDetailsPresenter mMovieDetailsPresenter;
     private ImageView mMoviePoster;
     private TextView mMovieTitle;
     private TextView mMovieReleaseDate;
@@ -71,7 +75,9 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mMovieDetailsPresenter = new MovieDetailsPresenter(this);
+        setRetainInstance(true);
+        BaseApplication.getAppComponent(getContext()).inject(this);
+        mMovieDetailsPresenter.setView(this);
     }
 
     @Override

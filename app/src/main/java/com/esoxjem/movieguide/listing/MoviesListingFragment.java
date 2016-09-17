@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.entities.Movie;
 import com.esoxjem.movieguide.sorting.SortingDialogFragment;
@@ -21,13 +22,15 @@ import com.esoxjem.movieguide.sorting.SortingDialogFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Subscription;
 
 public class MoviesListingFragment extends Fragment implements IMoviesListingView
 {
     private RecyclerView.Adapter mAdapter;
     private List<Movie> mMovies = new ArrayList<>(20);
-    private MoviesListingPresenter mMoviesPresenter;
+    @Inject IMoviesListingPresenter moviesPresenter;
     private Subscription mMoviesSubscription;
     private Callback mCallback;
 
@@ -47,8 +50,10 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mMoviesPresenter = new MoviesListingPresenter(this);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
+        BaseApplication.getAppComponent(getContext()).inject(this);
+        moviesPresenter.setView(this);
     }
 
     @Override
@@ -63,7 +68,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        mMoviesSubscription = mMoviesPresenter.displayMovies();
+        mMoviesSubscription = moviesPresenter.displayMovies();
     }
 
     @Override
@@ -80,7 +85,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
 
     private void displaySortingOptions()
     {
-        DialogFragment sortingDialogFragment = SortingDialogFragment.newInstance(mMoviesPresenter);
+        DialogFragment sortingDialogFragment = SortingDialogFragment.newInstance(moviesPresenter);
         sortingDialogFragment.show(getFragmentManager(), "Select Quantity");
     }
 

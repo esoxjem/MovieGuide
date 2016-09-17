@@ -5,19 +5,21 @@ import android.content.SharedPreferences;
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.entities.SortType;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * @author arun
  */
 public class SortingOptionStore
 {
     private SharedPreferences pref;
-    private static final int PRIVATE_MODE = 0;
     private static final String SELECTED_OPTION = "selectedOption";
     private static final String PREF_NAME = "SortingOptionStore";
 
-    public SortingOptionStore()
+    public SortingOptionStore(SharedPreferences pref)
     {
-        pref = BaseApplication.getAppContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.pref = pref;
     }
 
     public void setSelectedOption(SortType sortType)

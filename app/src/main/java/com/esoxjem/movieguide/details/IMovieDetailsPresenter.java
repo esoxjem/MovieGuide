@@ -14,4 +14,5 @@ public interface IMovieDetailsPresenter
     Subscription showReviews(Movie movie);
     void showFavoriteButton(Movie movie);
     void onFavoriteClick(Movie movie);
+    void setView(IMovieDetailsView view);
 }

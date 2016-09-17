@@ -12,6 +12,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.functions.Func0;
 
@@ -20,6 +22,13 @@ import rx.functions.Func0;
  */
 public class MovieDetailsInteractor implements IMovieDetailsInteractor
 {
+    private RequestHandler mRequestHandler;
+
+    public MovieDetailsInteractor(RequestHandler requestHandler)
+    {
+        mRequestHandler = requestHandler;
+    }
+
     @Override
     public Observable<List<Video>> getTrailers(final String id)
     {
@@ -41,7 +50,7 @@ public class MovieDetailsInteractor implements IMovieDetailsInteractor
             {
                 String url = String.format(Api.GET_TRAILERS, id);
                 Request request = RequestGenerator.get(url);
-                String body = RequestHandler.request(request);
+                String body = mRequestHandler.request(request);
                 return MovieDetailsParser.parseTrailers(body);
             }
         });
@@ -68,7 +77,7 @@ public class MovieDetailsInteractor implements IMovieDetailsInteractor
             {
                 String url = String.format(Api.GET_REVIEWS, id);
                 Request request = RequestGenerator.get(url);
-                String body = RequestHandler.request(request);
+                String body = mRequestHandler.request(request);
                 return MovieDetailsParser.parseReviews(body);
             }
         });

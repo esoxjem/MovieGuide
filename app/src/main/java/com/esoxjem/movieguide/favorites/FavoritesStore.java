@@ -13,18 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * @author arun
  */
 public class FavoritesStore
 {
     private SharedPreferences pref;
-    private static final int PRIVATE_MODE = 0;
-    private static final String PREF_NAME = "FavoritesStore";
 
-    public FavoritesStore()
+    public FavoritesStore(SharedPreferences pref)
     {
-        pref = BaseApplication.getAppContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.pref = pref;
     }
 
     public void setFavorite(Movie movie)
