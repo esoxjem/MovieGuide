@@ -24,9 +24,11 @@ public class BaseApplication extends Application
         StrictMode.enableDefaults();
     }
 
-    public static AppComponent getAppComponent(Context context) {
+    public static AppComponent getAppComponent(Context context)
+    {
         BaseApplication app = (BaseApplication) context.getApplicationContext();
-        if (app.component == null) {
+        if (app.component == null)
+        {
             app.component = DaggerAppComponent.builder()
                     .appModule(app.getAppModule())
                     .networkModule(app.getNetworkModule())
