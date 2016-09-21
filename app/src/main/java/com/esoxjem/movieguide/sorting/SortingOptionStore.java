@@ -14,7 +14,8 @@ public class SortingOptionStore
     private static final String SELECTED_OPTION = "selectedOption";
     private static final String PREF_NAME = "SortingOptionStore";
 
-    @Inject public SortingOptionStore(Context context)
+    @Inject
+    public SortingOptionStore(Context context)
     {
         pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
