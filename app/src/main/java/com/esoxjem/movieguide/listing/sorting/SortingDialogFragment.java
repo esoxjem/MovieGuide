@@ -17,6 +17,9 @@ import com.esoxjem.movieguide.listing.IMoviesListingPresenter;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * @author arun
  */
@@ -25,7 +28,15 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     @Inject
     ISortingDialogPresenter sortingDialogPresenter;
 
-    private RadioGroup sortingOptionsGroup;
+    @Bind(R.id.most_popular)
+    RadioButton mostPopular;
+    @Bind(R.id.highest_rated)
+    RadioButton highestRated;
+    @Bind(R.id.favorites)
+    RadioButton favorites;
+    @Bind(R.id.sorting_group)
+    RadioGroup sortingOptionsGroup;
+
     private static IMoviesListingPresenter moviesListingPresenter;
 
     public static SortingDialogFragment newInstance(IMoviesListingPresenter moviesListingPresenter)
@@ -49,7 +60,8 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.sorting_options, null);
-        initViews(dialogView);
+        ButterKnife.bind(this, dialogView);
+        initViews();
 
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(dialogView);
@@ -58,9 +70,8 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
         return dialog;
     }
 
-    private void initViews(View dialogView)
+    private void initViews()
     {
-        sortingOptionsGroup = (RadioGroup) dialogView.findViewById(R.id.sorting_group);
         sortingDialogPresenter.setLastSavedOption();
         sortingOptionsGroup.setOnCheckedChangeListener(this);
     }
@@ -68,21 +79,18 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     @Override
     public void setPopularChecked()
     {
-        RadioButton popular = (RadioButton) sortingOptionsGroup.findViewById(R.id.most_popular);
-        popular.setChecked(true);
+        mostPopular.setChecked(true);
     }
 
     @Override
     public void setHighestRatedChecked()
     {
-        RadioButton highestRated = (RadioButton) sortingOptionsGroup.findViewById(R.id.highest_rated);
         highestRated.setChecked(true);
     }
 
     @Override
     public void setFavoritesChecked()
     {
-        RadioButton favorites = (RadioButton) sortingOptionsGroup.findViewById(R.id.favorites);
         favorites.setChecked(true);
     }
 
@@ -119,5 +127,6 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     {
         super.onDestroyView();
         sortingDialogPresenter.destroy();
+        ButterKnife.unbind(this);
     }
 }

@@ -19,6 +19,9 @@ import com.esoxjem.movieguide.R;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * @author arun
  */
@@ -30,17 +33,19 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public TextView name;
-        public ImageView poster;
-        public View titleBackground;
+        @Bind(R.id.movie_poster)
+        ImageView poster;
+        @Bind(R.id.title_background)
+        View titleBackground;
+        @Bind(R.id.movie_name)
+        TextView name;
+
         public Movie movie;
 
         public ViewHolder(View root)
         {
             super(root);
-            name = (TextView) root.findViewById(R.id.movie_name);
-            poster = (ImageView) root.findViewById(R.id.movie_poster);
-            titleBackground = root.findViewById(R.id.title_background);
+            ButterKnife.bind(this, root);
         }
 
         @Override
