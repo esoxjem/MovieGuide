@@ -9,7 +9,7 @@ import com.esoxjem.movieguide.favorites.FavoritesModule;
 import com.esoxjem.movieguide.listing.ListingComponent;
 import com.esoxjem.movieguide.listing.ListingModule;
 import com.esoxjem.movieguide.network.NetworkModule;
-import com.esoxjem.movieguide.sorting.SortingModule;
+import com.esoxjem.movieguide.listing.sorting.SortingModule;
 
 /**
  * @author arun
@@ -34,7 +34,6 @@ public class BaseApplication extends Application
                 .appModule(new AppModule(this))
                 .networkModule(new NetworkModule())
                 .favoritesModule(new FavoritesModule())
-                .sortingModule(new SortingModule())
                 .build();
     }
 
@@ -60,8 +59,8 @@ public class BaseApplication extends Application
         listingComponent = null;
     }
 
-    public AppComponent getAppComponent()
+    public ListingComponent getListingComponent()
     {
-        return appComponent;
+        return listingComponent;
     }
 }

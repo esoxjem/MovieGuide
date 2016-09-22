@@ -2,7 +2,7 @@ package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestHandler;
-import com.esoxjem.movieguide.sorting.SortingOptionStore;
+import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
 
 import dagger.Module;
 import dagger.Provides;

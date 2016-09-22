@@ -1,20 +1,16 @@
-package com.esoxjem.movieguide.sorting;
-
-import com.esoxjem.movieguide.AppModule;
-
-import javax.inject.Singleton;
+package com.esoxjem.movieguide.listing.sorting;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
  * @author pulkitkumar
+ * @author arunsasidharan
  */
-@Module(includes = AppModule.class)
+@Module
 public class SortingModule
 {
     @Provides
-    @Singleton
     ISortingDialogInteractor providesSortingDialogInteractor(SortingOptionStore store)
     {
         return new SortingDialogInteractor(store);
