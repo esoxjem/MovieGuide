@@ -4,6 +4,7 @@ package com.esoxjem.movieguide.listing;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.Movie;
@@ -24,10 +24,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MoviesListingFragment extends Fragment implements IMoviesListingView
 {
     @Inject
     IMoviesListingPresenter moviesPresenter;
+
+    @Bind(R.id.movies_listing)
+    RecyclerView moviesListing;
 
     private RecyclerView.Adapter adapter;
     private List<Movie> movies = new ArrayList<>(20);
@@ -59,7 +65,8 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
-        initLayoutReferences(rootView);
+        ButterKnife.bind(this, rootView);
+        initLayoutReferences();
         return rootView;
     }
 
@@ -88,9 +95,8 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         sortingDialogFragment.show(getFragmentManager(), "Select Quantity");
     }
 
-    private void initLayoutReferences(View rootView)
+    private void initLayoutReferences()
     {
-        RecyclerView moviesListing = (RecyclerView) rootView.findViewById(R.id.movies_listing);
         moviesListing.setHasFixedSize(true);
 
         int columns;
@@ -120,13 +126,13 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     @Override
     public void loadingStarted()
     {
-        Toast.makeText(getContext(), R.string.loading_movies, Toast.LENGTH_LONG).show();
+        Snackbar.make(moviesListing, R.string.loading_movies, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void loadingFailed(String errorMessage)
     {
-        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+        Snackbar.make(moviesListing, errorMessage, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
@@ -140,6 +146,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     {
         super.onDestroyView();
         moviesPresenter.destroy();
+        ButterKnife.unbind(this);
     }
 
     @Override

@@ -2,14 +2,13 @@ package com.esoxjem.movieguide.details;
 
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,27 +33,42 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MovieDetailsFragment extends Fragment implements IMovieDetailsView, View.OnClickListener
 {
     @Inject
     IMovieDetailsPresenter movieDetailsPresenter;
-    @Inject
-    Resources resources;
 
-    private ImageView poster;
-    private TextView title;
-    private TextView releaseDate;
-    private TextView rating;
-    private TextView overview;
-    private TextView label;
-    private HorizontalScrollView horizontalScrollView;
-    private LinearLayout trailers;
-    private TextView reviews;
-    private LinearLayout reviewsContainer;
-    private FloatingActionButton favorite;
+    @Bind(R.id.movie_poster)
+    ImageView poster;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @Bind(R.id.movie_name)
+    TextView title;
+    @Bind(R.id.movie_year)
+    TextView releaseDate;
+    @Bind(R.id.movie_rating)
+    TextView rating;
+    @Bind(R.id.movie_description)
+    TextView overview;
+    @Bind(R.id.trailers_label)
+    TextView label;
+    @Bind(R.id.trailers)
+    LinearLayout trailers;
+    @Bind(R.id.trailers_container)
+    HorizontalScrollView horizontalScrollView;
+    @Bind(R.id.reviews_label)
+    TextView reviews;
+    @Bind(R.id.reviews)
+    LinearLayout reviewsContainer;
+    @Bind(R.id.favorite)
+    FloatingActionButton favorite;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     private Movie movie;
 
     public MovieDetailsFragment()
@@ -85,8 +99,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
                              Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
-        setToolbar(rootView);
-        initLayoutReferences(rootView);
+        ButterKnife.bind(this, rootView);
+        setToolbar();
         return rootView;
     }
 
@@ -106,33 +120,14 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         }
     }
 
-    private void initLayoutReferences(View rootView)
+    private void setToolbar()
     {
-        poster = (ImageView) rootView.findViewById(R.id.movie_poster);
-        title = (TextView) rootView.findViewById(R.id.movie_name);
-        releaseDate = (TextView) rootView.findViewById(R.id.movie_year);
-        rating = (TextView) rootView.findViewById(R.id.movie_rating);
-        overview = (TextView) rootView.findViewById(R.id.movie_description);
-        label = (TextView) rootView.findViewById(R.id.trailers_label);
-        horizontalScrollView = (HorizontalScrollView) rootView.findViewById(R.id.trailers_container);
-        trailers = (LinearLayout) rootView.findViewById(R.id.trailers);
-        reviews = (TextView) rootView.findViewById(R.id.reviews_label);
-        reviewsContainer = (LinearLayout) rootView.findViewById(R.id.reviews);
-        favorite = (FloatingActionButton) rootView.findViewById(R.id.favorite);
-        favorite.setOnClickListener(this);
-    }
+        collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        collapsingToolbar.setTitle(getString(R.string.movie_details));
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
+        collapsingToolbar.setTitleEnabled(true);
 
-    private void setToolbar(View rootView)
-    {
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-
-        collapsingToolbarLayout.setContentScrimColor(resources.getColor(R.color.colorPrimary));
-        collapsingToolbarLayout.setTitle(getString(R.string.movie_details));
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
-        collapsingToolbarLayout.setTitleEnabled(true);
-
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (toolbar != null)
         {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -180,8 +175,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             Picasso picasso = Picasso.with(getContext());
             for (Video trailer : trailers)
             {
-                ViewGroup thumbContainer = (ViewGroup) inflater.inflate(R.layout.video, this.trailers, false);
-                ImageView thumbView = (ImageView) thumbContainer.findViewById(R.id.video_thumb);
+                View thumbContainer = inflater.inflate(R.layout.video, this.trailers, false);
+                ImageView thumbView = ButterKnife.findById(thumbContainer, R.id.video_thumb);
                 thumbView.setTag(Video.getUrl(trailer));
                 thumbView.requestLayout();
                 thumbView.setOnClickListener(this);
@@ -212,10 +207,9 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             LayoutInflater inflater = getActivity().getLayoutInflater();
             for (Review review : reviews)
             {
-                ViewGroup reviewContainer = (ViewGroup) inflater.inflate(R.layout.review, reviewsContainer,
-                        false);
-                TextView reviewAuthor = (TextView) reviewContainer.findViewById(R.id.review_author);
-                TextView reviewContent = (TextView) reviewContainer.findViewById(R.id.review_content);
+                ViewGroup reviewContainer = (ViewGroup) inflater.inflate(R.layout.review, reviewsContainer, false);
+                TextView reviewAuthor = ButterKnife.findById(reviewContainer, R.id.review_author);
+                TextView reviewContent = ButterKnife.findById(reviewContainer, R.id.review_content);
                 reviewAuthor.setText(review.getAuthor());
                 reviewContent.setText(review.getContent());
                 reviewContent.setOnClickListener(this);
@@ -227,28 +221,16 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     @Override
     public void showFavorited()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_white_24dp, getContext().getTheme()));
-        } else
-        {
-            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_white_24dp));
-        }
+        favorite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_24dp));
     }
 
     @Override
     public void showUnFavorited()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_white_24dp, getContext().getTheme()));
-        } else
-        {
-            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_white_24dp));
-        }
+        favorite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_border_white_24dp));
     }
 
-    @Override
+    @OnClick(R.id.favorite)
     public void onClick(View view)
     {
         switch (view.getId())
@@ -298,6 +280,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         super.onDestroyView();
         movieDetailsPresenter.destroy();
+        ButterKnife.unbind(this);
     }
 
     @Override
