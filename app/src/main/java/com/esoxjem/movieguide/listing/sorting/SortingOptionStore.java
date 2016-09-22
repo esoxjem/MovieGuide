@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.sorting;
+package com.esoxjem.movieguide.listing.sorting;
 
 import android.content.Context;
 import android.content.SharedPreferences;

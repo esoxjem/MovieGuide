@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.sorting.SortingDialogFragment;
+import com.esoxjem.movieguide.listing.sorting.SortingDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        BaseApplication.getAppComponent(getContext()).inject(this);
+        ((BaseApplication) getActivity().getApplication()).createListingComponent().inject(this);
         moviesPresenter.setView(this);
     }
 
@@ -147,6 +147,13 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     {
         callback = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        ((BaseApplication) getActivity().getApplication()).releaseListingComponent();
     }
 
     public interface Callback

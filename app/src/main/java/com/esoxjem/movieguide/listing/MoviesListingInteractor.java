@@ -7,8 +7,8 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
-import com.esoxjem.movieguide.sorting.SortType;
-import com.esoxjem.movieguide.sorting.SortingOptionStore;
+import com.esoxjem.movieguide.listing.sorting.SortType;
+import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;

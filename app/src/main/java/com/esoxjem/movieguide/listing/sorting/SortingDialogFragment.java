@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.sorting;
+package com.esoxjem.movieguide.listing.sorting;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -39,7 +39,7 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        BaseApplication.getAppComponent(getContext()).inject(this);
+        ((BaseApplication) getActivity().getApplication()).getListingComponent().inject(this);
         sortingDialogPresenter.setView(this);
     }
 

@@ -1,74 +1,66 @@
 package com.esoxjem.movieguide;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.StrictMode;
 
+import com.esoxjem.movieguide.details.DetailsComponent;
 import com.esoxjem.movieguide.details.DetailsModule;
 import com.esoxjem.movieguide.favorites.FavoritesModule;
+import com.esoxjem.movieguide.listing.ListingComponent;
 import com.esoxjem.movieguide.listing.ListingModule;
 import com.esoxjem.movieguide.network.NetworkModule;
-import com.esoxjem.movieguide.sorting.SortingModule;
+import com.esoxjem.movieguide.listing.sorting.SortingModule;
 
 /**
  * @author arun
  */
 public class BaseApplication extends Application
 {
-    private AppComponent component;
+    private AppComponent appComponent;
+    private DetailsComponent detailsComponent;
+    private ListingComponent listingComponent;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
         StrictMode.enableDefaults();
+        appComponent = createAppComponent();
     }
 
-    public static AppComponent getAppComponent(Context context)
+    private AppComponent createAppComponent()
     {
-        BaseApplication app = (BaseApplication) context.getApplicationContext();
-        if (app.component == null)
-        {
-            app.component = DaggerAppComponent.builder()
-                    .appModule(app.getAppModule())
-                    .networkModule(app.getNetworkModule())
-                    .detailsModule(app.getDetailsModule())
-                    .favoritesModule(app.getFavoritesModule())
-                    .listingModule(app.getListingModule())
-                    .sortingModule(app.getSortingModule())
-                    .build();
-        }
-        return app.component;
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .networkModule(new NetworkModule())
+                .favoritesModule(new FavoritesModule())
+                .build();
     }
 
-    private AppModule getAppModule()
+    public DetailsComponent createDetailsComponent()
     {
-        return new AppModule(this);
+        detailsComponent = appComponent.plus(new DetailsModule());
+        return detailsComponent;
     }
 
-    private DetailsModule getDetailsModule()
+    public void releaseDetailsComponent()
     {
-        return new DetailsModule();
+        detailsComponent = null;
     }
 
-    private FavoritesModule getFavoritesModule()
+    public ListingComponent createListingComponent()
     {
-        return new FavoritesModule();
+        listingComponent = appComponent.plus(new ListingModule());
+        return listingComponent;
     }
 
-    private ListingModule getListingModule()
+    public void releaseListingComponent()
     {
-        return new ListingModule();
+        listingComponent = null;
     }
 
-    private SortingModule getSortingModule()
+    public ListingComponent getListingComponent()
     {
-        return new SortingModule();
+        return listingComponent;
     }
-
-    private NetworkModule getNetworkModule()
-    {
-        return new NetworkModule();
-    }
-
 }

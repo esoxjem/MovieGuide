@@ -1,25 +1,20 @@
 package com.esoxjem.movieguide.listing;
 
-import com.esoxjem.movieguide.network.NetworkModule;
-import com.esoxjem.movieguide.sorting.SortingModule;
-import com.esoxjem.movieguide.favorites.FavoritesModule;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestHandler;
-import com.esoxjem.movieguide.sorting.SortingOptionStore;
-
-import javax.inject.Singleton;
+import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
  * @author pulkitkumar
+ * @author arunsasidharan
  */
-@Module(includes = {NetworkModule.class, SortingModule.class, FavoritesModule.class})
+@Module
 public class ListingModule
 {
     @Provides
-    @Singleton
     IMoviesListingInteractor provideMovieListingInteractor(IFavoritesInteractor favoritesInteractor,
                                                            RequestHandler requestHandler,
                                                            SortingOptionStore sortingOptionStore)
