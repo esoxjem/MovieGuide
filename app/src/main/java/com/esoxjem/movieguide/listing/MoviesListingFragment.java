@@ -51,7 +51,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        ((BaseApplication) getActivity().getApplication()).getAppComponent().inject(this);
+        ((BaseApplication) getActivity().getApplication()).createListingComponent().inject(this);
         moviesPresenter.setView(this);
     }
 
@@ -147,6 +147,13 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     {
         callback = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        ((BaseApplication) getActivity().getApplication()).releaseListingComponent();
     }
 
     public interface Callback
