@@ -2,6 +2,7 @@ package com.esoxjem.movieguide.details;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,8 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
 {
     @Inject
     IMovieDetailsPresenter movieDetailsPresenter;
+    @Inject
+    Resources resources;
 
     private ImageView poster;
     private TextView title;
@@ -73,7 +76,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        BaseApplication.getAppComponent(getContext()).inject(this);
+        ((BaseApplication) getActivity().getApplication()).createDetailsComponent().inject(this);
         movieDetailsPresenter.setView(this);
     }
 
@@ -123,7 +126,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
 
-        collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+        collapsingToolbarLayout.setContentScrimColor(resources.getColor(R.color.colorPrimary));
         collapsingToolbarLayout.setTitle(getString(R.string.movie_details));
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
@@ -226,10 +229,10 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp, getContext().getTheme()));
+            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_white_24dp, getContext().getTheme()));
         } else
         {
-            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_white_24dp));
         }
     }
 
@@ -238,10 +241,10 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp, getContext().getTheme()));
+            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_white_24dp, getContext().getTheme()));
         } else
         {
-            favorite.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp));
+            favorite.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_white_24dp));
         }
     }
 
@@ -295,5 +298,12 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
     {
         super.onDestroyView();
         movieDetailsPresenter.destroy();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        ((BaseApplication) getActivity().getApplication()).releaseDetailsComponent();
     }
 }

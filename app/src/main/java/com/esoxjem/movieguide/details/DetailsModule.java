@@ -1,29 +1,27 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.favorites.FavoritesModule;
 import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
-import com.esoxjem.movieguide.network.NetworkModule;
 import com.esoxjem.movieguide.network.RequestHandler;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
  * @author pulkitkumar
+ * @author arunsasidharan
  */
-@Module(includes = {NetworkModule.class, FavoritesModule.class})
+@Module
 public class DetailsModule
 {
     @Provides
-    @Singleton
+    @DetailsScope
     IMovieDetailsInteractor provideInteractor(RequestHandler requestHandler)
     {
         return new MovieDetailsInteractor(requestHandler);
     }
 
     @Provides
+    @DetailsScope
     IMovieDetailsPresenter providePresenter(IMovieDetailsInteractor detailsInteractor,
                                             IFavoritesInteractor favoritesInteractor)
     {

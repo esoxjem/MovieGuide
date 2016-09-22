@@ -1,9 +1,9 @@
 package com.esoxjem.movieguide;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.StrictMode;
 
+import com.esoxjem.movieguide.details.DetailsComponent;
 import com.esoxjem.movieguide.details.DetailsModule;
 import com.esoxjem.movieguide.favorites.FavoritesModule;
 import com.esoxjem.movieguide.listing.ListingModule;
@@ -15,30 +15,42 @@ import com.esoxjem.movieguide.sorting.SortingModule;
  */
 public class BaseApplication extends Application
 {
-    private AppComponent component;
+    private AppComponent appComponent;
+    private DetailsComponent detailsComponent;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
         StrictMode.enableDefaults();
+        appComponent = createAppComponent();
     }
 
-    public static AppComponent getAppComponent(Context context)
+    private AppComponent createAppComponent()
     {
-        BaseApplication app = (BaseApplication) context.getApplicationContext();
-        if (app.component == null)
-        {
-            app.component = DaggerAppComponent.builder()
-                    .appModule(app.getAppModule())
-                    .networkModule(app.getNetworkModule())
-                    .detailsModule(app.getDetailsModule())
-                    .favoritesModule(app.getFavoritesModule())
-                    .listingModule(app.getListingModule())
-                    .sortingModule(app.getSortingModule())
-                    .build();
-        }
-        return app.component;
+        return DaggerAppComponent.builder()
+                .appModule(getAppModule())
+                .networkModule(getNetworkModule())
+                .favoritesModule(getFavoritesModule())
+                .listingModule(getListingModule())
+                .sortingModule(getSortingModule())
+                .build();
+    }
+
+    public DetailsComponent createDetailsComponent()
+    {
+        detailsComponent = appComponent.plus(getDetailsModule());
+        return detailsComponent;
+    }
+
+    public void releaseDetailsComponent()
+    {
+        detailsComponent = null;
+    }
+
+    public AppComponent getAppComponent()
+    {
+        return appComponent;
     }
 
     private AppModule getAppModule()

@@ -51,7 +51,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        BaseApplication.getAppComponent(getContext()).inject(this);
+        ((BaseApplication) getActivity().getApplication()).getAppComponent().inject(this);
         moviesPresenter.setView(this);
     }
 
