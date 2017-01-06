@@ -10,15 +10,15 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * @author pulkitkumar
  * @author arunsasidharan
+ * @author pulkitkumar
  */
 @Module
 public class AppModule
 {
     private Context context;
 
-    public AppModule(Application application)
+    AppModule(Application application)
     {
         context = application;
     }

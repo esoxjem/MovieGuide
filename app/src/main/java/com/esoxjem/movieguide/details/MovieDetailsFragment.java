@@ -91,7 +91,6 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         ((BaseApplication) getActivity().getApplication()).createDetailsComponent().inject(this);
-        movieDetailsPresenter.setView(this);
     }
 
     @Override
@@ -114,6 +113,7 @@ public class MovieDetailsFragment extends Fragment implements IMovieDetailsView,
             if (movie != null)
             {
                 this.movie = movie;
+                movieDetailsPresenter.setView(this);
                 movieDetailsPresenter.showDetails((movie));
                 movieDetailsPresenter.showFavoriteButton(movie);
             }

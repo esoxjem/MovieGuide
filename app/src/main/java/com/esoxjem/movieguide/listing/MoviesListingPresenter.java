@@ -8,19 +8,18 @@ import java.util.List;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
  * @author arun
  */
-public class MoviesListingPresenter implements IMoviesListingPresenter
+class MoviesListingPresenter implements IMoviesListingPresenter
 {
     private IMoviesListingView view;
     private IMoviesListingInteractor moviesInteractor;
     private Subscription fetchSubscription;
 
-    public MoviesListingPresenter(IMoviesListingInteractor interactor)
+    MoviesListingPresenter(IMoviesListingInteractor interactor)
     {
         moviesInteractor = interactor;
     }
@@ -29,6 +28,7 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
     public void setView(IMoviesListingView view)
     {
         this.view = view;
+        displayMovies();
     }
 
     @Override
@@ -41,39 +41,50 @@ public class MoviesListingPresenter implements IMoviesListingPresenter
     @Override
     public void displayMovies()
     {
+        showLoading();
         fetchSubscription = moviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0()
-                {
-                    @Override
-                    public void call()
-                    {
-                        if (isViewAttached())
-                        {
-                            view.loadingStarted();
-                        }
-                    }
-                })
                 .subscribe(new Subscriber<List<Movie>>()
                 {
                     @Override
                     public void onCompleted()
                     {
-
+                        // Do nothing
                     }
 
                     @Override
                     public void onError(Throwable e)
                     {
-                        view.loadingFailed(e.getMessage());
+                        onMovieFetchFailed(e);
                     }
 
                     @Override
                     public void onNext(List<Movie> movies)
                     {
-                        view.showMovies(movies);
+                        onMovieFetchSuccess(movies);
                     }
                 });
+    }
+
+    private void showLoading()
+    {
+        if (isViewAttached())
+        {
+            view.loadingStarted();
+        }
+    }
+
+    private void onMovieFetchSuccess(List<Movie> movies)
+    {
+        if (isViewAttached())
+        {
+            view.showMovies(movies);
+        }
+    }
+
+    private void onMovieFetchFailed(Throwable e)
+    {
+        view.loadingFailed(e.getMessage());
     }
 
     private boolean isViewAttached()

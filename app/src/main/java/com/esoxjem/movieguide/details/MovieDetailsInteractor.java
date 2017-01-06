@@ -5,13 +5,13 @@ import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.network.RequestGenerator;
 import com.esoxjem.movieguide.network.RequestHandler;
-import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Request;
 import rx.Observable;
 import rx.functions.Func0;
 

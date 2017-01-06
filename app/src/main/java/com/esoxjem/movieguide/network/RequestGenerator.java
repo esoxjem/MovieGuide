@@ -2,7 +2,7 @@ package com.esoxjem.movieguide.network;
 
 import android.support.annotation.NonNull;
 
-import com.squareup.okhttp.Request;
+import okhttp3.Request;
 
 /**
  * @author arun

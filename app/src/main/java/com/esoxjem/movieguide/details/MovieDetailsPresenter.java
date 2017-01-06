@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author arun
  */
-public class MovieDetailsPresenter implements IMovieDetailsPresenter
+class MovieDetailsPresenter implements IMovieDetailsPresenter
 {
     private IMovieDetailsView view;
     private IMovieDetailsInteractor movieDetailsInteractor;
@@ -24,7 +24,7 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
     private Subscription trailersSubscription;
     private Subscription reviewSubscription;
 
-    public MovieDetailsPresenter(IMovieDetailsInteractor movieDetailsInteractor, IFavoritesInteractor favoritesInteractor)
+    MovieDetailsPresenter(IMovieDetailsInteractor movieDetailsInteractor, IFavoritesInteractor favoritesInteractor)
     {
         this.movieDetailsInteractor = movieDetailsInteractor;
         this.favoritesInteractor = favoritesInteractor;
@@ -67,24 +67,29 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     @Override
                     public void onCompleted()
                     {
-
+                        // do nothing
                     }
 
                     @Override
                     public void onError(Throwable e)
                     {
-
+                        // do nothing
                     }
 
                     @Override
                     public void onNext(List<Video> videos)
                     {
-                        if (isViewAttached())
-                        {
-                            view.showTrailers(videos);
-                        }
+                        onGetTrailersSuccess(videos);
                     }
                 });
+    }
+
+    private void onGetTrailersSuccess(List<Video> videos)
+    {
+        if (isViewAttached())
+        {
+            view.showTrailers(videos);
+        }
     }
 
     @Override
@@ -97,24 +102,29 @@ public class MovieDetailsPresenter implements IMovieDetailsPresenter
                     @Override
                     public void onCompleted()
                     {
-
+                        // do nothing
                     }
 
                     @Override
                     public void onError(Throwable e)
                     {
-
+                        // do nothing
                     }
 
                     @Override
                     public void onNext(List<Review> reviews)
                     {
-                        if (isViewAttached())
-                        {
-                            view.showReviews(reviews);
-                        }
+                        onGetReviewsSuccess(reviews);
                     }
                 });
+    }
+
+    private void onGetReviewsSuccess(List<Review> reviews)
+    {
+        if (isViewAttached())
+        {
+            view.showReviews(reviews);
+        }
     }
 
     @Override

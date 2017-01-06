@@ -58,7 +58,6 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
         setHasOptionsMenu(true);
         setRetainInstance(true);
         ((BaseApplication) getActivity().getApplication()).createListingComponent().inject(this);
-        moviesPresenter.setView(this);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        moviesPresenter.displayMovies();
+        moviesPresenter.setView(this);
     }
 
     @Override
@@ -119,6 +118,7 @@ public class MoviesListingFragment extends Fragment implements IMoviesListingVie
     {
         this.movies.clear();
         this.movies.addAll(movies);
+        moviesListing.setVisibility(View.VISIBLE);
         adapter.notifyDataSetChanged();
         callback.onMoviesLoaded(movies.get(0));
     }
