@@ -3,7 +3,7 @@ package com.esoxjem.movieguide.details;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
-import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
+import com.esoxjem.movieguide.favorites.FavoritesInteractor;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,14 +27,14 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(RobolectricTestRunner.class)
-public class MovieDetailsPresenterTest
+public class MovieDetailsPresenterImplTest
 {
     @Mock
-    private IMovieDetailsView view;
+    private MovieDetailsView view;
     @Mock
-    private IMovieDetailsInteractor movieDetailsInteractor;
+    private MovieDetailsInteractor movieDetailsInteractor;
     @Mock
-    private IFavoritesInteractor favoritesInteractor;
+    private FavoritesInteractor favoritesInteractor;
     @Mock
     Movie movie;
     @Mock
@@ -42,13 +42,13 @@ public class MovieDetailsPresenterTest
     @Mock
     List<Review> reviews;
 
-    private MovieDetailsPresenter movieDetailsPresenter;
+    private MovieDetailsPresenterImpl movieDetailsPresenter;
 
     @Before
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
-        movieDetailsPresenter = new MovieDetailsPresenter(movieDetailsInteractor, favoritesInteractor);
+        movieDetailsPresenter = new MovieDetailsPresenterImpl(movieDetailsInteractor, favoritesInteractor);
         movieDetailsPresenter.setView(view);
     }
 

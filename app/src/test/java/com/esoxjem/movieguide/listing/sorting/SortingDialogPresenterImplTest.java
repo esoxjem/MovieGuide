@@ -13,19 +13,19 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SortingDialogPresenterTest
+public class SortingDialogPresenterImplTest
 {
     @Mock
-    private ISortingDialogInteractor interactor;
+    private SortingDialogInteractor interactor;
     @Mock
-    private ISortingDialogView view;
+    private SortingDialogView view;
 
-    private SortingDialogPresenter presenter;
+    private SortingDialogPresenterImpl presenter;
 
     @Before
     public void setUp() throws Exception
     {
-        presenter = new SortingDialogPresenter(interactor);
+        presenter = new SortingDialogPresenterImpl(interactor);
         presenter.setView(view);
     }
 

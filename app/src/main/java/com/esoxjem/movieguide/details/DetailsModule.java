@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
+import com.esoxjem.movieguide.favorites.FavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestHandler;
 
 import dagger.Module;
@@ -15,16 +15,16 @@ public class DetailsModule
 {
     @Provides
     @DetailsScope
-    IMovieDetailsInteractor provideInteractor(RequestHandler requestHandler)
+    MovieDetailsInteractor provideInteractor(RequestHandler requestHandler)
     {
-        return new MovieDetailsInteractor(requestHandler);
+        return new MovieDetailsInteractorImpl(requestHandler);
     }
 
     @Provides
     @DetailsScope
-    IMovieDetailsPresenter providePresenter(IMovieDetailsInteractor detailsInteractor,
-                                            IFavoritesInteractor favoritesInteractor)
+    MovieDetailsPresenter providePresenter(MovieDetailsInteractor detailsInteractor,
+                                           FavoritesInteractor favoritesInteractor)
     {
-        return new MovieDetailsPresenter(detailsInteractor, favoritesInteractor);
+        return new MovieDetailsPresenterImpl(detailsInteractor, favoritesInteractor);
     }
 }

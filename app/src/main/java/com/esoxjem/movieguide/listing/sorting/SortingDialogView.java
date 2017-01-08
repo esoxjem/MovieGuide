@@ -3,7 +3,7 @@ package com.esoxjem.movieguide.listing.sorting;
 /**
  * @author arun
  */
-public interface ISortingDialogView
+interface SortingDialogView
 {
     void setPopularChecked();
 

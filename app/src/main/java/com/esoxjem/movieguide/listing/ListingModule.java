@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide.listing;
 
-import com.esoxjem.movieguide.favorites.IFavoritesInteractor;
+import com.esoxjem.movieguide.favorites.FavoritesInteractor;
 import com.esoxjem.movieguide.network.RequestHandler;
 import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
 
@@ -15,16 +15,16 @@ import dagger.Provides;
 public class ListingModule
 {
     @Provides
-    IMoviesListingInteractor provideMovieListingInteractor(IFavoritesInteractor favoritesInteractor,
-                                                           RequestHandler requestHandler,
-                                                           SortingOptionStore sortingOptionStore)
+    MoviesListingInteractor provideMovieListingInteractor(FavoritesInteractor favoritesInteractor,
+                                                          RequestHandler requestHandler,
+                                                          SortingOptionStore sortingOptionStore)
     {
-        return new MoviesListingInteractor(favoritesInteractor, requestHandler, sortingOptionStore);
+        return new MoviesListingInteractorImpl(favoritesInteractor, requestHandler, sortingOptionStore);
     }
 
     @Provides
-    IMoviesListingPresenter provideMovieListingPresenter(IMoviesListingInteractor interactor)
+    MoviesListingPresenter provideMovieListingPresenter(MoviesListingInteractor interactor)
     {
-        return new MoviesListingPresenter(interactor);
+        return new MoviesListingPresenterImpl(interactor);
     }
 }

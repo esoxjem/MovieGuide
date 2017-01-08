@@ -37,10 +37,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MovieDetailsFragment extends Fragment implements IMovieDetailsView, View.OnClickListener
+public class MovieDetailsFragment extends Fragment implements MovieDetailsView, View.OnClickListener
 {
     @Inject
-    IMovieDetailsPresenter movieDetailsPresenter;
+    MovieDetailsPresenter movieDetailsPresenter;
 
     @Bind(R.id.movie_poster)
     ImageView poster;

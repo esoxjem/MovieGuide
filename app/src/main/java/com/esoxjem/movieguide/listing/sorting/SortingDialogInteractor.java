@@ -3,24 +3,9 @@ package com.esoxjem.movieguide.listing.sorting;
 /**
  * @author arun
  */
-public class SortingDialogInteractor implements ISortingDialogInteractor
+public interface SortingDialogInteractor
 {
-    private SortingOptionStore sortingOptionStore;
+    int getSelectedSortingOption();
 
-    public SortingDialogInteractor(SortingOptionStore store)
-    {
-        sortingOptionStore = store;
-    }
-
-    @Override
-    public int getSelectedSortingOption()
-    {
-        return sortingOptionStore.getSelectedOption();
-    }
-
-    @Override
-    public void setSortingOption(SortType sortType)
-    {
-        sortingOptionStore.setSelectedOption(sortType);
-    }
+    void setSortingOption(SortType sortType);
 }
