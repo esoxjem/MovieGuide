@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author arun
  */
-public interface IMovieDetailsView
+interface MovieDetailsView
 {
     void showDetails(Movie movie);
     void showTrailers(List<Video> trailers);

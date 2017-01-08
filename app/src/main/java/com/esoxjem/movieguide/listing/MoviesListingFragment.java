@@ -27,10 +27,10 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MoviesListingFragment extends Fragment implements IMoviesListingView
+public class MoviesListingFragment extends Fragment implements MoviesListingView
 {
     @Inject
-    IMoviesListingPresenter moviesPresenter;
+    MoviesListingPresenter moviesPresenter;
 
     @Bind(R.id.movies_listing)
     RecyclerView moviesListing;

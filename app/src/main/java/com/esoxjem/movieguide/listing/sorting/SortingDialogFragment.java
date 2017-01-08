@@ -13,7 +13,7 @@ import android.widget.RadioGroup;
 
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
-import com.esoxjem.movieguide.listing.IMoviesListingPresenter;
+import com.esoxjem.movieguide.listing.MoviesListingPresenter;
 
 import javax.inject.Inject;
 
@@ -23,10 +23,10 @@ import butterknife.ButterKnife;
 /**
  * @author arun
  */
-public class SortingDialogFragment extends DialogFragment implements ISortingDialogView, RadioGroup.OnCheckedChangeListener
+public class SortingDialogFragment extends DialogFragment implements SortingDialogView, RadioGroup.OnCheckedChangeListener
 {
     @Inject
-    ISortingDialogPresenter sortingDialogPresenter;
+    SortingDialogPresenter sortingDialogPresenter;
 
     @Bind(R.id.most_popular)
     RadioButton mostPopular;
@@ -37,9 +37,9 @@ public class SortingDialogFragment extends DialogFragment implements ISortingDia
     @Bind(R.id.sorting_group)
     RadioGroup sortingOptionsGroup;
 
-    private static IMoviesListingPresenter moviesListingPresenter;
+    private static MoviesListingPresenter moviesListingPresenter;
 
-    public static SortingDialogFragment newInstance(IMoviesListingPresenter moviesListingPresenter)
+    public static SortingDialogFragment newInstance(MoviesListingPresenter moviesListingPresenter)
     {
         SortingDialogFragment.moviesListingPresenter = moviesListingPresenter;
         return new SortingDialogFragment();

@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import rx.Observable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,24 +23,24 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(RobolectricTestRunner.class)
-public class MoviesListingPresenterTest
+public class MoviesListingPresenterImplTest
 {
     @Mock
-    private IMoviesListingInteractor interactor;
+    private MoviesListingInteractor interactor;
     @Mock
-    private IMoviesListingView view;
+    private MoviesListingView view;
     @Mock
     Throwable throwable;
     @Mock
     private List<Movie> movies;
 
-    private MoviesListingPresenter presenter;
+    private MoviesListingPresenterImpl presenter;
 
     @Before
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
-        presenter = new MoviesListingPresenter(interactor);
+        presenter = new MoviesListingPresenterImpl(interactor);
     }
 
     @After

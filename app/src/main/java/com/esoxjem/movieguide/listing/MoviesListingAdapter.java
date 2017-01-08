@@ -29,7 +29,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
 {
     private List<Movie> movies;
     private Context context;
-    private IMoviesListingView view;
+    private MoviesListingView view;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
@@ -55,7 +55,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
         }
     }
 
-    public MoviesListingAdapter(List<Movie> movies, IMoviesListingView moviesView)
+    public MoviesListingAdapter(List<Movie> movies, MoviesListingView moviesView)
     {
         this.movies = movies;
         view = moviesView;
