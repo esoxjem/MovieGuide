@@ -39,42 +39,36 @@ class MoviesListingInteractorImpl implements MoviesListingInteractor
     @Override
     public Observable<List<Movie>> fetchMovies()
     {
-        return Observable.defer(new Func0<Observable<List<Movie>>>()
-        {
-            @Override
-            public Observable<List<Movie>> call()
-            {
-                try
-                {
-                    return Observable.just(get());
-                } catch (Exception e)
-                {
-                    return Observable.error(e);
-                }
-            }
-
-            private List<Movie> get() throws IOException, JSONException
-            {
-                int selectedOption = sortingOptionStore.getSelectedOption();
-                if (selectedOption == SortType.MOST_POPULAR.getValue())
-                {
-                    return fetch(Api.GET_POPULAR_MOVIES);
-                } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
-                {
-                    return fetch(Api.GET_HIGHEST_RATED_MOVIES);
-                } else
-                {
-                    return favoritesInteractor.getFavorites();
-                }
-            }
-
-            @NonNull
-            private List<Movie> fetch(String url) throws IOException, JSONException
-            {
-                Request request = RequestGenerator.get(url);
-                String response = requestHandler.request(request);
-                return MoviesListingParser.parse(response);
+        return Observable.defer(() -> {
+            try {
+                return Observable.just(getMovieList());
+            } catch (Exception e) {
+                return Observable.error(e);
             }
         });
+    }
+
+
+    private List<Movie> getMovieList() throws IOException, JSONException
+    {
+        int selectedOption = sortingOptionStore.getSelectedOption();
+        if (selectedOption == SortType.MOST_POPULAR.getValue())
+        {
+            return fetchMovieList(Api.GET_POPULAR_MOVIES);
+        } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
+        {
+            return fetchMovieList(Api.GET_HIGHEST_RATED_MOVIES);
+        } else
+        {
+            return favoritesInteractor.getFavorites();
+        }
+    }
+
+    @NonNull
+    private List<Movie> fetchMovieList(String url) throws IOException, JSONException
+    {
+        Request request = RequestGenerator.get(url);
+        String response = requestHandler.request(request);
+        return MoviesListingParser.parse(response);
     }
 }

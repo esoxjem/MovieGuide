@@ -30,54 +30,45 @@ class MovieDetailsInteractorImpl implements MovieDetailsInteractor
     @Override
     public Observable<List<Video>> getTrailers(final String id)
     {
-        return Observable.defer(new Func0<Observable<List<Video>>>()
-        {
-            @Override
-            public Observable<List<Video>> call()
+        return Observable.defer(() -> {
+            try
             {
-                try
-                {
-                    return Observable.just(get(id));
-                } catch (Exception e)
-                {
-                    return Observable.error(e);
-                }
-            }
-
-            private List<Video> get(String id) throws IOException, JSONException
+                return Observable.just(getVideoList(id));
+            } catch (Exception e)
             {
-                String url = String.format(Api.GET_TRAILERS, id);
-                Request request = RequestGenerator.get(url);
-                String body = requestHandler.request(request);
-                return MovieDetailsParser.parseTrailers(body);
+                return Observable.error(e);
             }
         });
+    }
+
+    private List<Video> getVideoList(String id) throws IOException, JSONException
+    {
+        String url = String.format(Api.GET_TRAILERS, id);
+        Request request = RequestGenerator.get(url);
+        String body = requestHandler.request(request);
+        return MovieDetailsParser.parseTrailers(body);
+    }
+
+    private List<Review> getReviewList(String id) throws IOException, JSONException
+    {
+        String url = String.format(Api.GET_REVIEWS, id);
+        Request request = RequestGenerator.get(url);
+        String body = requestHandler.request(request);
+        return MovieDetailsParser.parseReviews(body);
     }
 
     @Override
     public Observable<List<Review>> getReviews(final String id)
     {
-        return Observable.defer(new Func0<Observable<List<Review>>>()
-        {
-            @Override
-            public Observable<List<Review>> call()
+        return Observable.defer(() -> {
+            try
             {
-                try
-                {
-                    return Observable.just(get(id));
-                } catch (Exception e)
-                {
-                    return Observable.error(e);
-                }
-            }
-
-            private List<Review> get(String id) throws IOException, JSONException
+                return Observable.just(getReviewList(id));
+            } catch (Exception e)
             {
-                String url = String.format(Api.GET_REVIEWS, id);
-                Request request = RequestGenerator.get(url);
-                String body = requestHandler.request(request);
-                return MovieDetailsParser.parseReviews(body);
+                return Observable.error(e);
             }
         });
     }
+
 }
