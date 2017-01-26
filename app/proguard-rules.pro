@@ -18,6 +18,7 @@
 
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
+-dontwarn java.lang.invoke.*
 -keep class **$$ViewBinder { *; }
 
 -keepclasseswithmembernames class * {
