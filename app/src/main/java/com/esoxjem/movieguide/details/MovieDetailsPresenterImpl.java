@@ -62,26 +62,7 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter
     {
         trailersSubscription = movieDetailsInteractor.getTrailers(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Video>>()
-                {
-                    @Override
-                    public void onCompleted()
-                    {
-                        // do nothing
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        // do nothing
-                    }
-
-                    @Override
-                    public void onNext(List<Video> videos)
-                    {
-                        onGetTrailersSuccess(videos);
-                    }
-                });
+                .subscribe(this::onGetTrailersSuccess);
     }
 
     private void onGetTrailersSuccess(List<Video> videos)
@@ -97,26 +78,7 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter
     {
         reviewSubscription = movieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Review>>()
-                {
-                    @Override
-                    public void onCompleted()
-                    {
-                        // do nothing
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        // do nothing
-                    }
-
-                    @Override
-                    public void onNext(List<Review> reviews)
-                    {
-                        onGetReviewsSuccess(reviews);
-                    }
-                });
+                .subscribe(this::onGetReviewsSuccess);
     }
 
     private void onGetReviewsSuccess(List<Review> reviews)
