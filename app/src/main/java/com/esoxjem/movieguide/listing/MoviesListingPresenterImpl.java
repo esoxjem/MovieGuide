@@ -44,26 +44,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter
         showLoading();
         fetchSubscription = moviesInteractor.fetchMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Movie>>()
-                {
-                    @Override
-                    public void onCompleted()
-                    {
-                        // Do nothing
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        onMovieFetchFailed(e);
-                    }
-
-                    @Override
-                    public void onNext(List<Movie> movies)
-                    {
-                        onMovieFetchSuccess(movies);
-                    }
-                });
+                .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
     }
 
     private void showLoading()
