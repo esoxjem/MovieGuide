@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import com.esoxjem.movieguide.Api;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.network.RequestGenerator;
-import com.esoxjem.movieguide.network.RequestHandler;
 import com.esoxjem.movieguide.listing.sorting.SortType;
 import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
+import com.esoxjem.movieguide.network.RequestGenerator;
+import com.esoxjem.movieguide.network.RequestHandler;
 
 import org.json.JSONException;
 
@@ -17,7 +17,6 @@ import java.util.List;
 
 import okhttp3.Request;
 import rx.Observable;
-import rx.functions.Func0;
 
 /**
  * @author arun
@@ -39,13 +38,7 @@ class MoviesListingInteractorImpl implements MoviesListingInteractor
     @Override
     public Observable<List<Movie>> fetchMovies()
     {
-        return Observable.defer(() -> {
-            try {
-                return Observable.just(getMovieList());
-            } catch (Exception e) {
-                return Observable.error(e);
-            }
-        });
+        return Observable.fromCallable(this::getMovieList);
     }
 
 

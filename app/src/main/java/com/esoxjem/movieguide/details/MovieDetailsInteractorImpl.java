@@ -13,7 +13,6 @@ import java.util.List;
 
 import okhttp3.Request;
 import rx.Observable;
-import rx.functions.Func0;
 
 /**
  * @author arun
@@ -30,15 +29,7 @@ class MovieDetailsInteractorImpl implements MovieDetailsInteractor
     @Override
     public Observable<List<Video>> getTrailers(final String id)
     {
-        return Observable.defer(() -> {
-            try
-            {
-                return Observable.just(getVideoList(id));
-            } catch (Exception e)
-            {
-                return Observable.error(e);
-            }
-        });
+        return Observable.fromCallable(() -> getVideoList(id));
     }
 
     private List<Video> getVideoList(String id) throws IOException, JSONException
@@ -60,15 +51,7 @@ class MovieDetailsInteractorImpl implements MovieDetailsInteractor
     @Override
     public Observable<List<Review>> getReviews(final String id)
     {
-        return Observable.defer(() -> {
-            try
-            {
-                return Observable.just(getReviewList(id));
-            } catch (Exception e)
-            {
-                return Observable.error(e);
-            }
-        });
+        return Observable.fromCallable(() -> getReviewList(id));
     }
 
 }
