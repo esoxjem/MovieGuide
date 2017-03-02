@@ -3,13 +3,13 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.esoxjem.movieguide"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
@@ -37,7 +37,7 @@ android {
 }
 
 ext {
-    supportLibVersion = '24.1.1'
+    supportLibVersion = '25.1.1'
     okhttpVersion = '3.5.0'
     daggerVersion = '2.5'
 }
@@ -53,8 +53,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
 
     // Rx
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.7'
 
     // Network
     compile "com.squareup.okhttp3:okhttp:${okhttpVersion}"
