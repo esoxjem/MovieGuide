@@ -1,6 +1,9 @@
 package com.esoxjem.movieguide.listing.sorting;
 
+import com.esoxjem.movieguide.util.RxSchedulersOverrideRule;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -19,6 +22,9 @@ public class SortingDialogPresenterImplTest
     private SortingDialogInteractor interactor;
     @Mock
     private SortingDialogView view;
+
+    @Rule
+    public RxSchedulersOverrideRule rxSchedulersOverrideRule = new RxSchedulersOverrideRule();
 
     private SortingDialogPresenterImpl presenter;
 

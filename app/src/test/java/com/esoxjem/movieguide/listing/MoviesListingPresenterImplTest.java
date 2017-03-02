@@ -1,9 +1,11 @@
 package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.RxSchedulersOverrideRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -33,6 +35,9 @@ public class MoviesListingPresenterImplTest
     Throwable throwable;
     @Mock
     private List<Movie> movies;
+
+    @Rule
+    public RxSchedulersOverrideRule rxSchedulersOverrideRule = new RxSchedulersOverrideRule();
 
     private MoviesListingPresenterImpl presenter;
 
