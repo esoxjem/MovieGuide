@@ -8,7 +8,6 @@ import com.esoxjem.movieguide.util.RxUtils;
 
 import java.util.List;
 
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -62,7 +61,7 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter
     {
         trailersSubscription = movieDetailsInteractor.getTrailers(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onGetTrailersSuccess);
+                .subscribe(this::onGetTrailersSuccess, t -> onGetTrailersFailure());
     }
 
     private void onGetTrailersSuccess(List<Video> videos)
@@ -73,12 +72,17 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter
         }
     }
 
+    private void onGetTrailersFailure()
+    {
+        // Do nothing
+    }
+
     @Override
     public void showReviews(Movie movie)
     {
         reviewSubscription = movieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onGetReviewsSuccess);
+                .subscribe(this::onGetReviewsSuccess, t -> onGetReviewsFailure());
     }
 
     private void onGetReviewsSuccess(List<Review> reviews)
@@ -87,6 +91,11 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter
         {
             view.showReviews(reviews);
         }
+    }
+
+    private void onGetReviewsFailure()
+    {
+        // Do nothing
     }
 
     @Override
