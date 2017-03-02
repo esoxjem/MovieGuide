@@ -1,5 +1,5 @@
 # MovieGuide
-![build status](https://circleci.com/gh/esoxjem/MovieGuide.svg?&style=shield&circle-token=d70af6198563283dd5ece86f07a0a74dd50d566b)
+[![CircleCI](https://circleci.com/gh/esoxjem/MovieGuide/tree/master.svg?style=badge&circle-token=d70af6198563283dd5ece86f07a0a74dd50d566b)](https://circleci.com/gh/esoxjem/MovieGuide/tree/master)
 
 Android app that lists popular/highest-rated movies, shows trailers and reviews.
 
