@@ -1,4 +1,6 @@
 # MovieGuide
+![build status](https://circleci.com/gh/esoxjem/MovieGuide.svg?&style=shield&circle-token=d70af6198563283dd5ece86f07a0a74dd50d566b)
+
 Android app that lists popular/highest-rated movies, shows trailers and reviews.
 
 This app showcases the MVP pattern, RxJava, Dagger 2 and Uncle Bob Martin's Clean Architecture approach.
