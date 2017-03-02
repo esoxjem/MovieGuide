@@ -46,8 +46,7 @@ test:
 
   post:
       - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-      - find . -type f -regex "app/build/test-results/debug.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-
-#     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+      - find . -type f -regex "app/build/test-results/debug/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - cp -r app/build/outputs $CIRCLE_ARTIFACTS
 #     - cp -r app/build/reports/tests/debug $CIRCLE_TEST_REPORTS/UnitTests
 #     - cp -r app/build/outputs/androidTest-results/connected/ $CIRCLE_TEST_REPORTS
