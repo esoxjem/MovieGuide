@@ -10,10 +10,10 @@ def getProperty(String filename, String propName) {
         if (props[propName] != null) {
             return props[propName]
         } else {
-            throw new IllegalArgumentException("No such property " + propName + " in file " + filename);
+            print("No such property " + propName + " in file " + filename);
         }
     } else {
-        throw new IllegalArgumentException(filename + " does not exist!");
+        print(filename + " does not exist!")
     }
 }
 
