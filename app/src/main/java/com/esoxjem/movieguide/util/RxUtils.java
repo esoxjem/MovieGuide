@@ -9,38 +9,17 @@ public class RxUtils
 {
     public static void unsubscribe(Subscription subscription)
     {
-        if (subscription != null)
+        if (subscription != null && !subscription.isUnsubscribed())
         {
-            if (!subscription.isUnsubscribed())
-            {
-                subscription.unsubscribe();
-            } else
-            {
-                // Already unsubscribed
-            }
-        } else
-        {
-            // Subscription doesn't exist
-        }
+            subscription.unsubscribe();
+        } // else subscription doesn't exist or already unsubscribed
     }
 
     public static void unsubscribe(Subscription... subscriptions)
     {
         for (Subscription subscription : subscriptions)
         {
-            if (subscription != null)
-            {
-                if (!subscription.isUnsubscribed())
-                {
-                    subscription.unsubscribe();
-                } else
-                {
-                    // Already unsubscribed
-                }
-            } else
-            {
-                // Subscription doesn't exist
-            }
+            unsubscribe(subscription);
         }
     }
 }
