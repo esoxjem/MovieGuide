@@ -29,6 +29,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
+        buildConfigField "String", "TMDB_BASE_URL", "\"http://api.themoviedb.org/\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -90,6 +91,20 @@ dependencies {
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
     provided 'javax.annotation:jsr250-api:1.0'
+
+    // Gson
+    compile 'com.google.code.gson:gson:2.8.1'
+
+    // Retrofit 2
+    compile('com.squareup.retrofit2:retrofit:2.3.0') {
+        exclude module: 'com.squareup.okio'
+    }
+    compile('com.squareup.retrofit2:converter-gson:2.3.0') {
+        exclude module: 'com.squareup.okio'
+    }
+    compile('com.squareup.retrofit2:adapter-rxjava:2.3.0') {
+        exclude module: 'com.squareup.okio'
+    }
 
     // Tests
     testCompile 'junit:junit:4.12'

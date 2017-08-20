@@ -1,41 +1,64 @@
 package com.esoxjem.movieguide.network;
 
 
+import com.esoxjem.movieguide.BuildConfig;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author arunsasidharan
  * @author pulkitkumar
  */
 @Module
-public class NetworkModule
-{
+public class NetworkModule {
     public static final int CONNECT_TIMEOUT_IN_MS = 30000;
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient()
-    {
+    Interceptor requestInterceptor(RequestInterceptor interceptor) {
+        return interceptor;
+    }
+
+    @Provides
+    @Singleton
+    OkHttpClient provideOkHttpClient(RequestInterceptor requestInterceptor) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new okhttp3.OkHttpClient.Builder()
                 .connectTimeout(CONNECT_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS)
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(requestInterceptor)
                 .build();
     }
 
-    @Provides
     @Singleton
-    RequestHandler provideRequestHandler(OkHttpClient okHttpClient)
-    {
-        return new RequestHandler(okHttpClient);
+    @Provides
+    Retrofit retrofit(OkHttpClient okHttpClient) {
+        return new Retrofit
+                .Builder()
+                .baseUrl(BuildConfig.TMDB_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
     }
+
+    @Singleton
+    @Provides
+    TmdbWebService tmdbWebService(Retrofit retrofit) {
+        return retrofit.create(TmdbWebService.class);
+    }
+
 }
