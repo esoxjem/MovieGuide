@@ -1,8 +1,8 @@
 package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.network.RequestHandler;
 import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
+import com.esoxjem.movieguide.network.TmdbWebService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,19 +12,16 @@ import dagger.Provides;
  * @author arunsasidharan
  */
 @Module
-public class ListingModule
-{
+public class ListingModule {
     @Provides
     MoviesListingInteractor provideMovieListingInteractor(FavoritesInteractor favoritesInteractor,
-                                                          RequestHandler requestHandler,
-                                                          SortingOptionStore sortingOptionStore)
-    {
-        return new MoviesListingInteractorImpl(favoritesInteractor, requestHandler, sortingOptionStore);
+                                                          TmdbWebService tmdbWebService,
+                                                          SortingOptionStore sortingOptionStore) {
+        return new MoviesListingInteractorImpl(favoritesInteractor, tmdbWebService, sortingOptionStore);
     }
 
     @Provides
-    MoviesListingPresenter provideMovieListingPresenter(MoviesListingInteractor interactor)
-    {
+    MoviesListingPresenter provideMovieListingPresenter(MoviesListingInteractor interactor) {
         return new MoviesListingPresenterImpl(interactor);
     }
 }

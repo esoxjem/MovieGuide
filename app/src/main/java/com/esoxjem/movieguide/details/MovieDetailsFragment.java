@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.esoxjem.movieguide.Api;
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.Movie;
@@ -146,7 +147,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     @Override
     public void showDetails(Movie movie)
     {
-        Glide.with(getContext()).load(movie.getBackdropPath()).into(poster);
+        Glide.with(getContext()).load(Api.getBackdropPath(movie.getBackdropPath())).into(poster);
         title.setText(movie.getTitle());
         releaseDate.setText(String.format(getString(R.string.release_date), movie.getReleaseDate()));
         rating.setText(String.format(getString(R.string.rating), String.valueOf(movie.getVoteAverage())));

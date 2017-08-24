@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.esoxjem.movieguide.Api;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
 
@@ -76,8 +77,8 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
         holder.itemView.setOnClickListener(holder);
         holder.movie = movies.get(position);
         holder.name.setText(holder.movie.getTitle());
-        Glide.with(context).load(holder.movie
-                .getPosterPath()).asBitmap()
+        Glide.with(context).load(Api.getPosterPath(holder.movie.getPosterPath()))
+                .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(new BitmapImageViewTarget(holder.poster)
                 {

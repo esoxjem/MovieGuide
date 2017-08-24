@@ -3,14 +3,20 @@ package com.esoxjem.movieguide;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Movie implements Parcelable
 {
     private String id;
     private String overview;
+    @SerializedName("release_date")
     private String releaseDate;
+    @SerializedName("poster_path")
     private String posterPath;
+    @SerializedName("backdrop_path")
     private String backdropPath;
     private String title;
+    @SerializedName("vote_average")
     private double voteAverage;
 
     public Movie()
