@@ -4,7 +4,6 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.util.RxSchedulersOverrideRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -43,9 +42,6 @@ public class MovieDetailsPresenterImplTest
     List<Video> videos;
     @Mock
     List<Review> reviews;
-
-    @Rule
-    public RxSchedulersOverrideRule rxSchedulersOverrideRule = new RxSchedulersOverrideRule();
 
     private MovieDetailsPresenterImpl movieDetailsPresenter;
 
