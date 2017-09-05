@@ -3,9 +3,6 @@ package com.esoxjem.movieguide.util;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * This rule registers SchedulerHooks for RxJava and RxAndroid to ensure that subscriptions
@@ -19,17 +16,6 @@ public class RxSchedulersOverrideRule implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-
-                RxJavaPlugins.reset();
-
-                RxAndroidPlugins.setInitMainThreadSchedulerHandler(
-                        __ -> Schedulers.io());
-                RxAndroidPlugins.setMainThreadSchedulerHandler(
-                        __ -> Schedulers.io());
-
-                base.evaluate();
-
-                RxJavaPlugins.reset();
             }
         };
     }
