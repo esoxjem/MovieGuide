@@ -4,7 +4,7 @@ import com.esoxjem.movieguide.Movie;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * @author arun

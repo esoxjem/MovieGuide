@@ -6,7 +6,7 @@ import com.esoxjem.movieguide.VideoWrapper;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by ivan on 8/20/2017.

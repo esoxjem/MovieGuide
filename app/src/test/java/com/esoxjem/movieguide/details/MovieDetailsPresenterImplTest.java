@@ -17,13 +17,9 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import rx.Observable;
-import rx.Single;
-import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
-
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -93,16 +89,16 @@ public class MovieDetailsPresenterImplTest
     public void shouldBeAbleToShowTrailers()
     {
         TestScheduler testScheduler = new TestScheduler();
-        TestSubscriber<List<Video>> testSubscriber = new TestSubscriber<>();
+        TestObserver<List<Video>> testObserver = new TestObserver<>();
         Observable<List<Video>> responseObservable = Observable.just(videos).subscribeOn(testScheduler);
-        responseObservable.subscribe(testSubscriber);
+        responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showTrailers(movie);
         testScheduler.triggerActions();
 
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
+        testObserver.assertNoErrors();
+        testObserver.assertComplete();
         verify(view).showTrailers(videos);
     }
 
@@ -120,16 +116,16 @@ public class MovieDetailsPresenterImplTest
     public void shouldBeAbleToShowReviews()
     {
         TestScheduler testScheduler = new TestScheduler();
-        TestSubscriber<List<Review>> testSubscriber = new TestSubscriber<>();
+        TestObserver<List<Review>> testObserver = new TestObserver<>();
         Observable<List<Review>> responseObservable = Observable.just(reviews).subscribeOn(testScheduler);
-        responseObservable.subscribe(testSubscriber);
+        responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getReviews(anyString())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showReviews(movie);
         testScheduler.triggerActions();
 
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
+        testObserver.assertNoErrors();
+        testObserver.assertComplete();
         verify(view).showReviews(reviews);
     }
 

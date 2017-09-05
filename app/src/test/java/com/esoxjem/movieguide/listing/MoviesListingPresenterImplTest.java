@@ -14,10 +14,9 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
-import rx.Observable;
-import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
-
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,16 +57,16 @@ public class MoviesListingPresenterImplTest
     public void shouldBeAbleToDisplayMovies()
     {
         TestScheduler testScheduler = new TestScheduler();
-        TestSubscriber<List<Movie>> testSubscriber = new TestSubscriber<>();
+        TestObserver<List<Movie>> testObserver = new TestObserver<>();
         Observable<List<Movie>> responseObservable = Observable.just(movies).subscribeOn(testScheduler);
-        responseObservable.subscribe(testSubscriber);
+        responseObservable.subscribe(testObserver);
         when(interactor.fetchMovies()).thenReturn(responseObservable);
 
         presenter.setView(view);
         testScheduler.triggerActions();
 
-        testSubscriber.assertNoErrors();
-        testSubscriber.onCompleted();
+        testObserver.assertNoErrors();
+        testObserver.onComplete();
         verify(view).showMovies(movies);
     }
 }

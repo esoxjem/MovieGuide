@@ -2,13 +2,10 @@ package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.util.RxUtils;
-
 import java.util.List;
-
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author arun
@@ -17,7 +14,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter
 {
     private MoviesListingView view;
     private MoviesListingInteractor moviesInteractor;
-    private Subscription fetchSubscription;
+    private Disposable fetchSubscription;
 
     MoviesListingPresenterImpl(MoviesListingInteractor interactor)
     {

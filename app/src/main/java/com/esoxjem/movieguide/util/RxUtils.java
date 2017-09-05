@@ -1,23 +1,24 @@
 package com.esoxjem.movieguide.util;
 
-import rx.Subscription;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author arun
  */
 public class RxUtils
 {
-    public static void unsubscribe(Subscription subscription)
+    public static void unsubscribe(Disposable subscription)
     {
-        if (subscription != null && !subscription.isUnsubscribed())
+        if (subscription != null && !subscription.isDisposed())
         {
-            subscription.unsubscribe();
+            subscription.dispose();
         } // else subscription doesn't exist or already unsubscribed
     }
 
-    public static void unsubscribe(Subscription... subscriptions)
+    public static void unsubscribe(Disposable... subscriptions)
     {
-        for (Subscription subscription : subscriptions)
+        for (Disposable subscription : subscriptions)
         {
             unsubscribe(subscription);
         }
