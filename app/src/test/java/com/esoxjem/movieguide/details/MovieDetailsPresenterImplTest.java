@@ -93,8 +93,8 @@ public class MovieDetailsPresenterImplTest
         Observable<List<Video>> responseObservable = Observable.just(videos)
                 .subscribeOn(testScheduler)
                 .observeOn(testScheduler);
-        responseObservable.subscribe(testObserver);
 
+        responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showTrailers(movie);
@@ -121,7 +121,8 @@ public class MovieDetailsPresenterImplTest
         TestScheduler testScheduler = rule.getTestScheduler();
         TestObserver<List<Review>> testObserver = new TestObserver<>();
         Observable<List<Review>> responseObservable = Observable.just(reviews)
-                .subscribeOn(testScheduler);
+                .subscribeOn(testScheduler)
+                .observeOn(testScheduler);
 
         responseObservable.subscribe(testObserver);
 
