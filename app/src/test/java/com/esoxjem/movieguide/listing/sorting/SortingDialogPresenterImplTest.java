@@ -1,10 +1,6 @@
 package com.esoxjem.movieguide.listing.sorting;
 
-import com.esoxjem.movieguide.util.RxImmediateSchedulerRule;
-import com.esoxjem.movieguide.util.TestSchedulerRule;
-
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

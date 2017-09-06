@@ -4,10 +4,11 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.util.TestSchedulerRule;
+import com.esoxjem.movieguide.util.TrampolineSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,10 @@ import org.robolectric.RobolectricTestRunner;
 import java.net.SocketTimeoutException;
 import java.util.List;
 import io.reactivex.Observable;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -31,7 +35,7 @@ import static org.mockito.Mockito.when;
 public class MovieDetailsPresenterImplTest
 {
     @Rule
-    public TestSchedulerRule rule;
+    public TrampolineSchedulerRule rule;
 
     @Mock
     private MovieDetailsView view;
@@ -51,7 +55,6 @@ public class MovieDetailsPresenterImplTest
     @Before
     public void setUp() throws Exception
     {
-        rule = new TestSchedulerRule();
         MockitoAnnotations.initMocks(this);
         movieDetailsPresenter = new MovieDetailsPresenterImpl(movieDetailsInteractor, favoritesInteractor);
         movieDetailsPresenter.setView(view);
@@ -88,11 +91,11 @@ public class MovieDetailsPresenterImplTest
     @Test
     public void shouldBeAbleToShowTrailers()
     {
-        TestScheduler testScheduler = rule.getTestScheduler();
+        TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Video>> testObserver = new TestObserver<>();
         Observable<List<Video>> responseObservable = Observable.just(videos)
                 .subscribeOn(testScheduler)
-                .observeOn(testScheduler);
+                .observeOn(AndroidSchedulers.mainThread());
 
         responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
@@ -118,11 +121,11 @@ public class MovieDetailsPresenterImplTest
     @Test
     public void shouldBeAbleToShowReviews()
     {
-        TestScheduler testScheduler = rule.getTestScheduler();
+        TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Review>> testObserver = new TestObserver<>();
         Observable<List<Review>> responseObservable = Observable.just(reviews)
                 .subscribeOn(testScheduler)
-                .observeOn(testScheduler);
+                .observeOn(AndroidSchedulers.mainThread());
 
         responseObservable.subscribe(testObserver);
 
