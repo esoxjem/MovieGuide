@@ -5,12 +5,10 @@ import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
 import com.esoxjem.movieguide.util.RxUtils;
-
 import java.util.List;
-
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author arun
@@ -20,8 +18,8 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter
     private MovieDetailsView view;
     private MovieDetailsInteractor movieDetailsInteractor;
     private FavoritesInteractor favoritesInteractor;
-    private Subscription trailersSubscription;
-    private Subscription reviewSubscription;
+    private Disposable trailersSubscription;
+    private Disposable reviewSubscription;
 
     MovieDetailsPresenterImpl(MovieDetailsInteractor movieDetailsInteractor, FavoritesInteractor favoritesInteractor)
     {

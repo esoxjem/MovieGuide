@@ -1,23 +1,17 @@
 package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.Movie;
-import com.esoxjem.movieguide.util.RxSchedulersOverrideRule;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-
 import java.util.List;
-
-import rx.Observable;
-import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
-
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,9 +29,6 @@ public class MoviesListingPresenterImplTest
     Throwable throwable;
     @Mock
     private List<Movie> movies;
-
-    @Rule
-    public RxSchedulersOverrideRule rxSchedulersOverrideRule = new RxSchedulersOverrideRule();
 
     private MoviesListingPresenterImpl presenter;
 
@@ -58,16 +49,19 @@ public class MoviesListingPresenterImplTest
     public void shouldBeAbleToDisplayMovies()
     {
         TestScheduler testScheduler = new TestScheduler();
-        TestSubscriber<List<Movie>> testSubscriber = new TestSubscriber<>();
-        Observable<List<Movie>> responseObservable = Observable.just(movies).subscribeOn(testScheduler);
-        responseObservable.subscribe(testSubscriber);
+        TestObserver<List<Movie>> testObserver = new TestObserver<>();
+        Observable<List<Movie>> responseObservable = Observable.just(movies)
+                .subscribeOn(testScheduler)
+                .observeOn(testScheduler);
+
+        responseObservable.subscribe(testObserver);
         when(interactor.fetchMovies()).thenReturn(responseObservable);
 
         presenter.setView(view);
         testScheduler.triggerActions();
 
-        testSubscriber.assertNoErrors();
-        testSubscriber.onCompleted();
+        testObserver.assertNoErrors();
+        testObserver.onComplete();
         verify(view).showMovies(movies);
     }
 }

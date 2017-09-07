@@ -4,26 +4,25 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.util.RxSchedulersOverrideRule;
+import com.esoxjem.movieguide.util.TrampolineSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-
 import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import rx.Observable;
-import rx.Single;
-import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
-
+import io.reactivex.Observable;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -35,6 +34,9 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 public class MovieDetailsPresenterImplTest
 {
+    @Rule
+    public TrampolineSchedulerRule rule;
+
     @Mock
     private MovieDetailsView view;
     @Mock
@@ -47,9 +49,6 @@ public class MovieDetailsPresenterImplTest
     List<Video> videos;
     @Mock
     List<Review> reviews;
-
-    @Rule
-    public RxSchedulersOverrideRule rxSchedulersOverrideRule = new RxSchedulersOverrideRule();
 
     private MovieDetailsPresenterImpl movieDetailsPresenter;
 
@@ -93,16 +92,19 @@ public class MovieDetailsPresenterImplTest
     public void shouldBeAbleToShowTrailers()
     {
         TestScheduler testScheduler = new TestScheduler();
-        TestSubscriber<List<Video>> testSubscriber = new TestSubscriber<>();
-        Observable<List<Video>> responseObservable = Observable.just(videos).subscribeOn(testScheduler);
-        responseObservable.subscribe(testSubscriber);
+        TestObserver<List<Video>> testObserver = new TestObserver<>();
+        Observable<List<Video>> responseObservable = Observable.just(videos)
+                .subscribeOn(testScheduler)
+                .observeOn(AndroidSchedulers.mainThread());
+
+        responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showTrailers(movie);
         testScheduler.triggerActions();
 
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
+        testObserver.assertNoErrors();
+        testObserver.assertComplete();
         verify(view).showTrailers(videos);
     }
 
@@ -120,18 +122,23 @@ public class MovieDetailsPresenterImplTest
     public void shouldBeAbleToShowReviews()
     {
         TestScheduler testScheduler = new TestScheduler();
-        TestSubscriber<List<Review>> testSubscriber = new TestSubscriber<>();
-        Observable<List<Review>> responseObservable = Observable.just(reviews).subscribeOn(testScheduler);
-        responseObservable.subscribe(testSubscriber);
+        TestObserver<List<Review>> testObserver = new TestObserver<>();
+        Observable<List<Review>> responseObservable = Observable.just(reviews)
+                .subscribeOn(testScheduler)
+                .observeOn(AndroidSchedulers.mainThread());
+
+        responseObservable.subscribe(testObserver);
+
         when(movieDetailsInteractor.getReviews(anyString())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showReviews(movie);
         testScheduler.triggerActions();
 
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
+        testObserver.assertNoErrors();
+        testObserver.assertComplete();
         verify(view).showReviews(reviews);
     }
+
 
     @Test
     public void shouldFailSilentlyWhenNoReviews() throws Exception
