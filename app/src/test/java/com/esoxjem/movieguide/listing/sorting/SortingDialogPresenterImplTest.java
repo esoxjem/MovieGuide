@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 public class SortingDialogPresenterImplTest {
     @Rule
     public TrampolineSchedulerRule rule;
-
     @Mock
     private SortingDialogInteractor interactor;
     @Mock

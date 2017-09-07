@@ -1,9 +1,11 @@
 package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.TrampolineSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,6 +26,8 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(RobolectricTestRunner.class)
 public class MoviesListingPresenterImplTest {
+    @Rule
+    public TrampolineSchedulerRule rule;
     @Mock
     private MoviesListingInteractor interactor;
     @Mock

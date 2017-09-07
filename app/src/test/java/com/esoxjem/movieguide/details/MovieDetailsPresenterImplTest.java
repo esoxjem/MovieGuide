@@ -35,7 +35,6 @@ import static org.mockito.Mockito.when;
 public class MovieDetailsPresenterImplTest {
     @Rule
     public TrampolineSchedulerRule rule;
-
     @Mock
     private MovieDetailsView view;
     @Mock
