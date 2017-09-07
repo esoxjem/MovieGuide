@@ -4,7 +4,7 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.util.TrampolineSchedulerRule;
+import com.esoxjem.movieguide.RxSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 public class MovieDetailsPresenterImplTest {
     @Rule
-    public TrampolineSchedulerRule rule;
+    public RxSchedulerRule rule;
     @Mock
     private MovieDetailsView view;
     @Mock

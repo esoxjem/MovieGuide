@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide.listing.sorting;
 
-import com.esoxjem.movieguide.util.TrampolineSchedulerRule;
+import com.esoxjem.movieguide.RxSchedulerRule;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SortingDialogPresenterImplTest {
     @Rule
-    public TrampolineSchedulerRule rule;
+    public RxSchedulerRule rule;
     @Mock
     private SortingDialogInteractor interactor;
     @Mock
