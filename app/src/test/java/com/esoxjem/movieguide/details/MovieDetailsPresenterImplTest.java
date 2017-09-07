@@ -8,21 +8,21 @@ import com.esoxjem.movieguide.util.TrampolineSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+
 import java.net.SocketTimeoutException;
 import java.util.List;
+
 import io.reactivex.Observable;
-import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.TestScheduler;
+
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -32,8 +32,7 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(RobolectricTestRunner.class)
-public class MovieDetailsPresenterImplTest
-{
+public class MovieDetailsPresenterImplTest {
     @Rule
     public TrampolineSchedulerRule rule;
 
@@ -53,22 +52,19 @@ public class MovieDetailsPresenterImplTest
     private MovieDetailsPresenterImpl movieDetailsPresenter;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         movieDetailsPresenter = new MovieDetailsPresenterImpl(movieDetailsInteractor, favoritesInteractor);
         movieDetailsPresenter.setView(view);
     }
 
     @After
-    public void teardown()
-    {
+    public void teardown() {
         movieDetailsPresenter.destroy();
     }
 
     @Test
-    public void shouldUnfavoriteIfFavoriteTapped()
-    {
+    public void shouldUnfavoriteIfFavoriteTapped() {
         when(movie.getId()).thenReturn("12345");
         when(favoritesInteractor.isFavorite(movie.getId())).thenReturn(true);
 
@@ -78,8 +74,7 @@ public class MovieDetailsPresenterImplTest
     }
 
     @Test
-    public void shouldFavoriteIfUnfavoriteTapped()
-    {
+    public void shouldFavoriteIfUnfavoriteTapped() {
         when(movie.getId()).thenReturn("12345");
         when(favoritesInteractor.isFavorite(movie.getId())).thenReturn(false);
 
@@ -89,8 +84,7 @@ public class MovieDetailsPresenterImplTest
     }
 
     @Test
-    public void shouldBeAbleToShowTrailers()
-    {
+    public void shouldBeAbleToShowTrailers() {
         TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Video>> testObserver = new TestObserver<>();
         Observable<List<Video>> responseObservable = Observable.just(videos)
@@ -109,8 +103,7 @@ public class MovieDetailsPresenterImplTest
     }
 
     @Test
-    public void shouldFailSilentlyWhenNoTrailers() throws Exception
-    {
+    public void shouldFailSilentlyWhenNoTrailers() throws Exception {
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(Observable.error(new SocketTimeoutException()));
 
         movieDetailsPresenter.showTrailers(movie);
@@ -119,8 +112,7 @@ public class MovieDetailsPresenterImplTest
     }
 
     @Test
-    public void shouldBeAbleToShowReviews()
-    {
+    public void shouldBeAbleToShowReviews() {
         TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Review>> testObserver = new TestObserver<>();
         Observable<List<Review>> responseObservable = Observable.just(reviews)
@@ -141,8 +133,7 @@ public class MovieDetailsPresenterImplTest
 
 
     @Test
-    public void shouldFailSilentlyWhenNoReviews() throws Exception
-    {
+    public void shouldFailSilentlyWhenNoReviews() throws Exception {
         when(movieDetailsInteractor.getReviews(anyString())).thenReturn(Observable.error(new SocketTimeoutException()));
 
         movieDetailsPresenter.showReviews(movie);

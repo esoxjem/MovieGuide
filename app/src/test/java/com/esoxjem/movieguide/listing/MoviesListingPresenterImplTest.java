@@ -1,6 +1,7 @@
 package com.esoxjem.movieguide.listing;
 
 import com.esoxjem.movieguide.Movie;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,10 +9,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,8 +23,7 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(RobolectricTestRunner.class)
-public class MoviesListingPresenterImplTest
-{
+public class MoviesListingPresenterImplTest {
     @Mock
     private MoviesListingInteractor interactor;
     @Mock
@@ -33,21 +36,18 @@ public class MoviesListingPresenterImplTest
     private MoviesListingPresenterImpl presenter;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         presenter = new MoviesListingPresenterImpl(interactor);
     }
 
     @After
-    public void teardown()
-    {
+    public void teardown() {
         presenter.destroy();
     }
 
     @Test
-    public void shouldBeAbleToDisplayMovies()
-    {
+    public void shouldBeAbleToDisplayMovies() {
         TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Movie>> testObserver = new TestObserver<>();
         Observable<List<Movie>> responseObservable = Observable.just(movies)
