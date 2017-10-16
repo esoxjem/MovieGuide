@@ -7,7 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SortingDialogPresenterImplTest {
     @Rule
-    public RxSchedulerRule rule;
+    public RxSchedulerRule rule = new RxSchedulerRule();
     @Mock
     private SortingDialogInteractor interactor;
     @Mock
