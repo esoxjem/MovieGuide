@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author arunsasidharan
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MoviesListingPresenterImplTest {
     @Rule
     public RxSchedulerRule rule;
@@ -39,7 +39,6 @@ public class MoviesListingPresenterImplTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
         presenter = new MoviesListingPresenterImpl(interactor);
     }
 

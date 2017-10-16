@@ -13,14 +13,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 
@@ -32,7 +31,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author arunsasidharan
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MovieDetailsPresenterImplTest {
     @Rule
     public RxSchedulerRule rule;
@@ -88,8 +87,7 @@ public class MovieDetailsPresenterImplTest {
         TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Video>> testObserver = new TestObserver<>();
         Observable<List<Video>> responseObservable = Observable.just(videos)
-                .subscribeOn(testScheduler)
-                .observeOn(testScheduler);
+                .subscribeOn(testScheduler);
         responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
 
@@ -116,7 +114,7 @@ public class MovieDetailsPresenterImplTest {
         TestObserver<List<Review>> testObserver = new TestObserver<>();
         Observable<List<Review>> responseObservable = Observable.just(reviews)
                 .subscribeOn(testScheduler)
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(testScheduler);
 
         responseObservable.subscribe(testObserver);
 

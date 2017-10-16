@@ -53,7 +53,7 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter {
     public void showTrailers(Movie movie) {
         trailersSubscription = movieDetailsInteractor.getTrailers(movie.getId())
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.trampoline())
                 .subscribe(this::onGetTrailersSuccess, t -> onGetTrailersFailure());
     }
 
@@ -70,7 +70,7 @@ class MovieDetailsPresenterImpl implements MovieDetailsPresenter {
     @Override
     public void showReviews(Movie movie) {
         reviewSubscription = movieDetailsInteractor.getReviews(movie.getId()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.trampoline())
                 .subscribe(this::onGetReviewsSuccess, t -> onGetReviewsFailure());
     }
 
