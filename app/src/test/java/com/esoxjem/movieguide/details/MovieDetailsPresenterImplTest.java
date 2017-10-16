@@ -2,9 +2,9 @@ package com.esoxjem.movieguide.details;
 
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.RxSchedulerRule;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.RxSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,17 +13,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.net.SocketTimeoutException;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.TestScheduler;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -31,10 +28,10 @@ import static org.mockito.Mockito.when;
 /**
  * @author arunsasidharan
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MovieDetailsPresenterImplTest {
     @Rule
-    public RxSchedulerRule rule;
+    public RxSchedulerRule rule = new RxSchedulerRule();
     @Mock
     private MovieDetailsView view;
     @Mock
@@ -42,9 +39,9 @@ public class MovieDetailsPresenterImplTest {
     @Mock
     private FavoritesInteractor favoritesInteractor;
     @Mock
-    Movie movie;
-    @Mock
     List<Video> videos;
+    @Mock
+    Movie movie;
     @Mock
     List<Review> reviews;
 
@@ -84,26 +81,19 @@ public class MovieDetailsPresenterImplTest {
 
     @Test
     public void shouldBeAbleToShowTrailers() {
-        TestScheduler testScheduler = new TestScheduler();
-        TestObserver<List<Video>> testObserver = new TestObserver<>();
-        Observable<List<Video>> responseObservable = Observable.just(videos)
-                .subscribeOn(testScheduler)
-                .observeOn(AndroidSchedulers.mainThread());
-
-        responseObservable.subscribe(testObserver);
-        when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
+        when(movie.getId()).thenReturn("12345");
+        Observable<List<Video>> responseObservable = Observable.just(videos);
+        when(movieDetailsInteractor.getTrailers(movie.getId())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showTrailers(movie);
-        testScheduler.triggerActions();
 
-        testObserver.assertNoErrors();
-        testObserver.assertComplete();
         verify(view).showTrailers(videos);
     }
 
     @Test
     public void shouldFailSilentlyWhenNoTrailers() throws Exception {
-        when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(Observable.error(new SocketTimeoutException()));
+        when(movie.getId()).thenReturn("12345");
+        when(movieDetailsInteractor.getTrailers(movie.getId())).thenReturn(Observable.error(new SocketTimeoutException()));
 
         movieDetailsPresenter.showTrailers(movie);
 
@@ -112,28 +102,20 @@ public class MovieDetailsPresenterImplTest {
 
     @Test
     public void shouldBeAbleToShowReviews() {
-        TestScheduler testScheduler = new TestScheduler();
-        TestObserver<List<Review>> testObserver = new TestObserver<>();
-        Observable<List<Review>> responseObservable = Observable.just(reviews)
-                .subscribeOn(testScheduler)
-                .observeOn(AndroidSchedulers.mainThread());
-
-        responseObservable.subscribe(testObserver);
-
-        when(movieDetailsInteractor.getReviews(anyString())).thenReturn(responseObservable);
+        Observable<List<Review>> responseObservable = Observable.just(reviews);
+        when(movie.getId()).thenReturn("12345");
+        when(movieDetailsInteractor.getReviews(movie.getId())).thenReturn(responseObservable);
 
         movieDetailsPresenter.showReviews(movie);
-        testScheduler.triggerActions();
 
-        testObserver.assertNoErrors();
-        testObserver.assertComplete();
         verify(view).showReviews(reviews);
     }
 
 
     @Test
     public void shouldFailSilentlyWhenNoReviews() throws Exception {
-        when(movieDetailsInteractor.getReviews(anyString())).thenReturn(Observable.error(new SocketTimeoutException()));
+        when(movie.getId()).thenReturn("12345");
+        when(movieDetailsInteractor.getReviews(movie.getId())).thenReturn(Observable.error(new SocketTimeoutException()));
 
         movieDetailsPresenter.showReviews(movie);
 

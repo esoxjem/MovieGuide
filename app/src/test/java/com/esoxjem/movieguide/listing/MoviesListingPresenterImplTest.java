@@ -9,14 +9,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,16 +21,14 @@ import static org.mockito.Mockito.when;
 /**
  * @author arunsasidharan
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MoviesListingPresenterImplTest {
     @Rule
-    public RxSchedulerRule rule;
+    public RxSchedulerRule rule = new RxSchedulerRule();
     @Mock
     private MoviesListingInteractor interactor;
     @Mock
     private MoviesListingView view;
-    @Mock
-    Throwable throwable;
     @Mock
     private List<Movie> movies;
 
@@ -41,7 +36,6 @@ public class MoviesListingPresenterImplTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
         presenter = new MoviesListingPresenterImpl(interactor);
     }
 
@@ -52,20 +46,14 @@ public class MoviesListingPresenterImplTest {
 
     @Test
     public void shouldBeAbleToDisplayMovies() {
-        TestScheduler testScheduler = new TestScheduler();
-        TestObserver<List<Movie>> testObserver = new TestObserver<>();
-        Observable<List<Movie>> responseObservable = Observable.just(movies)
-                .subscribeOn(testScheduler)
-                .observeOn(testScheduler);
-
-        responseObservable.subscribe(testObserver);
+        // given:
+        Observable<List<Movie>> responseObservable = Observable.just(movies);
         when(interactor.fetchMovies()).thenReturn(responseObservable);
 
+        // when:
         presenter.setView(view);
-        testScheduler.triggerActions();
 
-        testObserver.assertNoErrors();
-        testObserver.onComplete();
+        // then:
         verify(view).showMovies(movies);
     }
 }
