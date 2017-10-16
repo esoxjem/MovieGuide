@@ -24,20 +24,22 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MoviesListingFragment extends Fragment implements MoviesListingView
 {
     @Inject
     MoviesListingPresenter moviesPresenter;
 
-    @Bind(R.id.movies_listing)
+    @BindView(R.id.movies_listing)
     RecyclerView moviesListing;
 
     private RecyclerView.Adapter adapter;
     private List<Movie> movies = new ArrayList<>(20);
     private Callback callback;
+    private Unbinder unbinder;
 
     public MoviesListingFragment()
     {
@@ -64,7 +66,7 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
         initLayoutReferences();
         return rootView;
     }
@@ -146,7 +148,7 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     {
         super.onDestroyView();
         moviesPresenter.destroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

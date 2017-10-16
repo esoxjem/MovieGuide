@@ -17,8 +17,9 @@ import com.esoxjem.movieguide.listing.MoviesListingPresenter;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author arun
@@ -28,16 +29,17 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
     @Inject
     SortingDialogPresenter sortingDialogPresenter;
 
-    @Bind(R.id.most_popular)
+    @BindView(R.id.most_popular)
     RadioButton mostPopular;
-    @Bind(R.id.highest_rated)
+    @BindView(R.id.highest_rated)
     RadioButton highestRated;
-    @Bind(R.id.favorites)
+    @BindView(R.id.favorites)
     RadioButton favorites;
-    @Bind(R.id.sorting_group)
+    @BindView(R.id.sorting_group)
     RadioGroup sortingOptionsGroup;
 
     private static MoviesListingPresenter moviesListingPresenter;
+    private Unbinder unbinder;
 
     public static SortingDialogFragment newInstance(MoviesListingPresenter moviesListingPresenter)
     {
@@ -60,7 +62,7 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
     {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.sorting_options, null);
-        ButterKnife.bind(this, dialogView);
+        unbinder = ButterKnife.bind(this, dialogView);
         initViews();
 
         Dialog dialog = new Dialog(getActivity());
@@ -127,6 +129,6 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
     {
         super.onDestroyView();
         sortingDialogPresenter.destroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }
