@@ -2,9 +2,9 @@ package com.esoxjem.movieguide.details;
 
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.Review;
+import com.esoxjem.movieguide.RxSchedulerRule;
 import com.esoxjem.movieguide.Video;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
-import com.esoxjem.movieguide.RxSchedulerRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -43,8 +44,7 @@ public class MovieDetailsPresenterImplTest {
     private FavoritesInteractor favoritesInteractor;
     @Mock
     Movie movie;
-    @Mock
-    List<Video> videos;
+
     @Mock
     List<Review> reviews;
 
@@ -84,12 +84,12 @@ public class MovieDetailsPresenterImplTest {
 
     @Test
     public void shouldBeAbleToShowTrailers() {
+        List<Video> videos = new ArrayList<>();
         TestScheduler testScheduler = new TestScheduler();
         TestObserver<List<Video>> testObserver = new TestObserver<>();
         Observable<List<Video>> responseObservable = Observable.just(videos)
                 .subscribeOn(testScheduler)
-                .observeOn(AndroidSchedulers.mainThread());
-
+                .observeOn(testScheduler);
         responseObservable.subscribe(testObserver);
         when(movieDetailsInteractor.getTrailers(anyString())).thenReturn(responseObservable);
 

@@ -33,8 +33,6 @@ public class MoviesListingPresenterImplTest {
     @Mock
     private MoviesListingView view;
     @Mock
-    Throwable throwable;
-    @Mock
     private List<Movie> movies;
 
     private MoviesListingPresenterImpl presenter;
