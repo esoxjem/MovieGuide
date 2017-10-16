@@ -59,42 +59,42 @@ ext {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Support
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:support-v4:${supportLibVersion}"
-    compile "com.android.support:support-annotations:${supportLibVersion}"
-    compile "com.android.support:palette-v7:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:support-v4:${supportLibVersion}"
+    implementation "com.android.support:support-annotations:${supportLibVersion}"
+    implementation "com.android.support:palette-v7:${supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
 
     // Rx
-    compile 'io.reactivex.rxjava2:rxjava:2.1.2'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     // Network
-    compile "com.squareup.okhttp3:okhttp:${okhttpVersion}"
-    compile "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
-    compile 'com.github.bumptech.glide:glide:4.2.0'
+    implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
 
     // Other
-    compile 'net.jcip:jcip-annotations:1.0'
-    compile 'com.squareup.moshi:moshi:1.1.0'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'net.jcip:jcip-annotations:1.0'
+    implementation 'com.squareup.moshi:moshi:1.1.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Dependency Injection
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    compile "com.google.dagger:dagger:${daggerVersion}"
-    provided 'javax.annotation:jsr250-api:1.0'
+    implementation "com.google.dagger:dagger:${daggerVersion}"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
     // Gson
-    compile 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.google.code.gson:gson:2.8.1'
 
     // Retrofit 2
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile('com.squareup.retrofit2:converter-gson:2.3.0')
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation('com.squareup.retrofit2:converter-gson:2.3.0')
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     // Tests
     testCompile 'junit:junit:4.12'
