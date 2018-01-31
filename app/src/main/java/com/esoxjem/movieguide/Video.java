@@ -3,7 +3,7 @@ package com.esoxjem.movieguide;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * @author arun
@@ -14,7 +14,7 @@ public class Video implements Parcelable {
     private String id;
     private String name;
     private String site;
-    @SerializedName("key")
+    @Json(name = "key")
     private String videoId;
     private int size;
     private String type;
