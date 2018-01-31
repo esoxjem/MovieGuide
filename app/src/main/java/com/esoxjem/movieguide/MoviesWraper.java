@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MoviesWraper {
 
-    @SerializedName("results")
+    @Json(name = "results")
     private List<Movie> movies;
 
     public List<Movie> getMovieList() {

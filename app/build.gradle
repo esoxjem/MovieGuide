@@ -88,13 +88,10 @@ dependencies {
     implementation "com.google.dagger:dagger:${daggerVersion}"
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    // Gson
-    implementation 'com.google.code.gson:gson:2.8.1'
-
     // Retrofit 2
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation('com.squareup.retrofit2:converter-gson:2.3.0')
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
 
     // Tests
     testCompile 'junit:junit:4.12'

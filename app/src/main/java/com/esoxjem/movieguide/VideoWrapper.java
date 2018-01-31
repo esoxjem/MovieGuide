@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class VideoWrapper {
 
-    @SerializedName("results")
+    @Json(name = "results")
     private List<Video> videos;
 
     public List<Video> getVideos() {
