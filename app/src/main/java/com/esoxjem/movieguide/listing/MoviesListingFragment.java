@@ -4,6 +4,7 @@ package com.esoxjem.movieguide.listing;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.esoxjem.movieguide.BaseApplication;
+import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.listing.sorting.SortingDialogFragment;
@@ -75,7 +77,13 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        moviesPresenter.setView(this);
+        if(savedInstanceState == null) {
+            moviesPresenter.setView(this);
+        }
+        else{
+            movies = savedInstanceState.getParcelableArrayList(Constants.MOVIE);
+            loadOnRoataion(movies);
+        }
     }
 
     @Override
@@ -165,10 +173,25 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         ((BaseApplication) getActivity().getApplication()).releaseListingComponent();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(Constants.MOVIE ,(ArrayList<? extends Parcelable>) movies);
+    }
+
+    private void loadOnRoataion(List<Movie> movieList){
+        this.movies.addAll(movieList);
+        moviesListing.setVisibility(View.VISIBLE);
+        adapter.notifyDataSetChanged();
+        callback.onMoviesLoaded(movieList.get(0));
+    }
+
     public interface Callback
     {
         void onMoviesLoaded(Movie movie);
 
         void onMovieClicked(Movie movie);
     }
+
+
 }
