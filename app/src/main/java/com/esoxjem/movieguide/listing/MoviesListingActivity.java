@@ -12,79 +12,64 @@ import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
 import com.esoxjem.movieguide.Movie;
 
-public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback
-{
+public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback {
     public static final String DETAILS_FRAGMENT = "DetailsFragment";
     private boolean twoPaneMode;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setToolbar();
 
-        if (findViewById(R.id.movie_details_container) != null)
-        {
+        if (findViewById(R.id.movie_details_container) != null) {
             twoPaneMode = true;
 
-            if (savedInstanceState == null)
-            {
+            if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.movie_details_container, new MovieDetailsFragment())
                         .commit();
             }
-        } else
-        {
+        } else {
             twoPaneMode = false;
         }
     }
 
-    private void setToolbar()
-    {
+    private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.movie_guide);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public void onMoviesLoaded(Movie movie)
-    {
-        if(twoPaneMode)
-        {
+    public void onMoviesLoaded(Movie movie) {
+        if (twoPaneMode) {
             loadMovieFragment(movie);
-        } else
-        {
+        } else {
             // Do not load in single pane view
         }
     }
 
     @Override
-    public void onMovieClicked(Movie movie)
-    {
-        if (twoPaneMode)
-        {
+    public void onMovieClicked(Movie movie) {
+        if (twoPaneMode) {
             loadMovieFragment(movie);
-        } else
-        {
+        } else {
             startMovieActivity(movie);
         }
     }
 
-    private void startMovieActivity(Movie movie)
-    {
+    private void startMovieActivity(Movie movie) {
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         Bundle extras = new Bundle();
         extras.putParcelable(Constants.MOVIE, movie);
@@ -92,8 +77,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
         startActivity(intent);
     }
 
-    private void loadMovieFragment(Movie movie)
-    {
+    private void loadMovieFragment(Movie movie) {
         MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.getInstance(movie);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movie_details_container, movieDetailsFragment, DETAILS_FRAGMENT)
