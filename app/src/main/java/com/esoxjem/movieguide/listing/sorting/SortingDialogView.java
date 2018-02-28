@@ -7,6 +7,8 @@ interface SortingDialogView
 {
     void setPopularChecked();
 
+    void setNewestChecked();
+
     void setHighestRatedChecked();
 
     void setFavoritesChecked();

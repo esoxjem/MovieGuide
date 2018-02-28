@@ -13,6 +13,8 @@ public interface SortingDialogPresenter
 
     void onFavoritesSelected();
 
+    void onNewestMoviesSelected();
+
     void setView(SortingDialogView view);
 
     void destroy();
