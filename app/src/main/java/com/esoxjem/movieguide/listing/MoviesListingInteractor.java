@@ -11,5 +11,6 @@ import io.reactivex.Observable;
  */
 public interface MoviesListingInteractor
 {
-    Observable<List<Movie>> fetchMovies();
+    boolean isPaginationSupported();
+    Observable<List<Movie>> fetchMovies(int page);
 }

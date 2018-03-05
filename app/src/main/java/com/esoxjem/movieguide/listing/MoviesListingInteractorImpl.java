@@ -31,13 +31,20 @@ class MoviesListingInteractorImpl implements MoviesListingInteractor {
         sortingOptionStore = store;
     }
 
+
     @Override
-    public Observable<List<Movie>> fetchMovies() {
+    public boolean isPaginationSupported() {
+        int selectedOption = sortingOptionStore.getSelectedOption();
+        return selectedOption != SortType.FAVORITES.getValue();
+    }
+
+    @Override
+    public Observable<List<Movie>> fetchMovies(int page) {
         int selectedOption = sortingOptionStore.getSelectedOption();
         if (selectedOption == SortType.MOST_POPULAR.getValue()) {
-            return tmdbWebService.popularMovies().map(MoviesWraper::getMovieList);
+            return tmdbWebService.popularMovies(page).map(MoviesWraper::getMovieList);
         } else if (selectedOption == SortType.HIGHEST_RATED.getValue()) {
-            return tmdbWebService.highestRatedMovies().map(MoviesWraper::getMovieList);
+            return tmdbWebService.highestRatedMovies(page).map(MoviesWraper::getMovieList);
         } else if (selectedOption == SortType.NEWEST.getValue()) {
             Calendar cal = Calendar.getInstance();
             String maxReleaseDate = dateFormat.format(cal.getTime());
