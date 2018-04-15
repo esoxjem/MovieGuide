@@ -38,6 +38,9 @@ class SortingDialogPresenterImpl implements SortingDialogPresenter
             } else if (selectedOption == SortType.HIGHEST_RATED.getValue())
             {
                 view.setHighestRatedChecked();
+            } else if (selectedOption == SortType.NEWEST.getValue())
+            {
+                view.setNewestChecked();
             } else
             {
                 view.setFavoritesChecked();
@@ -66,6 +69,16 @@ class SortingDialogPresenterImpl implements SortingDialogPresenter
         if (isViewAttached())
         {
             sortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED);
+            view.dismissDialog();
+        }
+    }
+
+    @Override
+    public void onNewestMoviesSelected()
+    {
+        if (isViewAttached())
+        {
+            sortingDialogInteractor.setSortingOption(SortType.NEWEST);
             view.dismissDialog();
         }
     }

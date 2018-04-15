@@ -10,6 +10,7 @@
     <string name="release_date">Release Date: %s</string>
     <string name="rating">%s/10</string>
     <string name="favorites">Favorites</string>
+    <string name="newest">Newest</string>
     <string name="highest_rated">Highest Rated</string>
     <string name="most_popular">Most Popular</string>
 </resources>

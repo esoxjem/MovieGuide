@@ -54,6 +54,14 @@ public class SortingDialogPresenterImplTest {
     }
 
     @Test
+    public void shouldCheckNewestMoviesIfLastSavedOptionIsHighestRated() throws Exception {
+        when(interactor.getSelectedSortingOption()).thenReturn(SortType.NEWEST.getValue());
+        presenter.setLastSavedOption();
+        verify(view).setNewestChecked();
+    }
+
+
+    @Test
     public void onPopularMoviesSelected() throws Exception {
         presenter.onPopularMoviesSelected();
         verify(interactor).setSortingOption(SortType.MOST_POPULAR);
@@ -70,5 +78,12 @@ public class SortingDialogPresenterImplTest {
         presenter.onFavoritesSelected();
         verify(interactor).setSortingOption(SortType.FAVORITES);
     }
+
+    @Test
+    public void onNewestMoviesSelected() throws Exception {
+        presenter.onNewestMoviesSelected();
+        verify(interactor).setSortingOption(SortType.NEWEST);
+    }
+
 
 }
