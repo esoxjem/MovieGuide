@@ -11,10 +11,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,8 +32,8 @@ public class MoviesListingPresenterImplTest {
     private MoviesListingInteractor interactor;
     @Mock
     private MoviesListingView view;
-    @Mock
-    private List<Movie> movies;
+
+    private List<Movie> movies = new ArrayList<>(0);
 
     private MoviesListingPresenterImpl presenter;
 
@@ -48,7 +51,7 @@ public class MoviesListingPresenterImplTest {
     public void shouldBeAbleToDisplayMovies() {
         // given:
         Observable<List<Movie>> responseObservable = Observable.just(movies);
-        when(interactor.fetchMovies()).thenReturn(responseObservable);
+        when(interactor.fetchMovies(anyInt())).thenReturn(responseObservable);
 
         // when:
         presenter.setView(view);

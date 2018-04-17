@@ -65,6 +65,16 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         initLayoutReferences();
+        moviesListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    moviesPresenter.nextPage();
+                }
+            }
+        });
         return rootView;
     }
 

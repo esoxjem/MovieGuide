@@ -3,6 +3,7 @@ package com.esoxjem.movieguide.listing;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.util.RxUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,6 +17,8 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     private MoviesListingView view;
     private MoviesListingInteractor moviesInteractor;
     private Disposable fetchSubscription;
+    private int currentPage = 1;
+    private List<Movie> loadedMovies = new ArrayList<>();
 
     MoviesListingPresenterImpl(MoviesListingInteractor interactor) {
         moviesInteractor = interactor;
@@ -33,14 +36,29 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
         RxUtils.unsubscribe(fetchSubscription);
     }
 
-    @Override
-    public void displayMovies() {
+    private void displayMovies() {
         showLoading();
-        fetchSubscription = moviesInteractor.fetchMovies()
+        fetchSubscription = moviesInteractor.fetchMovies(currentPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
     }
+
+    @Override
+    public void firstPage() {
+        currentPage = 1;
+        loadedMovies.clear();
+        displayMovies();
+    }
+
+    @Override
+    public void nextPage() {
+        if (moviesInteractor.isPaginationSupported()) {
+            currentPage++;
+            displayMovies();
+        }
+    }
+
 
     private void showLoading() {
         if (isViewAttached()) {
@@ -49,8 +67,13 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void onMovieFetchSuccess(List<Movie> movies) {
+        if (moviesInteractor.isPaginationSupported()) {
+            loadedMovies.addAll(movies);
+        } else {
+            loadedMovies = new ArrayList<>(movies);
+        }
         if (isViewAttached()) {
-            view.showMovies(movies);
+            view.showMovies(loadedMovies);
         }
     }
 
