@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 def getProperty(String filename, String propName) {
     def propsFile = rootProject.file(filename)
@@ -16,13 +17,13 @@ def getProperty(String filename, String propName) {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.esoxjem.movieguide"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -53,9 +54,10 @@ android {
 }
 
 ext {
-    supportLibVersion = '26.1.0'
-    okhttpVersion = '3.9.0'
-    daggerVersion = '2.5'
+    supportLibVersion = '27.1.1'
+    okhttpVersion = '3.10.0'
+    daggerVersion = '2.11'
+    glideVersion= '4.7.1'
 }
 
 dependencies {
@@ -69,17 +71,18 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
 
     // Rx
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
     // Network
     implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
     implementation "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
-    implementation 'com.github.bumptech.glide:glide:4.2.0'
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:${glideVersion}"
 
     // Other
     implementation 'net.jcip:jcip-annotations:1.0'
-    implementation 'com.squareup.moshi:moshi:1.1.0'
+    implementation 'com.squareup.moshi:moshi:1.4.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
@@ -94,15 +97,19 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
 
     // Tests
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.9.0'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.15.0'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
