@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".listing.MoviesListingActivity"
+            android:name=".movies.listing.MoviesListingActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,12 +21,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".details.MovieDetailsActivity"
-            android:parentActivityName=".listing.MoviesListingActivity"
+            android:name=".movies.details.MovieDetailsActivity"
+            android:parentActivityName=".movies.listing.MoviesListingActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".listing.MoviesListingActivity"/>
+                android:value=".movies.listing.MoviesListingActivity"/>
         </activity>
     </application>
 

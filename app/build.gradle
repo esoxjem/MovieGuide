@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 def getProperty(String filename, String propName) {
     def propsFile = rootProject.file(filename)
@@ -84,10 +86,10 @@ dependencies {
     implementation 'net.jcip:jcip-annotations:1.0'
     implementation 'com.squareup.moshi:moshi:1.4.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Dependency Injection
-    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
     implementation "com.google.dagger:dagger:${daggerVersion}"
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
