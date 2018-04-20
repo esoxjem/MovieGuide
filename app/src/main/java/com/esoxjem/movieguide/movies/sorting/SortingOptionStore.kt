@@ -16,7 +16,7 @@ class SortingOptionStore @Inject constructor(context: Context) {
             context.applicationContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
     fun getSelectedOption(): Int {
-        return pref.getInt(SELECTED_OPTION, 0)
+        return pref.getInt(SELECTED_OPTION, 3)
     }
 
     fun setSelectedOption(sortType: SortType) {

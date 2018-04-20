@@ -5,7 +5,7 @@ import com.esoxjem.movieguide.movies.entities.Movie
 import io.reactivex.Observable
 
 /**
- * @author arun
+ * @author arunsasidharan
  */
 interface MoviesListingInteractor {
     val isPaginationSupported: Boolean

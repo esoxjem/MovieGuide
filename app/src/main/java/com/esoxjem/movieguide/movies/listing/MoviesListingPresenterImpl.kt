@@ -1,20 +1,19 @@
 package com.esoxjem.movieguide.movies.listing
 
 import com.esoxjem.movieguide.movies.entities.Movie
-import com.esoxjem.movieguide.util.RxUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
  * @author arunsasidharan
  */
-internal class MoviesListingPresenterImpl(private val moviesInteractor: MoviesListingInteractor) : MoviesListingPresenter {
+class MoviesListingPresenterImpl(private val moviesInteractor: MoviesListingInteractor) : MoviesListingPresenter {
     private var view: MoviesListingView? = null
-    private var fetchSubscription: Disposable? = null
     private var currentPage = 1
     private var loadedMovies: MutableList<Movie> = ArrayList()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun setView(view: MoviesListingView) {
         this.view = view
@@ -23,15 +22,16 @@ internal class MoviesListingPresenterImpl(private val moviesInteractor: MoviesLi
 
     override fun destroy() {
         view = null
-        RxUtils.unsubscribe(fetchSubscription)
+        compositeDisposable.clear()
     }
 
     private fun displayMovies() {
         showLoading()
-        fetchSubscription = moviesInteractor.fetchMovies(currentPage)
+        val fetchSubscription = moviesInteractor.fetchMovies(currentPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(::onMovieFetchSuccess, ::onMovieFetchFailed)
+        compositeDisposable.add(fetchSubscription)
     }
 
     private fun onMovieFetchSuccess(movies: List<Movie>) {

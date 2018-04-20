@@ -18,9 +18,9 @@ internal class SortingDialogPresenterImpl(private val sortingDialogInteractor: S
         val selectedOption = sortingDialogInteractor.getSelectedSortingOption()
 
         when (selectedOption) {
-            SortType.MOST_POPULAR.value -> view!!.setPopularChecked()
-            SortType.HIGHEST_RATED.value -> view!!.setHighestRatedChecked()
-            SortType.NEWEST.value -> view!!.setNewestChecked()
+            SortType.MOST_POPULAR.value -> view?.setPopularChecked()
+            SortType.HIGHEST_RATED.value -> view?.setHighestRatedChecked()
+            SortType.NEWEST.value -> view?.setNewestChecked()
             else -> view?.setFavoritesChecked()
         }
     }
