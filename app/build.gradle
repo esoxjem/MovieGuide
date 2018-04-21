@@ -56,6 +56,7 @@ ext {
     supportLibVersion = '26.1.0'
     okhttpVersion = '3.9.0'
     daggerVersion = '2.5'
+    espressoVersion = '3.0.1'
 }
 
 dependencies {
@@ -67,6 +68,7 @@ dependencies {
     implementation "com.android.support:support-annotations:${supportLibVersion}"
     implementation "com.android.support:palette-v7:${supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation "com.android.support.test.espresso:espresso-idling-resource:${espressoVersion}"
 
     // Rx
     implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
@@ -79,6 +81,7 @@ dependencies {
 
     // Other
     implementation 'net.jcip:jcip-annotations:1.0'
+    implementation 'com.google.guava:guava:18.0'
     implementation 'com.squareup.moshi:moshi:1.1.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -99,10 +102,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espressoVersion}") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
 }

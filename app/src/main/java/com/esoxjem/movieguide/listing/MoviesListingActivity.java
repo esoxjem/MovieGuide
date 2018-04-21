@@ -2,6 +2,9 @@ package com.esoxjem.movieguide.listing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,6 +14,7 @@ import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.EspressoIdlingResource;
 
 public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback {
     public static final String DETAILS_FRAGMENT = "DetailsFragment";
@@ -82,5 +86,11 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movie_details_container, movieDetailsFragment, DETAILS_FRAGMENT)
                 .commit();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getCountingIdlingResource() {
+        return EspressoIdlingResource.getIdlingResource();
     }
 }
