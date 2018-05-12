@@ -13,4 +13,5 @@
     <string name="newest">Newest</string>
     <string name="highest_rated">Highest Rated</string>
     <string name="most_popular">Most Popular</string>
+    <string name="action_search">Search</string>
 </resources>
