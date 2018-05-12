@@ -2,15 +2,19 @@ package com.esoxjem.movieguide.listing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.SoftKeyboardUtils;
 
 public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback {
     public static final String DETAILS_FRAGMENT = "DetailsFragment";
@@ -48,6 +52,20 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SoftKeyboardUtils.hideSoftInput(searchView);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 
