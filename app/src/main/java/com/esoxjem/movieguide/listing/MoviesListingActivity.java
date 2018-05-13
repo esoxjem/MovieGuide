@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.details.MovieDetailsActivity;
@@ -54,10 +55,28 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
         getMenuInflater().inflate(R.menu.menu_main, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
+        MenuItemCompat.collapseActionView(searchItem);
+
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                MoviesListingFragment mlFragment = (MoviesListingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listing);
+                mlFragment.searchViewBackButtonClicked();
+                return true;
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SoftKeyboardUtils.hideSoftInput(searchView);
+                MoviesListingFragment mlFragment = (MoviesListingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listing);
+                mlFragment.searchViewCliked(query);
                 return true;
             }
 
@@ -66,6 +85,9 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
                 return false;
             }
         });
+
+
+
         return true;
     }
 
@@ -86,6 +108,8 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
             startMovieActivity(movie);
         }
     }
+
+
 
     private void startMovieActivity(Movie movie) {
         Intent intent = new Intent(this, MovieDetailsActivity.class);

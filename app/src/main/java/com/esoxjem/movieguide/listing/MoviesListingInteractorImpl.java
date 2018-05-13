@@ -54,4 +54,9 @@ class MoviesListingInteractorImpl implements MoviesListingInteractor {
         }
     }
 
+    @Override
+    public Observable<List<Movie>> searchMovie(String searchQuery) {
+        return tmdbWebService.searchMovies(searchQuery).map(MoviesWraper::getMovieList);
+    }
+
 }

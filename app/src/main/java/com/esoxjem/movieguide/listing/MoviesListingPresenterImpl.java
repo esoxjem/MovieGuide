@@ -17,8 +17,12 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     private MoviesListingView view;
     private MoviesListingInteractor moviesInteractor;
     private Disposable fetchSubscription;
+    private Disposable movieSearchSubscription;
     private int currentPage = 1;
     private List<Movie> loadedMovies = new ArrayList<>();
+
+
+    private boolean showingSearchResult = false;
 
     MoviesListingPresenterImpl(MoviesListingInteractor interactor) {
         moviesInteractor = interactor;
@@ -27,13 +31,16 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     @Override
     public void setView(MoviesListingView view) {
         this.view = view;
-        displayMovies();
+        if(!showingSearchResult){
+            displayMovies();
+        }
     }
+
 
     @Override
     public void destroy() {
         view = null;
-        RxUtils.unsubscribe(fetchSubscription);
+        RxUtils.unsubscribe(fetchSubscription, movieSearchSubscription);
     }
 
     private void displayMovies() {
@@ -42,6 +49,15 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
+    }
+
+    private void displayMovieSearchResult(String searchText) {
+        showingSearchResult = true;
+        showLoading();
+        movieSearchSubscription = moviesInteractor.searchMovie(searchText)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onMovieSearchSuccess, this::onMovieSearchFailed);
     }
 
     @Override
@@ -53,8 +69,29 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
 
     @Override
     public void nextPage() {
+        if(showingSearchResult)
+            return;
         if (moviesInteractor.isPaginationSupported()) {
             currentPage++;
+            displayMovies();
+        }
+    }
+
+    @Override
+    public void searchMovie(final String searchText) {
+        if(searchText == null || searchText.length() < 1) {
+            displayMovies();
+        } else {
+            displayMovieSearchResult(searchText);
+        }
+
+    }
+
+    @Override
+    public void searchMovieBackPressed() {
+        if(showingSearchResult) {
+            showingSearchResult = false;
+            loadedMovies.clear();
             displayMovies();
         }
     }
@@ -78,6 +115,18 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void onMovieFetchFailed(Throwable e) {
+        view.loadingFailed(e.getMessage());
+    }
+
+    private void onMovieSearchSuccess(List<Movie> movies) {
+        loadedMovies.clear();
+        loadedMovies = new ArrayList<>(movies);
+        if (isViewAttached()) {
+            view.showMovies(loadedMovies);
+        }
+    }
+
+    private void onMovieSearchFailed(Throwable e) {
         view.loadingFailed(e.getMessage());
     }
 
