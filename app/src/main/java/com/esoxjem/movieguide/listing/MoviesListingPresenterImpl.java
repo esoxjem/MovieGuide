@@ -1,5 +1,7 @@
 package com.esoxjem.movieguide.listing;
 
+import android.support.annotation.NonNull;
+
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.util.RxUtils;
 
@@ -20,8 +22,6 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     private Disposable movieSearchSubscription;
     private int currentPage = 1;
     private List<Movie> loadedMovies = new ArrayList<>();
-
-
     private boolean showingSearchResult = false;
 
     MoviesListingPresenterImpl(MoviesListingInteractor interactor) {
@@ -35,7 +35,6 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
             displayMovies();
         }
     }
-
 
     @Override
     public void destroy() {
@@ -51,7 +50,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
                 .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
     }
 
-    private void displayMovieSearchResult(String searchText) {
+    private void displayMovieSearchResult(@NonNull final String searchText) {
         showingSearchResult = true;
         showLoading();
         movieSearchSubscription = moviesInteractor.searchMovie(searchText)
@@ -95,7 +94,6 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
             displayMovies();
         }
     }
-
 
     private void showLoading() {
         if (isViewAttached()) {

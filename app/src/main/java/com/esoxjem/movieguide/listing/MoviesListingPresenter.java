@@ -16,5 +16,4 @@ public interface MoviesListingPresenter
     void searchMovieBackPressed();
 
     void destroy();
-
 }

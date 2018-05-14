@@ -2,7 +2,6 @@ package com.esoxjem.movieguide.listing;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -55,7 +54,6 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
         getMenuInflater().inflate(R.menu.menu_main, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-        MenuItemCompat.collapseActionView(searchItem);
 
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
@@ -86,8 +84,6 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
             }
         });
 
-
-
         return true;
     }
 
@@ -108,8 +104,6 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
             startMovieActivity(movie);
         }
     }
-
-
 
     private void startMovieActivity(Movie movie) {
         Intent intent = new Intent(this, MovieDetailsActivity.class);
