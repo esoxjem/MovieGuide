@@ -74,7 +74,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
             public boolean onQueryTextSubmit(String query) {
                 SoftKeyboardUtils.hideSoftInput(searchView);
                 MoviesListingFragment mlFragment = (MoviesListingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listing);
-                mlFragment.searchViewCliked(query);
+                mlFragment.searchViewClicked(query);
                 return true;
             }
 
