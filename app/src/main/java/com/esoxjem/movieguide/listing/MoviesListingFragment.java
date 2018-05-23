@@ -171,7 +171,7 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         outState.putParcelableArrayList(Constants.MOVIE, (ArrayList<? extends Parcelable>) movies);
     }
 
-    public void searchViewCliked(String searchText){
+    public void searchViewClicked(String searchText){
         moviesPresenter.searchMovie(searchText);
     }
 
