@@ -43,6 +43,11 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
         fetchSubscription = moviesInteractor.fetchMovies(currentPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                        EspressoIdlingResource.decrement(); // Set app as idle.
+                    }
+                })
                 .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
     }
 
@@ -69,7 +74,6 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void onMovieFetchSuccess(List<Movie> movies) {
-        EspressoIdlingResource.decrement();
         if (moviesInteractor.isPaginationSupported()) {
             loadedMovies.addAll(movies);
         } else {
@@ -81,7 +85,6 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void onMovieFetchFailed(Throwable e) {
-        EspressoIdlingResource.decrement();
         view.loadingFailed(e.getMessage());
     }
 
