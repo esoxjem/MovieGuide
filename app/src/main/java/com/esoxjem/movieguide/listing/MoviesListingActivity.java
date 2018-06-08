@@ -15,6 +15,9 @@ import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.util.SoftKeyboardUtils;
+import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
+
+import java.util.concurrent.TimeUnit;
 
 public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback {
     public static final String DETAILS_FRAGMENT = "DetailsFragment";
@@ -54,7 +57,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
         getMenuInflater().inflate(R.menu.menu_main, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-
+        final MoviesListingFragment mlFragment = (MoviesListingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listing);
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -69,20 +72,13 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
             }
         });
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                SoftKeyboardUtils.hideSoftInput(searchView);
-                MoviesListingFragment mlFragment = (MoviesListingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listing);
-                mlFragment.searchViewClicked(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+        RxSearchView.queryTextChanges(searchView)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe(charSequence -> {
+                    if (charSequence.length() > 0) {
+                        mlFragment.searchViewClicked(charSequence.toString());
+                    }
+                });
 
         return true;
     }
