@@ -81,12 +81,13 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        moviesPresenter.setView(this);
         if (savedInstanceState != null) {
             movies = savedInstanceState.getParcelableArrayList(Constants.MOVIE);
             adapter.notifyDataSetChanged();
             moviesListing.setVisibility(View.VISIBLE);
         } else {
-            moviesPresenter.setView(this);
+            moviesPresenter.firstPage();
         }
     }
 
@@ -94,7 +95,7 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort:
-                moviesPresenter.setView(this);
+                moviesPresenter.firstPage();
                 displaySortingOptions();
         }
 
