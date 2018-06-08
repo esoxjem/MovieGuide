@@ -3,6 +3,7 @@ package com.esoxjem.movieguide.listing;
 import android.support.annotation.NonNull;
 
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.util.EspressoIdlingResource;
 import com.esoxjem.movieguide.util.RxUtils;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void displayMovies() {
+        EspressoIdlingResource.increment();
         showLoading();
         fetchSubscription = moviesInteractor.fetchMovies(currentPage)
                 .subscribeOn(Schedulers.io())
@@ -102,6 +104,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void onMovieFetchSuccess(List<Movie> movies) {
+        EspressoIdlingResource.decrement();
         if (moviesInteractor.isPaginationSupported()) {
             loadedMovies.addAll(movies);
         } else {
@@ -113,6 +116,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void onMovieFetchFailed(Throwable e) {
+        EspressoIdlingResource.decrement();
         view.loadingFailed(e.getMessage());
     }
 
