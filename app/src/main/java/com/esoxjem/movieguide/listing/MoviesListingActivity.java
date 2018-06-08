@@ -17,16 +17,17 @@ import com.esoxjem.movieguide.Constants;
 import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
 import com.esoxjem.movieguide.Movie;
-import com.esoxjem.movieguide.util.SoftKeyboardUtils;
+import com.esoxjem.movieguide.util.RxUtils;
 import com.esoxjem.movieguide.util.EspressoIdlingResource;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
-
 import java.util.concurrent.TimeUnit;
+import io.reactivex.disposables.Disposable;
 
 
 public class MoviesListingActivity extends AppCompatActivity implements MoviesListingFragment.Callback {
     public static final String DETAILS_FRAGMENT = "DetailsFragment";
     private boolean twoPaneMode;
+    private Disposable searchViewTextSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
             }
         });
 
-        RxSearchView.queryTextChanges(searchView)
+        searchViewTextSubscription = RxSearchView.queryTextChanges(searchView)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .subscribe(charSequence -> {
                     if (charSequence.length() > 0) {
@@ -125,5 +126,11 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
     @NonNull
     public IdlingResource getCountingIdlingResource() {
         return EspressoIdlingResource.getIdlingResource();
+    }
+
+    @Override
+    protected void onDestroy() {
+        RxUtils.unsubscribe(searchViewTextSubscription);
+        super.onDestroy();
     }
 }
