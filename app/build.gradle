@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 def getProperty(String filename, String propName) {
     def propsFile = rootProject.file(filename)
