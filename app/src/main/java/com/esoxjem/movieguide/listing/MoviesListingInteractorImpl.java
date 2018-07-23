@@ -1,5 +1,6 @@
 package com.esoxjem.movieguide.listing;
 
+import android.support.annotation.NonNull;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.MoviesWraper;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
@@ -52,6 +53,11 @@ class MoviesListingInteractorImpl implements MoviesListingInteractor {
         } else {
             return Observable.just(favoritesInteractor.getFavorites());
         }
+    }
+
+    @Override
+    public Observable<List<Movie>> searchMovie(@NonNull String searchQuery) {
+        return tmdbWebService.searchMovies(searchQuery).map(MoviesWraper::getMovieList);
     }
 
 }

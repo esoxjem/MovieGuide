@@ -13,4 +13,5 @@ public interface MoviesListingInteractor
 {
     boolean isPaginationSupported();
     Observable<List<Movie>> fetchMovies(int page);
+    Observable<List<Movie>> searchMovie(String searchQuery);
 }

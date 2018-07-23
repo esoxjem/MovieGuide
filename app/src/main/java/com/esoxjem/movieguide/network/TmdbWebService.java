@@ -30,4 +30,7 @@ public interface TmdbWebService {
     @GET("3/movie/{movieId}/reviews")
     Observable<ReviewsWrapper> reviews(@Path("movieId") String movieId);
 
+    @GET("3/search/movie?language=en-US&page=1")
+    Observable<MoviesWraper> searchMovies(@Query("query") String searchQuery);
+
 }
