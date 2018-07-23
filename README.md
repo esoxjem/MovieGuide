@@ -24,7 +24,7 @@ Check out the Kotlin version [here](https://github.com/esoxjem/MovieGuide-Kotlin
 ```
 MIT License
 
-Copyright (c) 2017 Arun Sasidharan
+Copyright (c) 2018 Arun Sasidharan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
