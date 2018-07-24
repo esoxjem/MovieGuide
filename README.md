@@ -1,5 +1,5 @@
 # MovieGuide
-[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=59100d0f7a93230001683759&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/59100d0f7a93230001683759/build/latest?branch=master)
+[![Build Status](https://app.bitrise.io/app/e74daa103a89eb3f/status.svg?token=cNHddSJnkUmE_p7ZA9eruQ&branch=master)](https://app.bitrise.io/app/e74daa103a89eb3f)
 
 Android app that lists popular/highest-rated movies, shows trailers and reviews.
 
@@ -24,7 +24,7 @@ Check out the Kotlin version [here](https://github.com/esoxjem/MovieGuide-Kotlin
 ```
 MIT License
 
-Copyright (c) 2017 Arun Sasidharan
+Copyright (c) 2018 Arun Sasidharan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

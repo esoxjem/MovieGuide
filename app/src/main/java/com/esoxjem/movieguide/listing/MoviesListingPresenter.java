@@ -11,5 +11,9 @@ public interface MoviesListingPresenter
 
     void setView(MoviesListingView view);
 
+    void searchMovie(String searchText);
+
+    void searchMovieBackPressed();
+
     void destroy();
 }
