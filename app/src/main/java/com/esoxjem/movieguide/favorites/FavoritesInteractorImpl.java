@@ -33,13 +33,7 @@ class FavoritesInteractorImpl implements FavoritesInteractor
     @Override
     public List<Movie> getFavorites()
     {
-        try
-        {
-            return favoritesStore.getFavorites();
-        } catch (IOException ignored)
-        {
-            return new ArrayList<>(0);
-        }
+        return favoritesStore.getFavorites();
     }
 
     @Override

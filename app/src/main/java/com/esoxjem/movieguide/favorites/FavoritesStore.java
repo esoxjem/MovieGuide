@@ -1,21 +1,17 @@
 package com.esoxjem.movieguide.favorites;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
-
 import com.esoxjem.movieguide.Movie;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
 import javax.inject.Singleton;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * @author arun
@@ -23,67 +19,58 @@ import javax.inject.Singleton;
 @Singleton
 public class FavoritesStore
 {
-
-    private static final String PREF_NAME = "FavoritesStore";
-    private SharedPreferences pref;
+    private Realm realm;
 
     @Inject
-    public FavoritesStore(Context context)
+    public FavoritesStore(Realm realm)
     {
-        pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        this.realm = realm;
     }
 
     public void setFavorite(Movie movie)
     {
-        SharedPreferences.Editor editor = pref.edit();
-        Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<Movie> jsonAdapter = moshi.adapter(Movie.class);
-        String movieJson = jsonAdapter.toJson(movie);
-        editor.putString(movie.getId(), movieJson);
-        editor.apply();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(new MovieRealmObject(movie));
+        realm.commitTransaction();
     }
 
     public boolean isFavorite(String id)
     {
-        String movieJson = pref.getString(id, null);
-
-        if (!TextUtils.isEmpty(movieJson))
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
+        MovieRealmObject res =  realm.where(MovieRealmObject.class).equalTo(MovieRealmObject.ID, id).findFirst();
+        return res != null;
     }
 
-    public List<Movie> getFavorites() throws IOException
+    public List<Movie> getFavorites()
     {
-        Map<String, ?> allEntries = pref.getAll();
-        ArrayList<Movie> movies = new ArrayList<>(24);
-        Moshi moshi = new Moshi.Builder().build();
+        RealmResults<MovieRealmObject> res =  realm.where(MovieRealmObject.class).findAll();
+        List<Movie> movies = new ArrayList<>();
 
-        for (Map.Entry<String, ?> entry : allEntries.entrySet())
-        {
-            String movieJson = pref.getString(entry.getKey(), null);
-
-            if (!TextUtils.isEmpty(movieJson))
-            {
-                JsonAdapter<Movie> jsonAdapter = moshi.adapter(Movie.class);
-
-                Movie movie = jsonAdapter.fromJson(movieJson);
-                movies.add(movie);
-            } else
-            {
-                // Do nothing;
-            }
+        for(MovieRealmObject i : res){
+            movies.add(movieRealmObjectToMovie(i));
         }
+
         return movies;
     }
 
     public void unfavorite(String id)
     {
-        SharedPreferences.Editor editor = pref.edit();
-        editor.remove(id);
-        editor.apply();
+        realm.beginTransaction();
+        MovieRealmObject movie = realm.where(MovieRealmObject.class).equalTo(MovieRealmObject.ID, id).findFirst();
+        if(movie != null)
+            movie.deleteFromRealm();
+        realm.commitTransaction();
+    }
+
+    private Movie movieRealmObjectToMovie(MovieRealmObject movieRealmObject){
+        Movie movie = new Movie();
+        movie.setId(movieRealmObject.getId());
+        movie.setOverview(movieRealmObject.getOverview());
+        movie.setReleaseDate(movieRealmObject.getReleaseDate());
+        movie.setPosterPath(movieRealmObject.getPosterPath());
+        movie.setBackdropPath(movieRealmObject.getBackdropPath());
+        movie.setTitle(movieRealmObject.getTitle());
+        movie.setVoteAverage(movieRealmObject.getVoteAverage());
+
+        return movie;
     }
 }
