@@ -15,7 +15,7 @@ import com.esoxjem.movieguide.network.NetworkModule
  */
 class BaseApplication : Application() {
     private lateinit var appComponent: AppComponent
-    lateinit var detailsComponent: DetailsComponent
+    private lateinit var detailsComponent: DetailsComponent
     lateinit var listingComponent: ListingComponent
 
     override fun onCreate() {
@@ -33,12 +33,12 @@ class BaseApplication : Application() {
     }
 
     fun createDetailsComponent(): DetailsComponent {
-        detailsComponent = appComponent!!.plus(DetailsModule())
+        detailsComponent = appComponent.plus(DetailsModule())
         return detailsComponent
     }
 
     fun createListingComponent(): ListingComponent {
-        listingComponent = appComponent!!.plus(ListingModule())
+        listingComponent = appComponent.plus(ListingModule())
         return listingComponent
     }
 }
