@@ -30,7 +30,7 @@ constructor(context: Context) {
                 val jsonAdapter = moshi.adapter(Movie::class.java)
 
                 val movie = jsonAdapter.fromJson(movieJson!!)
-                movies.add(movie)
+                movies.add(movie!!)
             }
         }
         return movies

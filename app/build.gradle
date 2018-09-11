@@ -19,15 +19,15 @@ def getProperty(String filename, String propName) {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion Dependencies.compileSdkVersion
+    buildToolsVersion Dependencies.buildToolsVersion
 
     defaultConfig {
         applicationId "com.esoxjem.movieguide"
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Dependencies.minSdkVersion
+        targetSdkVersion Dependencies.targetSdkVersion
+        versionCode Dependencies.versionCode
+        versionName Dependencies.versionName
 
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
         buildConfigField "String", "TMDB_BASE_URL", "\"http://api.themoviedb.org/\""
@@ -55,62 +55,54 @@ android {
     }
 }
 
-ext {
-    supportLibVersion = '27.1.1'
-    okhttpVersion = '3.10.0'
-    daggerVersion = '2.11'
-    glideVersion= '4.7.1'
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //kotlin
+    implementation Libs.kotlin_std
+    implementation Libs.kotlin_reflect
+
     //Support
-    implementation "com.android.support:design:${supportLibVersion}"
-    implementation "com.android.support:support-v4:${supportLibVersion}"
-    implementation "com.android.support:support-annotations:${supportLibVersion}"
-    implementation "com.android.support:palette-v7:${supportLibVersion}"
-    implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation Libs.appcompat
+    implementation Libs.support
+    implementation Libs.design
+    implementation Libs.palattte
 
     // Rx
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation Reactive.rxJava2
+    implementation Reactive.rxAndroid
 
     // Network
-    implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
-    implementation "com.github.bumptech.glide:glide:${glideVersion}"
-    implementation "com.github.bumptech.glide:okhttp3-integration:${glideVersion}"
+    implementation Square.okhttp
+    implementation Square.okhttp_intercepter
+    implementation Glide.glide
+    implementation Glide.glideOkhttp3integration
 
     // Other
     implementation 'net.jcip:jcip-annotations:1.0'
-    implementation 'com.squareup.moshi:moshi:1.4.0'
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation Square.moshi
+    implementation Square.butterKnife
+    kapt Square.butterKnifeCompiler
 
     // Dependency Injection
-    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
-    implementation "com.google.dagger:dagger:${daggerVersion}"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
+    implementation Di.dagger
+    implementation Di.dagger_android
+    implementation Di.dagger_android_support
+    kapt Di.dagger_compiler
+    kapt Di.dagger_android_processor
 
     // Retrofit 2
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
+    implementation Square.retrofit
+    implementation Square.rxadapter
+    implementation Square.moshi_retrofit
 
     // Tests
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.15.0'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.0') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation TestLibs.junit
+    androidTestImplementation TestLibs.runner
+    testImplementation TestLibs.mockito
+    testImplementation TestLibs.mockito_kotlin
+    androidTestImplementation TestLibs.espresso
 }
 repositories {
     mavenCentral()
