@@ -73,7 +73,7 @@ class MoviesListingAdapter(private val movies: List<Movie>, private val view: Mo
                 .into(object : BitmapImageViewTarget(holder.poster) {
                     override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                         super.onResourceReady(bitmap, transition)
-                        Palette.from(bitmap).generate { palette -> setBackgroundColor(palette, holder) }
+                        Palette.from(bitmap).generate { palette -> setBackgroundColor(palette!!, holder) }
                     }
                 })
     }

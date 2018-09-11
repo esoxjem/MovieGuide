@@ -1,13 +1,13 @@
 package com.esoxjem.movieguide.details;
 
-import com.esoxjem.movieguide.movies.entities.Movie;
-import com.esoxjem.movieguide.movies.entities.Review;
 import com.esoxjem.movieguide.RxSchedulerRule;
-import com.esoxjem.movieguide.movies.entities.Video;
-import com.esoxjem.movieguide.movies.favorites.FavoritesInteractor;
 import com.esoxjem.movieguide.movies.details.MovieDetailsInteractor;
 import com.esoxjem.movieguide.movies.details.MovieDetailsPresenterImpl;
 import com.esoxjem.movieguide.movies.details.MovieDetailsView;
+import com.esoxjem.movieguide.movies.entities.Movie;
+import com.esoxjem.movieguide.movies.entities.Review;
+import com.esoxjem.movieguide.movies.entities.Video;
+import com.esoxjem.movieguide.movies.favorites.FavoritesInteractor;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +23,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
+import static com.nhaarman.mockito_kotlin.MockitoKt.verifyZeroInteractions;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
