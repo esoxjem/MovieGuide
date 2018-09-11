@@ -80,7 +80,6 @@ dependencies {
     implementation Glide.glideOkhttp3integration
 
     // Other
-    implementation 'net.jcip:jcip-annotations:1.0'
     implementation Square.moshi
     implementation Square.butterKnife
     kapt Square.butterKnifeCompiler
