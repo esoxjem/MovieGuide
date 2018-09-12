@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.listing;
+package com.esoxjem.movieguide.movies.listing;
 
 import com.esoxjem.movieguide.RxSchedulerRule;
 import com.esoxjem.movieguide.movies.entities.Movie;

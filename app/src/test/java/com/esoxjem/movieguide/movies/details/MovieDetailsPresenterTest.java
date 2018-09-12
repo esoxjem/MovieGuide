@@ -1,4 +1,4 @@
-package com.esoxjem.movieguide.details;
+package com.esoxjem.movieguide.movies.details;
 
 import com.esoxjem.movieguide.RxSchedulerRule;
 import com.esoxjem.movieguide.movies.details.MovieDetailsContract;
@@ -6,6 +6,7 @@ import com.esoxjem.movieguide.movies.details.MovieDetailsPresenter;
 import com.esoxjem.movieguide.movies.entities.Movie;
 import com.esoxjem.movieguide.movies.entities.Review;
 import com.esoxjem.movieguide.movies.entities.Video;
+import com.esoxjem.movieguide.movies.favorites.FavoritesContract;
 import com.esoxjem.movieguide.movies.favorites.FavoritesInteractor;
 
 import org.junit.After;
@@ -38,7 +39,7 @@ public class MovieDetailsPresenterTest {
     @Mock
     private MovieDetailsContract.Interactor movieDetailsInteractor;
     @Mock
-    private FavoritesInteractor favoritesInteractor;
+    private FavoritesContract.Interactor favoritesInteractor;
     @Mock
     List<Video> videos;
     @Mock
