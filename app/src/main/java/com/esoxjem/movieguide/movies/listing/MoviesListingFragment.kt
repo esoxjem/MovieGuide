@@ -15,16 +15,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.esoxjem.movieguide.BaseApplication
 import com.esoxjem.movieguide.R
-import com.esoxjem.movieguide.movies.sorting.SortingDialogFragment
 import com.esoxjem.movieguide.movies.Constants
 import com.esoxjem.movieguide.movies.entities.Movie
+import com.esoxjem.movieguide.movies.sorting.SortingDialogFragment
 import kotlinx.android.synthetic.main.fragment_movies.*
-import java.util.*
+import java.util.ArrayList
 import javax.inject.Inject
 
-class MoviesListingFragment : Fragment(), MoviesListingView {
+class MoviesListingFragment : Fragment(), MovieListingContract.View {
     @Inject
-    lateinit var moviesPresenter: MoviesListingPresenter
+    lateinit var moviesPresenter: MovieListingContract.Presenter
 
     private lateinit var callback: Callback
     private lateinit var adapter: RecyclerView.Adapter<*>

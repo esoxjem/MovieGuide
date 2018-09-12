@@ -10,24 +10,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.transition.Transition
-import com.esoxjem.movieguide.network.Api
-import com.esoxjem.movieguide.movies.entities.Movie
 import com.esoxjem.movieguide.R
-
-import butterknife.BindView
-import butterknife.ButterKnife
+import com.esoxjem.movieguide.movies.entities.Movie
+import com.esoxjem.movieguide.network.Api
 
 /**
  * @author arunsasidharan
  */
-class MoviesListingAdapter(private val movies: List<Movie>, private val view: MoviesListingView) : RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>() {
+class MoviesListingAdapter(
+        private val movies: List<Movie>,
+        private val view: MovieListingContract.View) :
+        RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 

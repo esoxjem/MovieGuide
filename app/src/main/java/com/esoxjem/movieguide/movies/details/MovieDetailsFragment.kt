@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.review.*
 import kotlinx.android.synthetic.main.trailers_and_reviews.*
 import javax.inject.Inject
 
-class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener {
+class MovieDetailsFragment : Fragment(), MovieDetailsContract.View, View.OnClickListener {
 
     companion object {
         fun getInstance(movie: Movie): MovieDetailsFragment {
@@ -40,7 +40,7 @@ class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener 
     }
 
     @Inject
-    lateinit var movieDetailsPresenter: MovieDetailsPresenter
+    lateinit var movieDetailsPresenter: MovieDetailsContract.Presenter
 
     private lateinit var movie: Movie
 

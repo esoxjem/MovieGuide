@@ -1,10 +1,9 @@
 package com.esoxjem.movieguide.listing;
 
-import com.esoxjem.movieguide.movies.entities.Movie;
 import com.esoxjem.movieguide.RxSchedulerRule;
-import com.esoxjem.movieguide.movies.listing.MoviesListingInteractor;
-import com.esoxjem.movieguide.movies.listing.MoviesListingPresenterImpl;
-import com.esoxjem.movieguide.movies.listing.MoviesListingView;
+import com.esoxjem.movieguide.movies.entities.Movie;
+import com.esoxjem.movieguide.movies.listing.MovieListingContract;
+import com.esoxjem.movieguide.movies.listing.MoviesListingPresenter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +18,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,21 +26,21 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MoviesListingPresenterImplTest {
+public class MoviesListingPresenterTest {
     @Rule
     public RxSchedulerRule rule = new RxSchedulerRule();
     @Mock
-    private MoviesListingInteractor interactor;
+    private MovieListingContract.Interactor interactor;
     @Mock
-    private MoviesListingView view;
+    private MovieListingContract.View view;
 
     private List<Movie> movies = new ArrayList<>(0);
 
-    private MoviesListingPresenterImpl presenter;
+    private MoviesListingPresenter presenter;
 
     @Before
     public void setUp() throws Exception {
-        presenter = new MoviesListingPresenterImpl(interactor);
+        presenter = new MoviesListingPresenter(interactor);
     }
 
     @After

@@ -14,7 +14,7 @@ import dagger.Provides
 class FavoritesModule {
     @Provides
     @Singleton
-    fun provideFavouritesInteractor(store: FavoritesStore): FavoritesInteractor {
-        return FavoritesInteractorImpl(store)
+    fun provideFavouritesInteractor(store: FavoritesStore): FavoritesContract.Interactor {
+        return FavoritesInteractor(store)
     }
 }
