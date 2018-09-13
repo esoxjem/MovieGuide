@@ -1,9 +1,8 @@
 package com.esoxjem.movieguide.movies.listing
 
-import com.esoxjem.movieguide.movies.favorites.FavoritesInteractor
+import com.esoxjem.movieguide.movies.favorites.FavoritesContract
 import com.esoxjem.movieguide.movies.sorting.SortingOptionStore
 import com.esoxjem.movieguide.network.TmdbWebService
-
 import dagger.Module
 import dagger.Provides
 
@@ -14,14 +13,14 @@ import dagger.Provides
 @Module
 class ListingModule {
     @Provides
-    fun provideMovieListingInteractor(favoritesInteractor: FavoritesInteractor,
-                                               tmdbWebService: TmdbWebService,
-                                      sortingOptionStore: SortingOptionStore): MoviesListingInteractor {
-        return MoviesListingInteractorImpl(favoritesInteractor, tmdbWebService, sortingOptionStore)
+    fun provideMovieListingInteractor(favoritesInteractor: FavoritesContract.Interactor,
+                                      tmdbWebService: TmdbWebService,
+                                      sortingOptionStore: SortingOptionStore): MovieListingContract.Interactor {
+        return MoviesListingInteractor(favoritesInteractor, tmdbWebService, sortingOptionStore)
     }
 
     @Provides
-    fun provideMovieListingPresenter(interactor: MoviesListingInteractor): MoviesListingPresenter {
-        return MoviesListingPresenterImpl(interactor)
+    fun provideMovieListingPresenter(interactor: MovieListingContract.Interactor): MovieListingContract.Presenter {
+        return MoviesListingPresenter(interactor)
     }
 }

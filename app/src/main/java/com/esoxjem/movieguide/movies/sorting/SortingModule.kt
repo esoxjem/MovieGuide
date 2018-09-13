@@ -10,12 +10,12 @@ import dagger.Provides
 @Module
 class SortingModule {
     @Provides
-    fun providesSortingDialogInteractor(store: SortingOptionStore): SortingDialogInteractor {
-        return SortingDialogInteractorImpl(store)
+    fun providesSortingDialogInteractor(store: SortingOptionStore): SortingContract.Interactor {
+        return SortingDialogInteractor(store)
     }
 
     @Provides
-    fun providePresenter(interactor: SortingDialogInteractor): SortingDialogPresenter {
-        return SortingDialogPresenterImpl(interactor)
+    fun providePresenter(interactor: SortingContract.Interactor): SortingContract.Presenter {
+        return SortingDialogPresenter(interactor)
     }
 }

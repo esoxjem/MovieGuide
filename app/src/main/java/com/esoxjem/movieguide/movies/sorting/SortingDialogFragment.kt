@@ -7,21 +7,20 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioGroup
-import butterknife.OnCheckedChanged
 import com.esoxjem.movieguide.BaseApplication
 import com.esoxjem.movieguide.R
-import com.esoxjem.movieguide.movies.listing.MoviesListingPresenter
+import com.esoxjem.movieguide.movies.listing.MovieListingContract
 import kotlinx.android.synthetic.main.sorting_options.*
 import javax.inject.Inject
 
 /**
  * @author arunsasidharan
  */
-class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.OnCheckedChangeListener {
+class SortingDialogFragment : DialogFragment(), SortingContract.View, RadioGroup.OnCheckedChangeListener {
     @Inject
-    lateinit var sortingDialogPresenter: SortingDialogPresenter
+    lateinit var presenter: SortingContract.Presenter
     @Inject
-    lateinit var moviesListingPresenter: MoviesListingPresenter
+    lateinit var moviesListingPresenter: MovieListingContract.Presenter
 
     companion object {
         fun newInstance(): SortingDialogFragment {
@@ -33,7 +32,7 @@ class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.On
         super.onCreate(savedInstanceState)
         retainInstance = true
         (activity?.application as BaseApplication).listingComponent.inject(this)
-        sortingDialogPresenter.setView(this)
+        presenter.setView(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -54,7 +53,7 @@ class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.On
     }
 
     private fun initViews() {
-        sortingDialogPresenter.setLastSavedOption()
+        presenter.setLastSavedOption()
         sorting_group.setOnCheckedChangeListener(this)
     }
 
@@ -78,21 +77,21 @@ class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.On
     override fun onCheckedChanged(radioGroup: RadioGroup, checkedId: Int) {
         when (checkedId) {
             R.id.most_popular -> {
-                sortingDialogPresenter.onPopularMoviesSelected()
+                presenter.onPopularMoviesSelected()
                 moviesListingPresenter.firstPage()
             }
 
             R.id.highest_rated -> {
-                sortingDialogPresenter.onHighestRatedMoviesSelected()
+                presenter.onHighestRatedMoviesSelected()
                 moviesListingPresenter.firstPage()
             }
 
             R.id.favorites -> {
-                sortingDialogPresenter.onFavoritesSelected()
+                presenter.onFavoritesSelected()
                 moviesListingPresenter.firstPage()
             }
             R.id.newest -> {
-                sortingDialogPresenter.onNewestMoviesSelected()
+                presenter.onNewestMoviesSelected()
                 moviesListingPresenter.firstPage()
             }
         }
@@ -104,6 +103,6 @@ class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.On
 
     override fun onDestroyView() {
         super.onDestroyView()
-        sortingDialogPresenter.destroy()
+        presenter.destroy()
     }
 }

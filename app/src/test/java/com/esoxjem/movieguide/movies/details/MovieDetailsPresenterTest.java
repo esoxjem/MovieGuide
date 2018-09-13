@@ -1,12 +1,12 @@
-package com.esoxjem.movieguide.details;
+package com.esoxjem.movieguide.movies.details;
 
 import com.esoxjem.movieguide.RxSchedulerRule;
-import com.esoxjem.movieguide.movies.details.MovieDetailsInteractor;
-import com.esoxjem.movieguide.movies.details.MovieDetailsPresenterImpl;
-import com.esoxjem.movieguide.movies.details.MovieDetailsView;
+import com.esoxjem.movieguide.movies.details.MovieDetailsContract;
+import com.esoxjem.movieguide.movies.details.MovieDetailsPresenter;
 import com.esoxjem.movieguide.movies.entities.Movie;
 import com.esoxjem.movieguide.movies.entities.Review;
 import com.esoxjem.movieguide.movies.entities.Video;
+import com.esoxjem.movieguide.movies.favorites.FavoritesContract;
 import com.esoxjem.movieguide.movies.favorites.FavoritesInteractor;
 
 import org.junit.After;
@@ -31,15 +31,15 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MovieDetailsPresenterImplTest {
+public class MovieDetailsPresenterTest {
     @Rule
     public RxSchedulerRule rule = new RxSchedulerRule();
     @Mock
-    private MovieDetailsView view;
+    private MovieDetailsContract.View view;
     @Mock
-    private MovieDetailsInteractor movieDetailsInteractor;
+    private MovieDetailsContract.Interactor movieDetailsInteractor;
     @Mock
-    private FavoritesInteractor favoritesInteractor;
+    private FavoritesContract.Interactor favoritesInteractor;
     @Mock
     List<Video> videos;
     @Mock
@@ -47,12 +47,12 @@ public class MovieDetailsPresenterImplTest {
     @Mock
     List<Review> reviews;
 
-    private MovieDetailsPresenterImpl movieDetailsPresenter;
+    private MovieDetailsPresenter movieDetailsPresenter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        movieDetailsPresenter = new MovieDetailsPresenterImpl(movieDetailsInteractor, favoritesInteractor);
+        movieDetailsPresenter = new MovieDetailsPresenter(movieDetailsInteractor, favoritesInteractor);
         movieDetailsPresenter.setView(view);
     }
 

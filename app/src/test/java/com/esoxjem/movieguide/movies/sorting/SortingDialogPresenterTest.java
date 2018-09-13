@@ -1,10 +1,6 @@
-package com.esoxjem.movieguide.listing.sorting;
+package com.esoxjem.movieguide.movies.sorting;
 
 import com.esoxjem.movieguide.RxSchedulerRule;
-import com.esoxjem.movieguide.movies.sorting.SortType;
-import com.esoxjem.movieguide.movies.sorting.SortingDialogInteractor;
-import com.esoxjem.movieguide.movies.sorting.SortingDialogPresenterImpl;
-import com.esoxjem.movieguide.movies.sorting.SortingDialogView;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,19 +16,19 @@ import static org.mockito.Mockito.when;
  * @author arunsasidharan
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SortingDialogPresenterImplTest {
+public class SortingDialogPresenterTest {
     @Rule
     public RxSchedulerRule rule = new RxSchedulerRule();
     @Mock
-    private SortingDialogInteractor interactor;
+    private SortingContract.Interactor interactor;
     @Mock
-    private SortingDialogView view;
+    private SortingContract.View view;
 
-    private SortingDialogPresenterImpl presenter;
+    private SortingContract.Presenter presenter;
 
     @Before
     public void setUp() throws Exception {
-        presenter = new SortingDialogPresenterImpl(interactor);
+        presenter = new SortingDialogPresenter(interactor);
         presenter.setView(view);
     }
 

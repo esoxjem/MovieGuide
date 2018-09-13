@@ -3,8 +3,12 @@ package com.esoxjem.movieguide.movies.sorting
 /**
  * @author arunsasidharan
  */
-interface SortingDialogInteractor {
-    fun getSelectedSortingOption(): Int
+internal class SortingDialogInteractor(
+        private val sortingOptionStore: SortingOptionStore) :
+        SortingContract.Interactor {
 
-    fun setSortingOption(sortType: SortType)
+    override fun getSelectedSortingOption() = sortingOptionStore.getSelectedOption()
+
+    override fun setSortingOption(sortType: SortType) = sortingOptionStore
+            .setSelectedOption(sortType)
 }

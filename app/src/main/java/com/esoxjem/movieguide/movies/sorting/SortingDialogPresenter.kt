@@ -3,18 +3,47 @@ package com.esoxjem.movieguide.movies.sorting
 /**
  * @author arunsasidharan
  */
-interface SortingDialogPresenter {
-    fun setLastSavedOption()
+ class SortingDialogPresenter(
+        private val sortingDialogInteractor: SortingContract.Interactor) :
+        SortingContract.Presenter {
+    private var view: SortingContract.View? = null
 
-    fun onPopularMoviesSelected()
+    override fun setView(view: SortingContract.View) {
+        this.view = view
+    }
 
-    fun onHighestRatedMoviesSelected()
+    override fun destroy() {
+        view = null
+    }
 
-    fun onFavoritesSelected()
+    override fun setLastSavedOption() {
+        val selectedOption = sortingDialogInteractor.getSelectedSortingOption()
 
-    fun onNewestMoviesSelected()
+        when (selectedOption) {
+            SortType.MOST_POPULAR.value -> view?.setPopularChecked()
+            SortType.HIGHEST_RATED.value -> view?.setHighestRatedChecked()
+            SortType.NEWEST.value -> view?.setNewestChecked()
+            else -> view?.setFavoritesChecked()
+        }
+    }
 
-    fun setView(view: SortingDialogView)
+    override fun onPopularMoviesSelected() {
+        sortingDialogInteractor.setSortingOption(SortType.MOST_POPULAR)
+        view?.dismissDialog()
+    }
 
-    fun destroy()
+    override fun onHighestRatedMoviesSelected() {
+        sortingDialogInteractor.setSortingOption(SortType.HIGHEST_RATED)
+        view?.dismissDialog()
+    }
+
+    override fun onNewestMoviesSelected() {
+        sortingDialogInteractor.setSortingOption(SortType.NEWEST)
+        view?.dismissDialog()
+    }
+
+    override fun onFavoritesSelected() {
+        sortingDialogInteractor.setSortingOption(SortType.FAVORITES)
+        view?.dismissDialog()
+    }
 }
