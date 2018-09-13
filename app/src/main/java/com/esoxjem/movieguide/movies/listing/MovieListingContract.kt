@@ -18,11 +18,8 @@ interface MovieListingContract {
 
     interface Presenter {
         fun firstPage()
-
         fun nextPage()
-
         fun setView(view: View)
-
         fun destroy()
     }
 

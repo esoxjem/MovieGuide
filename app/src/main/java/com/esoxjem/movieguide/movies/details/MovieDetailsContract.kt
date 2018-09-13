@@ -19,17 +19,11 @@ interface MovieDetailsContract {
 
     interface Presenter {
         fun showDetails(movie: Movie)
-
         fun showTrailers(movie: Movie)
-
         fun showReviews(movie: Movie)
-
         fun showFavoriteButton(movie: Movie)
-
         fun onFavoriteClick(movie: Movie)
-
         fun setView(view: View)
-
         fun destroy()
     }
 
@@ -37,5 +31,4 @@ interface MovieDetailsContract {
         fun getTrailers(id: String): Observable<List<Video>>
         fun getReviews(id: String): Observable<List<Review>>
     }
-
 }
