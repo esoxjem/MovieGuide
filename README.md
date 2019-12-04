@@ -1,5 +1,5 @@
 # MovieGuide
-### [ 🚧 Refactoring in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 ]
+### 🚧 Refactoring in progress 👷‍♀️⛏👷🔧️👷🔧 🚧
 
 - Comments and new issues are welcome. 👍 
 - Currently not accepting external PRs that touch on the app's architecture and features. 🛑 
