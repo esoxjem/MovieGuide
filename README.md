@@ -8,7 +8,7 @@ Optimized for tablets.
 
 ### Building the app
 1. Open `local.properties` in the root directory.
-2. Add your themoviedb.org API key as follows
+2. Add your [TMDB](https://themoviedb.org) API key as follows
 ```
 tmdb_api_key=ADD_YOUR_API_KEY_HERE
 ```
