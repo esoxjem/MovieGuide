@@ -23,7 +23,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     private Disposable movieSearchSubscription;
     private int currentPage = 1;
     private List<Movie> loadedMovies = new ArrayList<>();
-    private boolean showingSearchResult = false;
+    private boolean isLoading = false;
 
     MoviesListingPresenterImpl(MoviesListingInteractor interactor) {
         moviesInteractor = interactor;
@@ -32,10 +32,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     @Override
     public void setView(MoviesListingView view) {
         this.view = view;
-        if (!showingSearchResult) {
-            displayMovies();
-        }
-
+        displayMovies();
     }
 
     @Override
@@ -45,8 +42,13 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     }
 
     private void displayMovies() {
-        EspressoIdlingResource.increment();
+        if (isLoading) return;
+
+        isLoading = true;
         showLoading();
+
+        EspressoIdlingResource.increment();
+
         fetchSubscription = moviesInteractor.fetchMovies(currentPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,15 +60,6 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
                 .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
     }
 
-    private void displayMovieSearchResult(@NonNull final String searchText) {
-        showingSearchResult = true;
-        showLoading();
-        movieSearchSubscription = moviesInteractor.searchMovie(searchText)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onMovieSearchSuccess, this::onMovieSearchFailed);
-    }
-
     @Override
     public void firstPage() {
         currentPage = 1;
@@ -76,7 +69,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
 
     @Override
     public void nextPage() {
-        if (showingSearchResult)
+        if (isLoading)
             return;
         if (moviesInteractor.isPaginationSupported()) {
             currentPage++;
@@ -91,14 +84,22 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
         } else {
             displayMovieSearchResult(searchText);
         }
+    }
 
+    private void displayMovieSearchResult(@NonNull final String searchText) {
+        isLoading = true;
+        showLoading();
+        movieSearchSubscription = moviesInteractor.searchMovie(searchText)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onMovieSearchSuccess, this::onMovieSearchFailed);
     }
 
     @Override
     public void searchMovieBackPressed() {
-        if (showingSearchResult) {
-            showingSearchResult = false;
+        if (isLoading) {
             loadedMovies.clear();
+            isLoading = false;
             displayMovies();
         }
     }
@@ -115,13 +116,17 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
         } else {
             loadedMovies = new ArrayList<>(movies);
         }
+
         if (isViewAttached()) {
             view.showMovies(loadedMovies);
         }
+
+        isLoading = false;
     }
 
     private void onMovieFetchFailed(Throwable e) {
         view.loadingFailed(e.getMessage());
+        isLoading = false;
     }
 
     private void onMovieSearchSuccess(List<Movie> movies) {
@@ -130,10 +135,12 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
         if (isViewAttached()) {
             view.showMovies(loadedMovies);
         }
+        isLoading = false;
     }
 
     private void onMovieSearchFailed(Throwable e) {
         view.loadingFailed(e.getMessage());
+        isLoading = false;
     }
 
     private boolean isViewAttached() {

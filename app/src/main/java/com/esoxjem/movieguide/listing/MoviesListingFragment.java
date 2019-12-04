@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.esoxjem.movieguide.BaseApplication;
@@ -21,6 +22,8 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.listing.sorting.SortingDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,16 +69,6 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         initLayoutReferences();
-        moviesListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (!recyclerView.canScrollVertically(1)) {
-                    moviesPresenter.nextPage();
-                }
-            }
-        });
         return rootView;
     }
 
@@ -117,11 +110,26 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         } else {
             columns = getResources().getInteger(R.integer.no_of_columns);
         }
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
+        LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
 
         moviesListing.setLayoutManager(layoutManager);
         adapter = new MoviesListingAdapter(movies, this);
         moviesListing.setAdapter(adapter);
+
+        moviesListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if ((visibleItemCount + firstVisibleItemPosition) >=
+                        totalItemCount && firstVisibleItemPosition >= 0) {
+                    moviesPresenter.nextPage();
+                }
+            }
+        });
     }
 
     @Override
