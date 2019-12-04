@@ -1,6 +1,6 @@
 package com.esoxjem.movieguide.listing;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.MoviesWraper;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;

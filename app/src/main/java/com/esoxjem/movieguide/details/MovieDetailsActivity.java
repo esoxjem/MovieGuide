@@ -1,8 +1,8 @@
 package com.esoxjem.movieguide.details;
 
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.esoxjem.movieguide.R;
