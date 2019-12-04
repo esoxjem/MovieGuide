@@ -1,9 +1,8 @@
 # MovieGuide
-[ 🚧 Refactoring in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 ]
+### [ 🚧 Refactoring in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 ]
 
-👍 Comments and new issues are welcome.
-
-🛑 Currently not accepting external PRs that touch on the app's architecture and features.
+- Comments and new issues are welcome. 👍 
+- Currently not accepting external PRs that touch on the app's architecture and features. 🛑 
 
 [![Build Status](https://app.bitrise.io/app/e74daa103a89eb3f/status.svg?token=cNHddSJnkUmE_p7ZA9eruQ&branch=master)](https://app.bitrise.io/app/e74daa103a89eb3f)
 
