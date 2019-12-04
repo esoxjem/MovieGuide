@@ -2,25 +2,27 @@ package com.esoxjem.movieguide.listing;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
-import androidx.test.espresso.IdlingResource;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.test.espresso.IdlingResource;
 
-import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Constants;
+import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.details.MovieDetailsActivity;
 import com.esoxjem.movieguide.details.MovieDetailsFragment;
-import com.esoxjem.movieguide.Movie;
-import com.esoxjem.movieguide.util.RxUtils;
 import com.esoxjem.movieguide.util.EspressoIdlingResource;
+import com.esoxjem.movieguide.util.RxUtils;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
+
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.disposables.Disposable;
 
 
@@ -49,7 +51,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

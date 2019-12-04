@@ -3,24 +3,20 @@ package com.esoxjem.movieguide.listing.sorting;
 /**
  * @author arun
  */
-class SortingDialogInteractorImpl implements SortingDialogInteractor
-{
+class SortingDialogInteractorImpl implements SortingDialogInteractor {
     private SortingOptionStore sortingOptionStore;
 
-    SortingDialogInteractorImpl(SortingOptionStore store)
-    {
+    SortingDialogInteractorImpl(SortingOptionStore store) {
         sortingOptionStore = store;
     }
 
     @Override
-    public int getSelectedSortingOption()
-    {
+    public int getSelectedSortingOption() {
         return sortingOptionStore.getSelectedOption();
     }
 
     @Override
-    public void setSortingOption(SortType sortType)
-    {
+    public void setSortingOption(SortType sortType) {
         sortingOptionStore.setSelectedOption(sortType);
     }
 }

@@ -10,6 +10,5 @@ import javax.inject.Scope;
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ListingScope
-{
+public @interface ListingScope {
 }

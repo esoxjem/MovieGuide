@@ -8,17 +8,14 @@ import dagger.Provides;
  * @author arunsasidharan
  */
 @Module
-public class SortingModule
-{
+public class SortingModule {
     @Provides
-    SortingDialogInteractor providesSortingDialogInteractor(SortingOptionStore store)
-    {
+    SortingDialogInteractor providesSortingDialogInteractor(SortingOptionStore store) {
         return new SortingDialogInteractorImpl(store);
     }
 
     @Provides
-    SortingDialogPresenter providePresenter(SortingDialogInteractor interactor)
-    {
+    SortingDialogPresenter providePresenter(SortingDialogInteractor interactor) {
         return new SortingDialogPresenterImpl(interactor);
     }
 }

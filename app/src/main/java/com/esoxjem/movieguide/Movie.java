@@ -5,8 +5,7 @@ import android.os.Parcelable;
 
 import com.squareup.moshi.Json;
 
-public class Movie implements Parcelable
-{
+public class Movie implements Parcelable {
     private String id;
     private String overview;
     @Json(name = "release_date")
@@ -19,13 +18,11 @@ public class Movie implements Parcelable
     @Json(name = "vote_average")
     private double voteAverage;
 
-    public Movie()
-    {
+    public Movie() {
 
     }
 
-    protected Movie(Parcel in)
-    {
+    protected Movie(Parcel in) {
         id = in.readString();
         overview = in.readString();
         releaseDate = in.readString();
@@ -35,100 +32,81 @@ public class Movie implements Parcelable
         voteAverage = in.readDouble();
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>()
-    {
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
-        public Movie createFromParcel(Parcel in)
-        {
+        public Movie createFromParcel(Parcel in) {
             return new Movie(in);
         }
 
         @Override
-        public Movie[] newArray(int size)
-        {
+        public Movie[] newArray(int size) {
             return new Movie[size];
         }
     };
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getOverview()
-    {
+    public String getOverview() {
         return overview;
     }
 
-    public void setOverview(String overview)
-    {
+    public void setOverview(String overview) {
         this.overview = overview;
     }
 
-    public String getReleaseDate()
-    {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate)
-    {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public String getPosterPath()
-    {
+    public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(String posterPath)
-    {
+    public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
-    public String getBackdropPath()
-    {
+    public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setBackdropPath(String backdropPath)
-    {
+    public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public double getVoteAverage()
-    {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(double voteAverage)
-    {
+    public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
     @Override
-    public int describeContents()
-    {
+    public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i)
-    {
+    public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(overview);
         parcel.writeString(releaseDate);

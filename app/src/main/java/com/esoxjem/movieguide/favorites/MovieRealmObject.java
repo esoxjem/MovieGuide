@@ -5,9 +5,9 @@ import com.esoxjem.movieguide.Movie;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/** 
-* @author NUTS-COON
-*/
+/**
+ * @author NUTS-COON
+ */
 
 public class MovieRealmObject extends RealmObject {
 
@@ -95,7 +95,7 @@ public class MovieRealmObject extends RealmObject {
         voteAverage = movie.getVoteAverage();
     }
 
-    public MovieRealmObject(){
+    public MovieRealmObject() {
 
     }
 }

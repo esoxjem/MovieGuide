@@ -3,8 +3,7 @@ package com.esoxjem.movieguide.listing;
 /**
  * @author arun
  */
-public interface MoviesListingPresenter
-{
+public interface MoviesListingPresenter {
     void firstPage();
 
     void nextPage();

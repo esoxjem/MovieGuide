@@ -3,13 +3,14 @@ package com.esoxjem.movieguide.listing.sorting;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.esoxjem.movieguide.BaseApplication;
 import com.esoxjem.movieguide.R;
@@ -24,8 +25,7 @@ import butterknife.Unbinder;
 /**
  * @author arun
  */
-public class SortingDialogFragment extends DialogFragment implements SortingDialogView, RadioGroup.OnCheckedChangeListener
-{
+public class SortingDialogFragment extends DialogFragment implements SortingDialogView, RadioGroup.OnCheckedChangeListener {
     @Inject
     SortingDialogPresenter sortingDialogPresenter;
 
@@ -43,15 +43,13 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
     private static MoviesListingPresenter moviesListingPresenter;
     private Unbinder unbinder;
 
-    public static SortingDialogFragment newInstance(MoviesListingPresenter moviesListingPresenter)
-    {
+    public static SortingDialogFragment newInstance(MoviesListingPresenter moviesListingPresenter) {
         SortingDialogFragment.moviesListingPresenter = moviesListingPresenter;
         return new SortingDialogFragment();
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         ((BaseApplication) getActivity().getApplication()).getListingComponent().inject(this);
@@ -60,8 +58,7 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.sorting_options, null);
         unbinder = ButterKnife.bind(this, dialogView);
@@ -74,42 +71,35 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
         return dialog;
     }
 
-    private void initViews()
-    {
+    private void initViews() {
         sortingDialogPresenter.setLastSavedOption();
         sortingOptionsGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
-    public void setPopularChecked()
-    {
+    public void setPopularChecked() {
         mostPopular.setChecked(true);
     }
 
 
     @Override
-    public void setNewestChecked()
-    {
+    public void setNewestChecked() {
         newest.setChecked(true);
     }
 
     @Override
-    public void setHighestRatedChecked()
-    {
+    public void setHighestRatedChecked() {
         highestRated.setChecked(true);
     }
 
     @Override
-    public void setFavoritesChecked()
-    {
+    public void setFavoritesChecked() {
         favorites.setChecked(true);
     }
 
     @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int checkedId)
-    {
-        switch (checkedId)
-        {
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        switch (checkedId) {
             case R.id.most_popular:
                 sortingDialogPresenter.onPopularMoviesSelected();
                 moviesListingPresenter.firstPage();
@@ -132,14 +122,12 @@ public class SortingDialogFragment extends DialogFragment implements SortingDial
     }
 
     @Override
-    public void dismissDialog()
-    {
+    public void dismissDialog() {
         dismiss();
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
         sortingDialogPresenter.destroy();
         unbinder.unbind();

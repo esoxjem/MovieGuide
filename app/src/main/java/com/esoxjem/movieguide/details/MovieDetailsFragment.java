@@ -4,15 +4,6 @@ package com.esoxjem.movieguide.details;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +11,14 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,6 +29,8 @@ import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.R;
 import com.esoxjem.movieguide.Review;
 import com.esoxjem.movieguide.Video;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -40,8 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MovieDetailsFragment extends Fragment implements MovieDetailsView, View.OnClickListener
-{
+public class MovieDetailsFragment extends Fragment implements MovieDetailsView, View.OnClickListener {
     @Inject
     MovieDetailsPresenter movieDetailsPresenter;
 
@@ -70,18 +70,17 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     @BindView(R.id.favorite)
     FloatingActionButton favorite;
     @BindView(R.id.toolbar)
-    @Nullable Toolbar toolbar;
+    @Nullable
+    Toolbar toolbar;
 
     private Movie movie;
     private Unbinder unbinder;
 
-    public MovieDetailsFragment()
-    {
+    public MovieDetailsFragment() {
         // Required empty public constructor
     }
 
-    public static MovieDetailsFragment getInstance(@NonNull Movie movie)
-    {
+    public static MovieDetailsFragment getInstance(@NonNull Movie movie) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.MOVIE, movie);
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
@@ -90,8 +89,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         ((BaseApplication) getActivity().getApplication()).createDetailsComponent().inject(this);
@@ -99,8 +97,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         setToolbar();
@@ -108,14 +105,11 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
             Movie movie = (Movie) getArguments().get(Constants.MOVIE);
-            if (movie != null)
-            {
+            if (movie != null) {
                 this.movie = movie;
                 movieDetailsPresenter.setView(this);
                 movieDetailsPresenter.showDetails((movie));
@@ -124,32 +118,27 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
         }
     }
 
-    private void setToolbar()
-    {
+    private void setToolbar() {
         collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         collapsingToolbar.setTitle(getString(R.string.movie_details));
         collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
         collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
         collapsingToolbar.setTitleEnabled(true);
 
-        if (toolbar != null)
-        {
+        if (toolbar != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (actionBar != null)
-            {
+            if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
-        } else
-        {
+        } else {
             // Don't inflate. Tablet is in landscape mode.
         }
     }
 
     @Override
-    public void showDetails(Movie movie)
-    {
+    public void showDetails(Movie movie) {
         Glide.with(getContext()).load(Api.getBackdropPath(movie.getBackdropPath())).into(poster);
         title.setText(movie.getTitle());
         releaseDate.setText(String.format(getString(R.string.release_date), movie.getReleaseDate()));
@@ -160,16 +149,13 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     }
 
     @Override
-    public void showTrailers(List<Video> trailers)
-    {
-        if (trailers.isEmpty())
-        {
+    public void showTrailers(List<Video> trailers) {
+        if (trailers.isEmpty()) {
             label.setVisibility(View.GONE);
             this.trailers.setVisibility(View.GONE);
             horizontalScrollView.setVisibility(View.GONE);
 
-        } else
-        {
+        } else {
             label.setVisibility(View.VISIBLE);
             this.trailers.setVisibility(View.VISIBLE);
             horizontalScrollView.setVisibility(View.VISIBLE);
@@ -181,10 +167,9 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
                     .centerCrop()
                     .override(150, 150);
 
-            for (Video trailer : trailers)
-            {
+            for (Video trailer : trailers) {
                 View thumbContainer = inflater.inflate(R.layout.video, this.trailers, false);
-                ImageView thumbView = thumbContainer.findViewById( R.id.video_thumb);
+                ImageView thumbView = thumbContainer.findViewById(R.id.video_thumb);
                 thumbView.setTag(R.id.glide_tag, Video.getUrl(trailer));
                 thumbView.requestLayout();
                 thumbView.setOnClickListener(this);
@@ -198,21 +183,17 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     }
 
     @Override
-    public void showReviews(List<Review> reviews)
-    {
-        if (reviews.isEmpty())
-        {
+    public void showReviews(List<Review> reviews) {
+        if (reviews.isEmpty()) {
             this.reviews.setVisibility(View.GONE);
             reviewsContainer.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             this.reviews.setVisibility(View.VISIBLE);
             reviewsContainer.setVisibility(View.VISIBLE);
 
             reviewsContainer.removeAllViews();
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            for (Review review : reviews)
-            {
+            for (Review review : reviews) {
                 ViewGroup reviewContainer = (ViewGroup) inflater.inflate(R.layout.review, reviewsContainer, false);
                 TextView reviewAuthor = reviewContainer.findViewById(R.id.review_author);
                 TextView reviewContent = reviewContainer.findViewById(R.id.review_content);
@@ -225,22 +206,18 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
     }
 
     @Override
-    public void showFavorited()
-    {
+    public void showFavorited() {
         favorite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_24dp));
     }
 
     @Override
-    public void showUnFavorited()
-    {
+    public void showUnFavorited() {
         favorite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_border_white_24dp));
     }
 
     @OnClick(R.id.favorite)
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.video_thumb:
                 onThumbnailClick(view);
                 break;
@@ -258,40 +235,33 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView, 
         }
     }
 
-    private void onReviewClick(TextView view)
-    {
-        if (view.getMaxLines() == 5)
-        {
+    private void onReviewClick(TextView view) {
+        if (view.getMaxLines() == 5) {
             view.setMaxLines(500);
-        } else
-        {
+        } else {
             view.setMaxLines(5);
         }
     }
 
-    private void onThumbnailClick(View view)
-    {
+    private void onThumbnailClick(View view) {
         String videoUrl = (String) view.getTag(R.id.glide_tag);
         Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
         startActivity(playVideoIntent);
     }
 
-    private void onFavoriteClick()
-    {
+    private void onFavoriteClick() {
         movieDetailsPresenter.onFavoriteClick(movie);
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
         movieDetailsPresenter.destroy();
         unbinder.unbind();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         ((BaseApplication) getActivity().getApplication()).releaseDetailsComponent();
     }

@@ -9,30 +9,26 @@ import com.esoxjem.movieguide.favorites.FavoritesModule;
 import com.esoxjem.movieguide.listing.ListingComponent;
 import com.esoxjem.movieguide.listing.ListingModule;
 import com.esoxjem.movieguide.network.NetworkModule;
-import com.esoxjem.movieguide.listing.sorting.SortingModule;
 
 import io.realm.Realm;
 
 /**
  * @author arun
  */
-public class BaseApplication extends Application
-{
+public class BaseApplication extends Application {
     private AppComponent appComponent;
     private DetailsComponent detailsComponent;
     private ListingComponent listingComponent;
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         StrictMode.enableDefaults();
         initRealm();
         appComponent = createAppComponent();
     }
 
-    private AppComponent createAppComponent()
-    {
+    private AppComponent createAppComponent() {
         return DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .networkModule(new NetworkModule())
@@ -40,34 +36,29 @@ public class BaseApplication extends Application
                 .build();
     }
 
-    private void initRealm(){
+    private void initRealm() {
         Realm.init(this);
     }
 
-    public DetailsComponent createDetailsComponent()
-    {
+    public DetailsComponent createDetailsComponent() {
         detailsComponent = appComponent.plus(new DetailsModule());
         return detailsComponent;
     }
 
-    public void releaseDetailsComponent()
-    {
+    public void releaseDetailsComponent() {
         detailsComponent = null;
     }
 
-    public ListingComponent createListingComponent()
-    {
+    public ListingComponent createListingComponent() {
         listingComponent = appComponent.plus(new ListingModule());
         return listingComponent;
     }
 
-    public void releaseListingComponent()
-    {
+    public void releaseListingComponent() {
         listingComponent = null;
     }
 
-    public ListingComponent getListingComponent()
-    {
+    public ListingComponent getListingComponent() {
         return listingComponent;
     }
 }

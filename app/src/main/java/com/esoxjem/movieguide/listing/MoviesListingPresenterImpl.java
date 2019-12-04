@@ -32,7 +32,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     @Override
     public void setView(MoviesListingView view) {
         this.view = view;
-        if(!showingSearchResult){
+        if (!showingSearchResult) {
             displayMovies();
         }
 
@@ -76,7 +76,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
 
     @Override
     public void nextPage() {
-        if(showingSearchResult)
+        if (showingSearchResult)
             return;
         if (moviesInteractor.isPaginationSupported()) {
             currentPage++;
@@ -86,7 +86,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
 
     @Override
     public void searchMovie(final String searchText) {
-        if(searchText == null || searchText.length() < 1) {
+        if (searchText == null || searchText.length() < 1) {
             displayMovies();
         } else {
             displayMovieSearchResult(searchText);
@@ -96,7 +96,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
 
     @Override
     public void searchMovieBackPressed() {
-        if(showingSearchResult) {
+        if (showingSearchResult) {
             showingSearchResult = false;
             loadedMovies.clear();
             displayMovies();

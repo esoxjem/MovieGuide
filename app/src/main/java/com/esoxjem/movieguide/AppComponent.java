@@ -20,8 +20,7 @@ import dagger.Component;
         AppModule.class,
         NetworkModule.class,
         FavoritesModule.class})
-public interface AppComponent
-{
+public interface AppComponent {
     DetailsComponent plus(DetailsModule detailsModule);
 
     ListingComponent plus(ListingModule listingModule);

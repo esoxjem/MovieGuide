@@ -9,11 +9,14 @@ import java.util.List;
 /**
  * @author arun
  */
-interface MovieDetailsView
-{
+interface MovieDetailsView {
     void showDetails(Movie movie);
+
     void showTrailers(List<Video> trailers);
+
     void showReviews(List<Review> reviews);
+
     void showFavorited();
+
     void showUnFavorited();
 }
