@@ -1,8 +1,7 @@
 # MovieGuide
-### 🚧 Refactoring in progress 👷‍♀️⛏👷🔧️👷🔧 🚧
-
-- Comments and new issues are welcome. 👍 
-- Currently not accepting external PRs that touch on the app's architecture and features. 🛑 
+### 🚧 Not Actively Maintained 👷‍♀️⛏👷🔧️👷🔧 🚧
+I haven't touched Android in years and the world has moved on to other pragmatic and perhaps simpler paradigms. 
+I would not recommend anyone use Rx anymore.
 
 [![Build Status](https://app.bitrise.io/app/e74daa103a89eb3f/status.svg?token=cNHddSJnkUmE_p7ZA9eruQ&branch=master)](https://app.bitrise.io/app/e74daa103a89eb3f)
 
